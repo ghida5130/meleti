@@ -1,6 +1,6 @@
 "use client";
 
-import useImageSize from "@/app/hooks/useImageSize";
+import useImageSize from "@/hooks/useImageSize";
 // components/RotatingBook.tsx
 import { Canvas } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
@@ -9,9 +9,9 @@ import * as THREE from "three";
 import styles from "/styles/bookImage.module.scss";
 
 // image
-import rotateIcon from "../../../public/bookPage/rotate.svg";
-import leftSideIcon from "../../../public/bookPage/leftSide.png";
-import rightSideIcon from "../../../public/bookPage/rightSide.png";
+import rotateIcon from "@/public/bookPage/rotate.svg";
+import leftSideIcon from "@/public/bookPage/leftSide.png";
+import rightSideIcon from "@/public/bookPage/rightSide.png";
 import Image from "next/image";
 
 const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotationY, cover }) => {
