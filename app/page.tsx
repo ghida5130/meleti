@@ -1,10 +1,8 @@
 import Image from "next/image";
 import styles from "/styles/page.module.scss";
-import Link from "next/link";
 import axios from "axios";
 
 //images
-import searchBtn from "../public/searchBtn.svg";
 import testImage from "../public/study.jpg";
 
 // components
