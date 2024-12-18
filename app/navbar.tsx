@@ -1,0 +1,22 @@
+import Link from "next/link";
+import styles from "/styles/navbar.module.scss";
+import Image from "next/image";
+import logoImage from "../public/meletiLogo.png";
+import searchBtn from "../public/searchBtn.svg";
+
+export default function Navbar() {
+    const keyword = ["도시와 그 불확실한 벽 도시와 그 불확실한 벽 도시와 그 불확실한 벽"];
+    const recommendKeyword = keyword[Math.floor(Math.random() * keyword.length)];
+
+    return (
+        <div className={styles.navbarWrap}>
+            <Link href="/">
+                <Image src={logoImage} width={80} alt="logoImage" />
+            </Link>
+            <Link href="/search" className={`${styles.searchBtn}`}>
+                <p className={styles.textArea}>{recommendKeyword}</p>
+                <Image src={searchBtn} alt="searchButton" width={20} style={{ marginLeft: "10px" }} />
+            </Link>
+        </div>
+    );
+}

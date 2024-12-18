@@ -1,0 +1,27 @@
+.wrap {
+    width: 100%;
+    max-width: 560px;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 170px 0;
+}
+
+.imageWrap {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 25px;
+}
+
+@media (max-width: 1160px) {
+    .wrap {
+        display: none;
+    }
+}

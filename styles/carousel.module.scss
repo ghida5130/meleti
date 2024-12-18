@@ -1,0 +1,36 @@
+.wrap {
+    width: 100%;
+}
+
+.bestSellerWrap {
+    display: flex;
+    gap: 10px;
+    overflow-x: scroll;
+    cursor: grab;
+    user-select: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 0 0 10px;
+
+    .bestSellerItem {
+        height: 190px;
+        width: 120px;
+        box-shadow: 3px 3px 5px 0 rgb(182, 182, 182);
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid rgb(206, 206, 206);
+    }
+
+    .bookImage {
+        position: relative;
+        width: 120px;
+        height: 140px;
+        background: rgb(255, 255, 255);
+        overflow: hidden;
+    }
+    .bestSellerTitleArea {
+        height: 50px;
+        width: 100%;
+        padding: 5px;
+    }
+}

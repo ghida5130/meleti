@@ -1,0 +1,25 @@
+.pageWrap {
+    width: 100%;
+    max-width: 1160px;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.main {
+    // position: relative;
+    background: rgb(245, 245, 245);
+    box-shadow: 0 0 50px 5px rgb(156, 156, 156, 0.5);
+    width: 100%;
+    min-height: 100vh;
+    max-width: 600px;
+    min-width: 320px;
+    margin-left: auto;
+}
+
+@media (max-width: 1160px) {
+    .main {
+        margin: 0 auto;
+        box-shadow: none;
+    }
+}
