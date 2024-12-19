@@ -5,7 +5,7 @@ export default function Head() {
             <link rel="manifest" href="/manifest.json" />
             <meta name="theme-color" content="#000000" />
             <link rel="icon" href="/icons/web-app-manifest-192x192.png" />
-            <link rel="apple-touch-icon" href="/icons/web-app-manifest-512x512.png" />
+            <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         </>
     );
 }
