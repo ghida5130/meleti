@@ -1,4 +1,3 @@
-import axios from "axios";
 import BookImage from "./bookImage";
 import styles from "/styles/book.module.scss";
 
@@ -39,10 +38,13 @@ import Image from "next/image";
 
 export default async function Book({ params }: { params: Promise<{ bookNum: string }> }) {
     const isbn13 = (await params).bookNum;
-    const bookDetailResponse = await axios.get(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${isbn13}`);
-    const test = bookDetailResponse.data[0];
-
+    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${isbn13}`);
+    let test = await res.json();
+    test = test[0];
     let decoded;
+
+    // const bookDetailResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${isbn13}`);
+    // const test = bookDetailResponse.data[0];
 
     if (test) {
         decoded = test.description.replace(/&lt;/g, "<").replace(/&gt;/g, ">");

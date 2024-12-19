@@ -1,15 +1,14 @@
 import SectionTitle from "../sectionTitle";
 import Carousel from "./carousel";
 import styles from "/styles/page.module.scss";
-import axios from "axios";
 
 export default async function content() {
-    const bestSellerResponse = await axios.get(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`);
-    const newReleaseResponse = await axios.get(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`);
-    const blogBestResponse = await axios.get(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`);
-    const bestSellerData = bestSellerResponse.data;
-    const newReleaseData = newReleaseResponse.data;
-    const blogBestData = blogBestResponse.data;
+    const bestSellerResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`);
+    const newReleaseResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`);
+    const blogBestResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`);
+    const bestSellerData = await bestSellerResponse.json();
+    const newReleaseData = await newReleaseResponse.json();
+    const blogBestData = await blogBestResponse.json();
 
     return (
         <div className={styles.content}>
