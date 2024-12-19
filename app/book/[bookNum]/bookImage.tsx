@@ -4,7 +4,7 @@ import useImageSize from "@/hooks/useImageSize";
 // components/RotatingBook.tsx
 import { Canvas } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import styles from "/styles/bookImage.module.scss";
 
@@ -13,11 +13,12 @@ import rotateIcon from "@/public/bookPage/rotate.svg";
 import leftSideIcon from "@/public/bookPage/leftSide.png";
 import rightSideIcon from "@/public/bookPage/rightSide.png";
 import Image from "next/image";
+import whiteImage from "/public/white.png";
 
 const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotationY, cover }) => {
     const bookRef = useRef<THREE.Mesh>(null);
 
-    const rotateAngle = [0, Math.PI * 0.5, Math.PI * 1, Math.PI * 0.2, Math.PI * 0.8];
+    const rotateAngle = [0, Math.PI * 0.5, Math.PI * 1, Math.PI * 0.2, Math.PI * 0.8, Math.PI * 1.5];
 
     useFrame(() => {
         if (bookRef.current) {
@@ -53,14 +54,15 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
         convertD = sideW * (bookSizeRatio / coverW);
     }
 
-    const textures = {
-        front: new THREE.TextureLoader().load(coverImage),
-        back: new THREE.TextureLoader().load(backImage),
-        left: new THREE.TextureLoader().load(sideImage),
-        white: new THREE.TextureLoader().load(
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAArMBwCZh+fAAAAAASUVORK5CYII="
-        ), // 흰색 텍스처
-    };
+    const textures = useMemo(() => {
+        const loader = new THREE.TextureLoader();
+        return {
+            front: loader.load(coverImage),
+            back: loader.load(backImage),
+            left: loader.load(sideImage),
+            white: loader.load(whiteImage.src), // 흰색 텍스처
+        };
+    }, [coverImage, backImage, sideImage]);
 
     const light = new THREE.PointLight(0xffffff, 1, 100);
     light.position.set(20, 10, 5);
@@ -91,7 +93,7 @@ const Plane = () => (
 );
 
 const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
-    const [rotationY, setRotationY] = useState(3);
+    const [rotationY, setRotationY] = useState(5);
 
     const handleRotate = () => {
         switch (rotationY) {
