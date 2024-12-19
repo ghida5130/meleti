@@ -7,7 +7,7 @@ import Inner from "./inner";
 import BottomBar from "./bottomBar";
 
 export const metadata: Metadata = {
-    title: "Meleti : 나만의 모바일 서재",
+    title: "Meleti",
     description: "나만의 서재를 만들고 독서를 시작해보세요.",
 };
 
