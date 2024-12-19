@@ -1,10 +1,9 @@
 "use client";
 
 import useImageSize from "@/hooks/useImageSize";
-// components/RotatingBook.tsx
 import { Canvas } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import styles from "/styles/bookImage.module.scss";
 
@@ -13,12 +12,14 @@ import rotateIcon from "@/public/bookPage/rotate.svg";
 import leftSideIcon from "@/public/bookPage/leftSide.png";
 import rightSideIcon from "@/public/bookPage/rightSide.png";
 import Image from "next/image";
-import whiteImage from "/public/white.png";
+import bookPageTextureImage from "/public/bookImage/bookPageTexture.jpg";
+import backEmptyImage from "/public/bookImage/backEmptyImage.jpg";
+import sideEmptyImage from "/public/bookImage/sideEmptyImage.jpg";
 
 const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotationY, cover }) => {
     const bookRef = useRef<THREE.Mesh>(null);
 
-    const rotateAngle = [0, Math.PI * 0.5, Math.PI * 1, Math.PI * 0.2, Math.PI * 0.8, Math.PI * 1.5];
+    const rotateAngle = [0, Math.PI * 0.5, Math.PI * 1, Math.PI * 0.2, Math.PI * 0.8, Math.PI * 1.3];
 
     useFrame(() => {
         if (bookRef.current) {
@@ -33,6 +34,7 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
         }
     });
 
+    // 책 이미지 불러오기
     const bookNum = cover.match(/coversum\/(.*?)_/);
     if (!bookNum) {
         throw new Error("'coversum', '_' not found.");
@@ -54,30 +56,68 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
         convertD = sideW * (bookSizeRatio / coverW);
     }
 
+    const [loadedTextures, setLoadedTextures] = useState<{
+        front: THREE.Texture;
+        back: THREE.Texture;
+        left: THREE.Texture;
+        white: THREE.Texture;
+    } | null>(null);
+
     const textures = useMemo(() => {
         const loader = new THREE.TextureLoader();
-        return {
-            front: loader.load(coverImage),
-            back: loader.load(backImage),
-            left: loader.load(sideImage),
-            white: loader.load(whiteImage.src), // 흰색 텍스처
+
+        const loadTexture = (url: string, fallback: string): Promise<THREE.Texture> => {
+            return new Promise((resolve) => {
+                loader.load(
+                    url,
+                    (texture) => resolve(texture),
+                    undefined,
+                    () => resolve(loader.load(fallback))
+                );
+            });
         };
+
+        const loadAllTextures = async () => {
+            const [front, back, left, white] = await Promise.all([
+                loadTexture(coverImage, backEmptyImage.src), // 앞면
+                loadTexture(backImage, backEmptyImage.src), // 뒷면
+                loadTexture(sideImage, sideEmptyImage.src), // 좌측
+                loader.loadAsync(bookPageTextureImage.src), // 흰색 텍스처 (기본)
+            ]);
+            return { front, back, left, white };
+        };
+
+        const texturesPromise = loadAllTextures();
+
+        return texturesPromise;
     }, [coverImage, backImage, sideImage]);
+
+    useEffect(() => {
+        textures.then((loadedTextures) => {
+            setLoadedTextures(loadedTextures);
+        });
+    });
 
     const light = new THREE.PointLight(0xffffff, 1, 100);
     light.position.set(20, 10, 5);
     light.castShadow = true;
 
+    if (!loadedTextures) {
+        return null;
+    }
+
     return (
-        <mesh ref={bookRef} position={[0, 0, 0]} castShadow>
-            <boxGeometry args={[convertD, convertH, bookSizeRatio]} /> {/* 책 크기 */}
-            <meshBasicMaterial attach="material-0" map={textures.front} /> {/* 앞면 */}
-            <meshBasicMaterial attach="material-1" map={textures.back} /> {/* 뒷면 */}
-            <meshBasicMaterial attach="material-2" map={textures.white} /> {/* 윗면 */}
-            <meshBasicMaterial attach="material-3" map={textures.white} /> {/* 아랫면 */}
-            <meshBasicMaterial attach="material-4" map={textures.left} /> {/* 좌측 */}
-            <meshBasicMaterial attach="material-5" map={textures.white} /> {/* 우측 */}
-        </mesh>
+        <>
+            <mesh ref={bookRef} position={[0, 0, 0]} castShadow>
+                <boxGeometry args={[convertD, convertH, bookSizeRatio]} /> {/* 책 크기 */}
+                <meshBasicMaterial attach="material-0" map={loadedTextures.front} /> {/* 앞면 */}
+                <meshBasicMaterial attach="material-1" map={loadedTextures.back} /> {/* 뒷면 */}
+                <meshBasicMaterial attach="material-2" map={loadedTextures.white} /> {/* 윗면 */}
+                <meshBasicMaterial attach="material-3" map={loadedTextures.white} /> {/* 아랫면 */}
+                <meshBasicMaterial attach="material-4" map={loadedTextures.left} /> {/* 좌측 */}
+                <meshBasicMaterial attach="material-5" map={loadedTextures.white} /> {/* 우측 */}
+            </mesh>
+        </>
     );
 };
 
@@ -93,7 +133,7 @@ const Plane = () => (
 );
 
 const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
-    const [rotationY, setRotationY] = useState(5);
+    const [rotationY, setRotationY] = useState(3);
 
     const handleRotate = () => {
         switch (rotationY) {

@@ -34,27 +34,6 @@
     text-overflow: ellipsis;
 }
 
-.divideLine {
-    width: 100%;
-    height: 15px;
-    margin-top: 15px;
-    background: linear-gradient(
-        0deg,
-        /* 가로 방향으로 그라데이션 */ grey 0%,
-        /* 빨간색 시작 */ grey 50%,
-        /* 빨간색 중간 */ rgb(215, 215, 215) 50%,
-        /* 흰색 시작 */ rgb(215, 215, 215) 100% /* 흰색 끝 */
-    );
-    background-size: 1px 11%; /* 줄무늬의 폭 설정 */
-}
-.divideLine2 {
-    width: 100%;
-    height: 15px;
-    margin-bottom: 15px;
-    background: rgb(215, 215, 215);
-    box-shadow: inset 0px 14px 5px -10px rgba(0, 0, 0, 0.3);
-}
-
 .infoArea {
     width: 90%;
     margin: 0 auto;

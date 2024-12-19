@@ -1,5 +1,11 @@
+import LoadingIcon from "@/components/atoms/loadingIcon";
+
 const Loading: React.FC = () => {
-    return <div>loading</div>;
+    return (
+        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+            <LoadingIcon />
+        </div>
+    );
 };
 
 export default Loading;

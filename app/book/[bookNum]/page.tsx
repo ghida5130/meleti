@@ -5,6 +5,8 @@ import styles from "/styles/book.module.scss";
 import authorIcon from "../../../public/bookPage/author.svg";
 import publisherIcon from "../../../public/bookPage/publisher.svg";
 import Image from "next/image";
+import { Suspense } from "react";
+import DivideLine from "@/components/atoms/divideLine";
 
 // const test = {
 //     title: "작별하지 않는다 - 2024 노벨문학상 수상작가, 한강 장편소설",
@@ -52,7 +54,9 @@ export default async function Book({ params }: { params: Promise<{ bookNum: stri
 
     return (
         <div className={styles.wrap}>
-            <BookImage cover={test.cover} />
+            <Suspense fallback={<p>loading 3d content</p>}>
+                <BookImage cover={test.cover} />
+            </Suspense>
             <div className={styles.basicInfoArea}>
                 <p style={{ fontSize: "25px", fontWeight: "600" }}>{test.title}</p>
                 <p style={{ fontSize: "20px" }}>{test.subInfo.subTitle}</p>
@@ -65,7 +69,7 @@ export default async function Book({ params }: { params: Promise<{ bookNum: stri
                     <span className={styles.publisher}>&nbsp;{test.publisher}</span> | {test.pubDate}
                 </p>
             </div>
-            <DevideLine />
+            <DivideLine />
             <div className={styles.infoArea}>
                 <p>{test.categoryName}</p>
                 <p>{decoded}</p>
@@ -73,12 +77,3 @@ export default async function Book({ params }: { params: Promise<{ bookNum: stri
         </div>
     );
 }
-
-const DevideLine = () => {
-    return (
-        <>
-            <div className={styles.divideLine} />
-            <div className={styles.divideLine2} />
-        </>
-    );
-};
