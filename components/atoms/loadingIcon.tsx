@@ -3,6 +3,8 @@
 import Lottie from "react-lottie-player";
 import animationData from "@/public/bookLoading.json"; // Lottie JSON 파일 경로
 
+export const dynamic = "force-dynamic";
+
 const LoadingIcon = () => {
     return (
         <Lottie
