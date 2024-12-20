@@ -1,9 +1,10 @@
-import LoadingIcon from "@/components/atoms/loadingIcon";
+// import LoadingIcon from "@/components/atoms/loadingIcon";
 
 const Loading: React.FC = () => {
     return (
         <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <LoadingIcon />
+            {/* <LoadingIcon /> */}
+            loading
         </div>
     );
 };
