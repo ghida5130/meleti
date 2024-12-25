@@ -81,9 +81,8 @@ const Shelf = () => {
             <div className={styles.shelvesBackground}>
                 <p>읽고 싶은 책 ▶</p>
                 <ul className={styles.booksArea} ref={containerRef} onMouseDown={handleMouseDown}>
-                    {booksArr.map((val) => {
-                        return <BookSideView key={val} handleClick={handleClick} />;
-                    })}
+                    <BookSideView handleClick={handleClick} />
+                    <BookFrontView handleClick={handleClick} />
                     <button className={styles.plusBtn}>
                         {/* height 값은 현재 표시 책중 가장 긴 height값으로 지정해주는게 좋을듯 */}
                         <Image src={plusBtn} alt="plus button" width={50} />
