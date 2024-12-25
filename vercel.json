@@ -4,5 +4,11 @@
             "source": "/icons/(.*)",
             "headers": [{ "key": "Access-Control-Allow-Origin", "value": "*" }]
         }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/404.html"
+        }
     ]
 }

@@ -13,10 +13,10 @@ export default function Inner() {
             </div>
             <h2>나만의 모바일 서재</h2>
             <div className={styles.imageWrap}>
-                <Image src={innerImage} alt="innerImage" width={448} />
+                <Image src={innerImage} alt="inner image" width={448} />
             </div>
             <p style={{ fontSize: "25px" }}>모바일 접속 QR코드</p>
-            <Image src={qrImage} alt="mobile_QR_Code" width={120} />
+            <Image src={qrImage} alt="mobile qr code" width={120} />
         </div>
     );
 }

@@ -98,10 +98,6 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
         });
     });
 
-    const light = new THREE.PointLight(0xffffff, 1, 100);
-    light.position.set(20, 10, 5);
-    light.castShadow = true;
-
     if (!loadedTextures) {
         return null;
     }

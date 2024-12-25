@@ -11,11 +11,7 @@ export const metadata: Metadata = {
     description: "나만의 서재를 만들고 독서를 시작해보세요.",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
             <body>

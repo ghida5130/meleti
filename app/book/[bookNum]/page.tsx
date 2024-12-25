@@ -1,11 +1,13 @@
-import BookImage from "./bookImage";
 import styles from "/styles/book.module.scss";
+import Image from "next/image";
 
 // image
-import authorIcon from "../../../public/bookPage/author.svg";
-import publisherIcon from "../../../public/bookPage/publisher.svg";
-import Image from "next/image";
-import { Suspense } from "react";
+import authorIcon from "/public/bookPage/author.svg";
+import publisherIcon from "/public/bookPage/publisher.svg";
+import pagesIcon from "/public/bookPage/pages.svg";
+
+// components
+import BookImage from "./bookImage";
 import DivideLine from "@/components/atoms/divideLine";
 
 // const test = {
@@ -54,19 +56,21 @@ export default async function Book({ params }: { params: Promise<{ bookNum: stri
 
     return (
         <div className={styles.wrap}>
-            <Suspense fallback={<p>loading 3d content</p>}>
-                <BookImage cover={test.cover} />
-            </Suspense>
+            <BookImage cover={test.cover} />
             <div className={styles.basicInfoArea}>
                 <p style={{ fontSize: "25px", fontWeight: "600" }}>{test.title}</p>
                 <p style={{ fontSize: "20px" }}>{test.subInfo.subTitle}</p>
-                <p className={styles.author}>
-                    <Image src={authorIcon} alt="authorIcon" width={13} />
+                <p>
+                    <Image src={authorIcon} alt="authorIcon" width={14} style={{ display: "inline-block" }} />
                     &nbsp;{test.author}
                 </p>
                 <p>
-                    <Image src={publisherIcon} alt="publisherIcon" width={13} />
+                    <Image src={publisherIcon} alt="publisherIcon" width={14} style={{ display: "inline-block" }} />
                     <span className={styles.publisher}>&nbsp;{test.publisher}</span> | {test.pubDate}
+                </p>
+                <p>
+                    <Image src={pagesIcon} alt="pageIcon" width={14} style={{ display: "inline-block" }} />
+                    &nbsp;{test.subInfo.itemPage} 페이지
                 </p>
             </div>
             <DivideLine />
