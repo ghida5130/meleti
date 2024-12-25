@@ -24,7 +24,7 @@ export default function Shelves() {
 
 const Shelf = () => {
     // const booksArr = [0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5];
-    const booksArr = [0];
+    // const booksArr = [0];
     const containerRef = useRef<HTMLUListElement>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
