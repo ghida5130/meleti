@@ -3,11 +3,11 @@ import styles from "/styles/bottombar.module.scss";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 
-import homeImage from "../public/bottomBar/home.svg";
-import searchImage from "../public/bottomBar/search.svg";
-import myShelfImage from "../public/bottomBar/myshelf.svg";
-import communityImage from "../public/bottomBar/community.svg";
-import myPageImage from "../public/bottomBar/mypage.svg";
+import homeImage from "@/public/bottomBar/home.svg";
+import searchImage from "@/public/bottomBar/search.svg";
+import myShelfImage from "@/public/bottomBar/myshelf.svg";
+import communityImage from "@/public/bottomBar/community.svg";
+import myPageImage from "@/public/bottomBar/mypage.svg";
 
 export default function BottomBar() {
     return (

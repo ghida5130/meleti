@@ -1,8 +1,8 @@
 import Image from "next/image";
-import innerImage from "../public/study.jpg";
-import logoImage from "../public/meletiLogo.png";
+import innerImage from "@/public/study.jpg";
+import logoImage from "@/public/meletiLogo.png";
 import styles from "/styles/inner.module.scss";
-import qrImage from "../public/qr_test.png";
+import qrImage from "@/public/qr_test.png";
 
 export default function Inner() {
     return (

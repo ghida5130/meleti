@@ -13,7 +13,12 @@ export default function Search() {
                     <Image src={backArrow} alt="back button" width={20} />
                 </Link>
                 <form className={styles.searchFormArea} action="/search" method="get">
-                    <input className={styles.searchInputArea} name="query" type="text" placeholder="testholder" />
+                    <input
+                        className={styles.searchInputArea}
+                        name="query"
+                        type="text"
+                        placeholder="검색어를 입력하세요"
+                    />
                     <button>
                         <Image src={searchBtn} alt="search button" width={20} />
                     </button>

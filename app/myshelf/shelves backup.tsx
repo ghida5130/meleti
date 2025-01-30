@@ -9,7 +9,6 @@ import plusBtn from "/public/myshelf/plus.svg";
 import bookFrontTest2 from "/public/test/frontTestImage2.jpg";
 import bookSideTest from "/public/test/sideTestImage.jpg";
 import bookInnerImage from "/public/test2.jpg";
-import DivideLine from "@/components/atoms/divideLine";
 
 export default function Shelves() {
     return (
@@ -96,8 +95,7 @@ const Shelf = ({ view }: { view: string }) => {
                     </button>
                 </ul>
             </div>
-            <DivideLine />
-            {/* <div className={styles.support} /> */}
+            <div className={styles.support} />
         </>
     );
 };

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 import styles from "/styles/layout.module.scss";
-import Navbar from "./navbar";
-import Footer from "./footer";
-import Inner from "./inner";
-import BottomBar from "./bottomBar";
+import Navbar from "../components/layout/navbar";
+import Footer from "../components/layout/footer";
+import Inner from "../components/layout/inner";
+import BottomBar from "../components/layout/bottomBar";
 
 export const metadata: Metadata = {
     title: "Meleti",

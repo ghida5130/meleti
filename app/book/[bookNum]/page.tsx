@@ -1,10 +1,12 @@
 import styles from "/styles/book.module.scss";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 // image
 import authorIcon from "/public/bookPage/author.svg";
 import publisherIcon from "/public/bookPage/publisher.svg";
 import pagesIcon from "/public/bookPage/pages.svg";
+import categoryIcon from "/public/bookPage/category.svg";
+import descriptionIcon from "/public/bookPage/description.svg";
 
 // components
 import BookImage from "./bookImage";
@@ -75,9 +77,20 @@ export default async function Book({ params }: { params: Promise<{ bookNum: stri
             </div>
             <DivideLine />
             <div className={styles.infoArea}>
-                <p>{test.categoryName}</p>
-                <p>{decoded}</p>
+                <SubTitle imgSrc={categoryIcon} title="카테고리" />
+                <p style={{ fontSize: "20px" }}>{test.categoryName}</p>
+                <SubTitle imgSrc={descriptionIcon} title="책 소개" />
+                <p style={{ fontSize: "18px" }}>{decoded}</p>
             </div>
         </div>
     );
 }
+
+const SubTitle = ({ imgSrc, title }: { imgSrc: StaticImageData; title: string }) => {
+    return (
+        <p className={styles.subtitle}>
+            <Image src={imgSrc} alt="book category icon" width={18} style={{ display: "inline-block" }} />
+            &nbsp;{title}
+        </p>
+    );
+};

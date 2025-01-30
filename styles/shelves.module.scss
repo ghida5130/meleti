@@ -2,7 +2,6 @@
     > p {
         font-size: 18px;
         font-weight: 500;
-        color: rgb(216, 216, 216);
         padding: 15px 0 15px 20px;
     }
 }
@@ -28,15 +27,22 @@
 
 .support {
     width: 100%;
-    height: 20px;
-    background: #e1b47b;
-    box-shadow: 0 10px 10px rgba(53, 38, 20, 80%), inset 0 5px 5px rgba(53, 38, 20, 30%);
+    height: 15px;
+    background: linear-gradient(
+        0deg,
+        /* 가로 방향으로 그라데이션 */ grey 0%,
+        /* 빨간색 시작 */ grey 50%,
+        /* 빨간색 중간 */ rgb(215, 215, 215) 50%,
+        /* 흰색 시작 */ rgb(215, 215, 215) 100% /* 흰색 끝 */
+    );
+    background-size: 1px 11%; /* 줄무늬의 폭 설정 */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.7);
 }
 
 .frontViewBook {
     position: relative;
     margin-right: 20px;
-    box-shadow: 8px 8px 8px black;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
     // clip-path: polygon(0 2%, 100% 0, 100% 100%, 0 100%);
 
     p {
@@ -105,5 +111,5 @@
 .SideViewBook {
     margin-right: 2px;
     border: 1px solid rgb(97, 97, 97);
-    box-shadow: 5px 10px 20px black;
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.3);
 }
