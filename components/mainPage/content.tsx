@@ -3,9 +3,15 @@ import Carousel from "./carousel";
 import styles from "/styles/page.module.scss";
 
 export default async function content() {
-    const bestSellerResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`);
-    const newReleaseResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`);
-    const blogBestResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`);
+    const bestSellerResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`, {
+        cache: "no-store",
+    });
+    const newReleaseResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`, {
+        cache: "no-store",
+    });
+    const blogBestResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`, {
+        cache: "no-store",
+    });
     const bestSellerData = await bestSellerResponse.json();
     const newReleaseData = await newReleaseResponse.json();
     const blogBestData = await blogBestResponse.json();
