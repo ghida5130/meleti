@@ -61,6 +61,7 @@ export default function Carousel({ data }: CarouselData) {
         }
     };
     useEffect(() => {
+        if (!containerRef.current) return;
         document.addEventListener("mouseup", handleMouseUp);
         document.addEventListener("mousemove", handleMouseMove);
 
@@ -68,7 +69,7 @@ export default function Carousel({ data }: CarouselData) {
             document.removeEventListener("mouseup", handleMouseUp);
             document.removeEventListener("mousemove", handleMouseMove);
         };
-    });
+    }, [isDragging]);
 
     return (
         <div className={styles.wrap} onDragStart={(e) => e.preventDefault()}>
