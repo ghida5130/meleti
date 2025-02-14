@@ -42,8 +42,6 @@ import DivideLine from "@/components/atoms/divideLine";
 //     },
 // };
 
-export const dynamic = "force-dynamic";
-
 export default async function Book({ params }: { params: { bookNum: string } }) {
     const isbn13 = params.bookNum;
     const res = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${isbn13}`);
