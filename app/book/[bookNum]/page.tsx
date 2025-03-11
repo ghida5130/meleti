@@ -1,16 +1,16 @@
 import styles from "/styles/book.module.scss";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 // image
 import authorIcon from "/public/bookPage/author.svg";
 import publisherIcon from "/public/bookPage/publisher.svg";
 import pagesIcon from "/public/bookPage/pages.svg";
-import categoryIcon from "/public/bookPage/category.svg";
-import descriptionIcon from "/public/bookPage/description.svg";
 
 // components
 import BookImage from "./bookImage";
 import DivideLine from "@/components/atoms/divideLine";
+import Carousel from "@/components/mainPage/carousel";
+import SectionTitle from "@/components/atoms/sectionTitle";
 
 // const test = {
 //     title: "작별하지 않는다 - 2024 노벨문학상 수상작가, 한강 장편소설",
@@ -77,20 +77,26 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
             </div>
             <DivideLine />
             <div className={styles.infoArea}>
-                <SubTitle imgSrc={categoryIcon} title="카테고리" />
-                <p style={{ fontSize: "20px" }}>{test.categoryName}</p>
-                <SubTitle imgSrc={descriptionIcon} title="책 소개" />
-                <p style={{ fontSize: "18px" }}>{decoded}</p>
+                <SectionTitle title="• 카테고리" />
+                <p>{test.categoryName}</p>
+                <SectionTitle title="• 책 소개" />
+                <p style={{ lineHeight: "1.5" }}>{decoded}</p>
+            </div>
+            <DivideLine />
+            <div className={styles.quotesArea}>
+                <SectionTitle title="이 책의 글귀" />
+                <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
+                <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
+                <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
+                <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
+            </div>
+            <DivideLine />
+            <div className={styles.bookRecommendArea}>
+                <SectionTitle title="관련 도서" />
+                <Carousel />
+                <p>추천도서, 관련도서, 같은 작가의 책 등</p>
+                <Carousel />
             </div>
         </div>
     );
 }
-
-const SubTitle = ({ imgSrc, title }: { imgSrc: StaticImageData; title: string }) => {
-    return (
-        <p className={styles.subtitle}>
-            <Image src={imgSrc} alt="book category icon" width={18} style={{ display: "inline-block" }} />
-            &nbsp;{title}
-        </p>
-    );
-};

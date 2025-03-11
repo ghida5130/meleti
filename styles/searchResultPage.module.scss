@@ -1,0 +1,34 @@
+.wrap {
+    width: 90%;
+    margin: 30px auto;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0;
+    gap: 40px;
+}
+
+.item {
+    display: flex;
+    height: 160px;
+}
+
+.bookInfo {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: 10px 0;
+    overflow: hidden;
+
+    p {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

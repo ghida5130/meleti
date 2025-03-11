@@ -4,13 +4,13 @@ import styles from "/styles/page.module.scss";
 
 export default async function content() {
     const bestSellerResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`, {
-        cache: "no-store",
+        next: { revalidate: 3600 },
     });
     const newReleaseResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`, {
-        cache: "no-store",
+        next: { revalidate: 3600 },
     });
     const blogBestResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`, {
-        cache: "no-store",
+        next: { revalidate: 3600 },
     });
     const bestSellerData = await bestSellerResponse.json();
     const newReleaseData = await newReleaseResponse.json();

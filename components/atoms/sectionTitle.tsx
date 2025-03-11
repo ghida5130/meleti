@@ -1,3 +1,15 @@
-export default function SectionTitle({ title }: { title: string }) {
-    return <p style={{ fontWeight: "600", fontSize: "20px", padding: "30px 0 15px" }}>{title}</p>;
+export default function SectionTitle({ title, width = "100%" }: { title: string; width?: string }) {
+    return (
+        <p
+            style={{
+                fontWeight: "700",
+                fontSize: "18px",
+                width: `${width}`,
+                padding: "20px 0",
+                margin: "0 auto",
+            }}
+        >
+            {title}
+        </p>
+    );
 }

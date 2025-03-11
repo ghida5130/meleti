@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface CarouselData {
-    data: itemTypes[];
+    data?: itemTypes[];
 }
 
 interface itemTypes {
@@ -74,48 +74,52 @@ export default function Carousel({ data }: CarouselData) {
     return (
         <div className={styles.wrap} onDragStart={(e) => e.preventDefault()}>
             <ul className={styles.bestSellerWrap} ref={containerRef} onMouseDown={handleMouseDown}>
-                {data.map((val, idx) => {
-                    const coverImageUrl = val.cover.replace("coversum", "cover200");
-                    const title = val.title.split(" - ")[0];
-                    const author = val.author.split(" (지은이)")[0];
-                    return (
-                        <Link key={`best seller ${idx + 1}`} href={`/book/${val.isbn13}`} onClick={handleClick}>
-                            <div className={styles.bestSellerItem}>
-                                <div className={styles.bookImage}>
-                                    <Image
-                                        src={coverImageUrl}
-                                        alt={val.title}
-                                        fill={true}
-                                        sizes="120px"
-                                        style={{ objectFit: "cover", objectPosition: "top" }}
-                                    />
+                {data ? (
+                    data.map((val, idx) => {
+                        const coverImageUrl = val.cover.replace("coversum", "cover200");
+                        const title = val.title.split(" - ")[0];
+                        const author = val.author.split(" (지은이)")[0];
+                        return (
+                            <Link key={`best seller ${idx + 1}`} href={`/book/${val.isbn13}`} onClick={handleClick}>
+                                <div className={styles.bestSellerItem}>
+                                    <div className={styles.bookImage}>
+                                        <Image
+                                            src={coverImageUrl}
+                                            alt={val.title}
+                                            fill={true}
+                                            sizes="120px"
+                                            style={{ objectFit: "cover", objectPosition: "top" }}
+                                        />
+                                    </div>
+                                    <div className={styles.bestSellerTitleArea}>
+                                        <p
+                                            style={{
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                            }}
+                                        >
+                                            {title}
+                                        </p>
+                                        <p
+                                            style={{
+                                                whiteSpace: "nowrap",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                fontSize: "14px",
+                                                color: "grey",
+                                            }}
+                                        >
+                                            {author}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className={styles.bestSellerTitleArea}>
-                                    <p
-                                        style={{
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                        }}
-                                    >
-                                        {title}
-                                    </p>
-                                    <p
-                                        style={{
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            fontSize: "14px",
-                                            color: "grey",
-                                        }}
-                                    >
-                                        {author}
-                                    </p>
-                                </div>
-                            </div>
-                        </Link>
-                    );
-                })}
+                            </Link>
+                        );
+                    })
+                ) : (
+                    <div>Carousel이 표시될 자리입니다.</div>
+                )}
             </ul>
         </div>
     );

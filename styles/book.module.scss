@@ -36,14 +36,20 @@
 .infoArea {
     width: 90%;
     margin: 0 auto;
+    p {
+        margin-bottom: 20px;
+    }
 }
 
-.subtitle {
-    display: flex;
-    margin: 30px 0 15px;
-    font-size: 17px;
-    font-weight: 800;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+.bookRecommendArea {
+    width: 90%;
+    margin: 0 auto 20px;
+}
+
+.quotesArea {
+    width: 90%;
+    margin: 0 auto;
+    p:not(:nth-of-type(1)) {
+        margin-bottom: 20px;
+    }
 }

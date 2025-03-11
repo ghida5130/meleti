@@ -15,6 +15,7 @@ import Image from "next/image";
 import bookPageTextureImage from "/public/bookImage/bookPageTexture.jpg";
 import backEmptyImage from "/public/bookImage/backEmptyImage.jpg";
 import sideEmptyImage from "/public/bookImage/sideEmptyImage.jpg";
+import plusButtonIcon from "@/public/bookImage/plus.svg";
 
 const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotationY, cover }) => {
     const bookRef = useRef<THREE.Mesh>(null);
@@ -41,16 +42,21 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
     }
     const bookImageURL = cover.split(/coversum/)[0];
 
+    // 이미지 바인딩
     const coverImage = cover.replace("coversum", "cover500");
     const sideImage = `${bookImageURL}spineflip/${bookNum[1]}_d.jpg`;
     const backImage = `${bookImageURL}letslook/${bookNum[1]}_b.jpg`;
 
+    // useImageSize를 이용해 책 사이즈 계산
     const [coverW, coverH] = useImageSize(coverImage);
     const [sideW] = useImageSize(sideImage);
+
+    // 높이, 깊이 값의 기본값을 지정 (일반적인 책 사이즈)
     const bookSizeRatio = 3.3;
     let convertH = 4.5;
     let convertD = 0.3;
 
+    // bookSizeRatio를 통해 책들의 크기를 비율을 유지하며 일률적으로 변경
     if (coverW !== null && coverH !== null && sideW !== null) {
         convertH = coverH * (bookSizeRatio / coverW);
         convertD = sideW * (bookSizeRatio / coverW);
@@ -187,6 +193,9 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                     className={`${styles.btn} ${styles.rightSideBtn}`}
                 >
                     <Image src={rightSideIcon} alt="rotateBtn" width={35} />
+                </button>
+                <button className={`${styles.btn} ${styles.plusBtn}`}>
+                    <Image src={plusButtonIcon} alt="rotateBtn" width={30} />
                 </button>
             </div>
         </>

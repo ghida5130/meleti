@@ -8,27 +8,36 @@
 .btn {
     width: 40px;
     height: 40px;
-    background: rgba(196, 196, 196, 0.6);
+    background: rgba(255, 255, 255, 0.4);
     border-radius: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
 }
 
 .rotateBtn {
     position: absolute;
     bottom: 15px;
-    right: 15px;
+    left: 15px;
 }
 
 .leftSideBtn {
     position: absolute;
     bottom: 65px;
-    right: 15px;
+    left: 15px;
 }
 
 .rightSideBtn {
     position: absolute;
     bottom: 115px;
+    left: 15px;
+}
+
+.plusBtn {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    bottom: 15px;
     right: 15px;
 }
