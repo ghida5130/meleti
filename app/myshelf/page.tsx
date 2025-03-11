@@ -45,7 +45,7 @@ export default function MyShelf() {
                             <span>저장한 글귀</span>
                         </p>
                         <div className={styles.quote}>
-                            <p>&quot;여기에 글귀가 추가됩니다.(최대 개수 지정하기)&quot;</p>
+                            <p>&quot;여기에 글귀가 추가됩니다.(최대 표시 개수 지정하기(예상3개))&quot;</p>
                             <p>- p.139</p>
                         </div>
                     </div>

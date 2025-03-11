@@ -10,16 +10,23 @@ import publisherIcon from "/public/bookPage/publisher.svg";
 import underArrowIcon from "@/public/myshelf/underArrow.svg";
 import editIcon from "@/public/myshelf/edit.svg";
 import newQuoteIcon from "@/public/myshelf/newQuote.svg";
+import prevPageIcon from "@/public/myshelf/backArrow.svg";
+import Link from "next/link";
 
 export default async function Detail({ params }: { params: Promise<{ bookNum: string }> }) {
     const isbn = (await params).bookNum;
     console.log(isbn);
     return (
         <div className={styles.wrap}>
+            <div className={styles.header}>
+                <Link href="/myshelf" scroll={true}>
+                    <Image src={prevPageIcon} alt="previous page button" width={35} />
+                </Link>
+                <h1 style={{ fontSize: "25px", fontWeight: "600" }}>멸망 이전의 샹그릴라</h1>
+            </div>
+            <h2 style={{ fontSize: "20px" }}>샹그릴라 - 부제목</h2>
             <div className={styles.bookInfoArea}>
                 <Image src={testBookImage} alt="book cover image" height={250} />
-                <h1 style={{ fontSize: "25px", fontWeight: "600" }}>멸망 이전의 샹그릴라</h1>
-                <h2 style={{ fontSize: "20px" }}>샹그릴라 - 부제목</h2>
                 <p>
                     <Image src={authorIcon} alt="authorIcon" width={14} style={{ display: "inline-block" }} />
                     &nbsp;나기라 유 (지은이), 김선영 (옮긴이)
@@ -99,7 +106,7 @@ export default async function Detail({ params }: { params: Promise<{ bookNum: st
                     </button>
                 </p>
                 <p>
-                    &quot;이곳에 저장된 글귀가 표시됩니다.&quot;
+                    &quot;글귀 최대 개수 지정하기&quot;
                     <button>
                         <Image src={editIcon} alt="quotes edit button" />
                     </button>
