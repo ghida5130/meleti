@@ -2,7 +2,7 @@ import styles from "/styles/searchResultPage.module.scss";
 import bookFrontTest from "/public/test/frontTestImage2.jpg";
 import Image from "next/image";
 
-export default function Search() {
+export default function SearchResult() {
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>
