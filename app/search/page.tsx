@@ -1,19 +1,29 @@
+"use client";
+
 import Link from "next/link";
 import styles from "/styles/search.module.scss";
 import Image from "next/image";
 
 import searchBtn from "/public/searchBtn.svg";
 import backArrow from "/public/back_arrow.svg";
+import { useEffect, useRef } from "react";
 
 export default function Search() {
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
     return (
         <div className={styles.searchPageWrap}>
             <div className={styles.searchArea}>
                 <Link href="/">
                     <Image src={backArrow} alt="back button" width={20} />
                 </Link>
-                <form className={styles.searchFormArea} action="/search" method="get">
+                <form className={styles.searchFormArea} action="/search/result" method="get">
                     <input
+                        ref={inputRef}
                         className={styles.searchInputArea}
                         name="query"
                         type="text"

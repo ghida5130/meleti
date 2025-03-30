@@ -8,7 +8,6 @@ import Link from "next/link";
 interface CarouselData {
     data?: itemTypes[];
 }
-
 interface itemTypes {
     title: string;
     author: string;
@@ -86,8 +85,8 @@ export default function Carousel({ data }: CarouselData) {
                                         <Image
                                             src={coverImageUrl}
                                             alt={val.title}
-                                            fill={true}
-                                            sizes="120px"
+                                            fill
+                                            sizes="240px"
                                             style={{ objectFit: "cover", objectPosition: "top" }}
                                         />
                                     </div>
