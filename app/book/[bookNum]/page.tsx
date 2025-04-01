@@ -12,91 +12,93 @@ import DivideLine from "@/components/atoms/divideLine";
 import Carousel from "@/components/mainPage/carousel";
 import SectionTitle from "@/components/atoms/sectionTitle";
 
-// const test = {
-//     title: "작별하지 않는다 - 2024 노벨문학상 수상작가, 한강 장편소설",
-//     link: "http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=278770576&amp;partner=openAPI&amp;start=api",
-//     author: "한강 (지은이)",
-//     pubDate: "2021-09-09",
-//     description:
-//         "2016년 &lt;채식주의자&gt;로 인터내셔널 부커상을 수상하고 2018년 &lt;흰&gt;으로 같은 상 최종 후보에 오른 한강 작가의 5년 만의 장편소설. 2019년 겨울부터 이듬해 봄까지 계간 &lt;문학동네&gt;에 전반부를 연재하며  큰 관심을 모은 작품이다.",
-//     isbn: "8954682154",
-//     isbn13: "9788954682152",
-//     itemId: 278770576,
-//     priceSales: 15120,
-//     priceStandard: 16800,
-//     mallType: "BOOK",
-//     stockStatus: "",
-//     mileage: 840,
-//     cover: "https://image.aladin.co.kr/product/27877/5/coversum/8954682154_3.jpg",
-//     categoryId: 50993,
-//     categoryName: "국내도서>소설/시/희곡>한국소설>2000년대 이후 한국소설",
-//     publisher: "문학동네",
-//     salesPoint: 1186545,
-//     adult: false,
-//     fixedPrice: true,
-//     customerReviewRank: 9,
-//     subInfo: {
-//         subTitle: "2024 노벨문학상 수상작가, 한강 장편소설",
-//         originalTitle: "",
-//         itemPage: 332,
-//     },
-// };
+export async function generateMetadata({ params }: { params: { bookNum: string } }) {
+    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${params.bookNum}`);
+    const data = await res.json();
+    const book = data[0];
+
+    return {
+        title: book.title,
+        description: book.description,
+        openGraph: {
+            title: book.title,
+            description: book.description,
+            images: [book.cover],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: book.title,
+            description: book.description,
+            images: [book.cover],
+        },
+        alternates: {
+            canonical: `https://meleti-sigma.vercel.app/book/${params.bookNum}`,
+        },
+        robots: {
+            index: true,
+            follow: true,
+        },
+    };
+}
 
 export default async function Book({ params }: { params: { bookNum: string } }) {
     const isbn13 = params.bookNum;
     const res = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${isbn13}`);
-    let test = await res.json();
-    test = test[0];
+    let book = await res.json();
+    book = book[0];
     let decoded;
 
-    // const bookDetailResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${isbn13}`);
-    // const test = bookDetailResponse.data[0];
-
-    if (test) {
-        decoded = test.description.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+    if (book) {
+        decoded = book.description.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
     }
 
     return (
         <div className={styles.wrap}>
-            <BookImage cover={test.cover} />
-            <div className={styles.basicInfoArea}>
-                <p style={{ fontSize: "25px", fontWeight: "600" }}>{test.title}</p>
-                <p style={{ fontSize: "20px" }}>{test.subInfo.subTitle}</p>
+            <BookImage cover={book.cover} />
+            <section className={styles.basicInfoArea}>
+                <h1 style={{ fontSize: "25px", fontWeight: "600" }}>{book.title}</h1>
+                {book.subInfo.subTitle && <h2 style={{ fontSize: "20px" }}>{book.subInfo.subTitle}</h2>}
                 <p>
-                    <Image src={authorIcon} alt="authorIcon" width={14} style={{ display: "inline-block" }} />
-                    &nbsp;{test.author}
+                    <Image src={authorIcon} alt="authorIcon" width={14} style={{ display: "inline-block" }} priority />
+                    &nbsp;{book.author}
                 </p>
                 <p>
-                    <Image src={publisherIcon} alt="publisherIcon" width={14} style={{ display: "inline-block" }} />
-                    <span className={styles.publisher}>&nbsp;{test.publisher}</span> | {test.pubDate}
+                    <Image
+                        src={publisherIcon}
+                        alt="publisherIcon"
+                        width={14}
+                        style={{ display: "inline-block" }}
+                        priority
+                    />
+                    <span className={styles.publisher}>&nbsp;{book.publisher}</span> | {book.pubDate}
                 </p>
                 <p>
-                    <Image src={pagesIcon} alt="pageIcon" width={14} style={{ display: "inline-block" }} />
-                    &nbsp;{test.subInfo.itemPage} 페이지
+                    <Image src={pagesIcon} alt="pageIcon" width={14} style={{ display: "inline-block" }} priority />
+                    &nbsp;{book.subInfo.itemPage} 페이지
                 </p>
-            </div>
+            </section>
             <DivideLine />
-            <div className={styles.infoArea}>
+            <section className={styles.infoArea}>
                 <SectionTitle title="• 카테고리" />
-                <p>{test.categoryName}</p>
+                <p>{book.categoryName}</p>
                 <SectionTitle title="• 책 소개" />
                 <p style={{ lineHeight: "1.5" }}>{decoded}</p>
-            </div>
+            </section>
             <DivideLine />
-            <div className={styles.quotesArea}>
+            <section className={styles.quotesArea}>
                 <SectionTitle title="이 책의 글귀" />
                 <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
                 <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
                 <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
                 <p>&quot;이곳에 저장된 글귀가 표시됩니다.&quot;</p>
-            </div>
+            </section>
             <DivideLine />
-            <div className={styles.bookRecommendArea}>
+            <section className={styles.bookRecommendArea}>
                 <SectionTitle title="관련 도서" />
                 <Carousel />
                 <p>추천도서, 관련도서, 같은 작가의 책 등</p>
                 <Carousel />
-            </div>
+            </section>
         </div>
     );
 }

@@ -176,7 +176,7 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                     <Plane />
                 </Canvas>
                 <button onClick={handleRotate} className={`${styles.btn} ${styles.rotateBtn}`}>
-                    <Image src={rotateIcon} alt="rotateBtn" width={30} />
+                    <Image src={rotateIcon} alt="rotateBtn" width={30} priority />
                 </button>
                 <button
                     onClick={() => {
@@ -184,7 +184,7 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                     }}
                     className={`${styles.btn} ${styles.leftSideBtn}`}
                 >
-                    <Image src={leftSideIcon} alt="rotateBtn" width={35} />
+                    <Image src={leftSideIcon} alt="rotateBtn" width={35} priority />
                 </button>
                 <button
                     onClick={() => {
@@ -192,10 +192,10 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                     }}
                     className={`${styles.btn} ${styles.rightSideBtn}`}
                 >
-                    <Image src={rightSideIcon} alt="rotateBtn" width={35} />
+                    <Image src={rightSideIcon} alt="rotateBtn" width={35} priority />
                 </button>
                 <button className={`${styles.btn} ${styles.plusBtn}`}>
-                    <Image src={plusButtonIcon} alt="rotateBtn" width={30} />
+                    <Image src={plusButtonIcon} alt="rotateBtn" width={30} priority />
                 </button>
             </div>
         </>
