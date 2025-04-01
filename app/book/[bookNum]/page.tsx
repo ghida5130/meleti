@@ -46,14 +46,32 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
     const res = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemLookUp?type=${isbn13}`);
     let book = await res.json();
     book = book[0];
-    let decoded;
 
-    if (book) {
-        decoded = book.description.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-    }
+    // json-LD
+    const jsonLD = {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "name": book.title,
+        "author": {
+            "@type": "Person",
+            "name": book.author,
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": book.publisher,
+        },
+        "datePublished": book.pubDate,
+        "isbn": book.isbn,
+        "description": book.description,
+        "image": book.cover,
+        "category": book.categoryName,
+        "numberOfPages": book.subInfo.itemPage,
+        "url": `https://meleti-sigma.vercel.app/book/${params.bookNum}`,
+    };
 
     return (
         <div className={styles.wrap}>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
             <BookImage cover={book.cover} />
             <section className={styles.basicInfoArea}>
                 <h1 style={{ fontSize: "25px", fontWeight: "600" }}>{book.title}</h1>
@@ -82,7 +100,7 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
                 <SectionTitle title="• 카테고리" />
                 <p>{book.categoryName}</p>
                 <SectionTitle title="• 책 소개" />
-                <p style={{ lineHeight: "1.5" }}>{decoded}</p>
+                <p style={{ lineHeight: "1.5" }}>{book.description}</p>
             </section>
             <DivideLine />
             <section className={styles.quotesArea}>

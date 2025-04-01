@@ -117,7 +117,7 @@ export default function Carousel({ data }: CarouselData) {
                         );
                     })
                 ) : (
-                    <div>Carousel이 표시될 자리입니다.</div>
+                    <li>Carousel이 표시될 자리입니다.</li>
                 )}
             </ul>
         </div>
