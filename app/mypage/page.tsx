@@ -15,7 +15,7 @@ export default function MyPage() {
             </div>
             <div className={styles.profileArea}>
                 <div className={styles.profileImage}>
-                    <Image src={testProfileImage} alt="profile image" fill />
+                    <Image src={testProfileImage} alt="profile image" fill priority placeholder="empty" />
                 </div>
                 <p>Meleti</p>
                 <p>meleti@gmail.com</p>
