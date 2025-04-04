@@ -1,24 +1,43 @@
 import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import styles from "/styles/mypage.module.scss";
 
-import testProfileImage from "@/public/study.jpg";
-import Link from "next/link";
+//image
+import defaultProfileImage from "@/public/study.jpg";
 
-export default function MyPage() {
+// auth
+import { auth, signOut } from "@/auth";
+
+export default async function MyPage() {
+    const session = await auth();
+
+    if (!session?.user) {
+        redirect("/login");
+    }
+
+    console.log(session.user);
+
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>
                 <p>
-                    반갑습니다, <span>Meleti</span>님.
+                    반갑습니다, <span>{session.user.name}</span>님.
                 </p>
                 <button>정보 수정</button>
             </div>
             <div className={styles.profileArea}>
                 <div className={styles.profileImage}>
-                    <Image src={testProfileImage} alt="profile image" fill priority placeholder="empty" />
+                    <Image
+                        src={session.user.image ?? defaultProfileImage}
+                        alt="profile image"
+                        fill
+                        priority
+                        placeholder="empty"
+                    />
                 </div>
-                <p>Meleti</p>
-                <p>meleti@gmail.com</p>
+                <p>{session.user.name}</p>
+                <p>{session.user.email}</p>
             </div>
             <div className={styles.readingStatusArea}>
                 <div className={styles.readingInfo}>
@@ -48,7 +67,7 @@ export default function MyPage() {
                 <div className={styles.menuTitle}>독서 기록 관리</div>
                 <ul>
                     <li>
-                        <Link href="/">나의 독서일기</Link>
+                        <Link href="/myshelf">나의 독서일기</Link>
                     </li>
                     <li>
                         <Link href="/">독서 기록 통계</Link>
@@ -63,7 +82,14 @@ export default function MyPage() {
                         <Link href="/">개인정보 관리</Link>
                     </li>
                     <li>
-                        <Link href="/">회원 탈퇴</Link>
+                        <form
+                            action={async () => {
+                                "use server";
+                                await signOut({ redirectTo: "/mypage" });
+                            }}
+                        >
+                            <button type="submit">로그아웃</button>
+                        </form>
                     </li>
                 </ul>
             </div>

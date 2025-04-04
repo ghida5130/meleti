@@ -16,6 +16,14 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "image.aladin.co.kr",
             },
+            {
+                protocol: "https",
+                hostname: "avatars.githubusercontent.com",
+            },
+            {
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
+            },
         ],
     },
 };
