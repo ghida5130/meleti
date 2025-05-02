@@ -1,14 +1,50 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
+interface AladinItemType {
+    title: string;
+    author: string;
+    publisher: string;
+    pubDate: string;
+    isbn13: string;
+    description: string;
+    cover: string;
+    categoryName: string;
+    subInfo: {
+        subTitle: string;
+        originalTitle: string;
+        itemPage: number;
+    };
+    [key: string]: unknown;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { type } = req.query;
         const response = await axios.get(
             `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&itemIdType=ISBN13&itemId=${type}&output=js&Version=20131101`
         );
-        const result = response.data.item;
-        res.status(200).json(result);
+        const result: AladinItemType[] = response.data.item;
+        const keysToRemain = [
+            "title",
+            "author",
+            "publisher",
+            "pubDate",
+            "isbn13",
+            "description",
+            "cover",
+            "categoryName",
+            "subInfo",
+        ];
+        const filteredResult = result.map((val) =>
+            Object.keys(val).reduce((acc, key) => {
+                if (keysToRemain.includes(key)) {
+                    acc[key as keyof AladinItemType] = val[key];
+                }
+                return acc;
+            }, {} as Partial<AladinItemType>)
+        );
+        res.status(200).json(filteredResult);
     } catch (error) {
         console.error("Error fetching data:", error);
         res.status(500).json({ error: "Failed to fetch best seller data" });

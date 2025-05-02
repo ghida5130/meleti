@@ -6,6 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import styles from "/styles/bookImage.module.scss";
+import { useBook } from "./BookContext";
 
 // image
 import rotateIcon from "@/public/bookPage/rotate.svg";
@@ -136,6 +137,7 @@ const Plane = () => (
 
 const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
     const [rotationY, setRotationY] = useState(3);
+    const { setIsPopupOpen } = useBook();
 
     const handleRotate = () => {
         switch (rotationY) {
@@ -159,6 +161,7 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                 break;
         }
     };
+
     return (
         <>
             <div className={styles.wrap}>
@@ -176,7 +179,7 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                     <Plane />
                 </Canvas>
                 <button onClick={handleRotate} className={`${styles.btn} ${styles.rotateBtn}`}>
-                    <Image src={rotateIcon} alt="rotateBtn" width={30} priority />
+                    <Image src={rotateIcon} alt="rotate button" width={30} priority />
                 </button>
                 <button
                     onClick={() => {
@@ -184,7 +187,7 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                     }}
                     className={`${styles.btn} ${styles.leftSideBtn}`}
                 >
-                    <Image src={leftSideIcon} alt="rotateBtn" width={35} priority />
+                    <Image src={leftSideIcon} alt="left side button" width={35} priority />
                 </button>
                 <button
                     onClick={() => {
@@ -192,10 +195,10 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
                     }}
                     className={`${styles.btn} ${styles.rightSideBtn}`}
                 >
-                    <Image src={rightSideIcon} alt="rotateBtn" width={35} priority />
+                    <Image src={rightSideIcon} alt="right side button" width={35} priority />
                 </button>
-                <button className={`${styles.btn} ${styles.plusBtn}`}>
-                    <Image src={plusButtonIcon} alt="rotateBtn" width={30} priority />
+                <button className={`${styles.btn} ${styles.plusBtn}`} onClick={() => setIsPopupOpen(true)}>
+                    <Image src={plusButtonIcon} alt="add my library button" width={30} priority />
                 </button>
             </div>
         </>

@@ -16,8 +16,6 @@ export default async function MyPage() {
         redirect("/login");
     }
 
-    console.log(session.user);
-
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>

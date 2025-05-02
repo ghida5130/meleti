@@ -1,12 +1,13 @@
 .wrap {
     width: 90%;
-    margin: 20px auto;
+    margin: 30px auto;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .newPostButton {
@@ -15,10 +16,16 @@
     gap: 10px;
     font-size: 15px;
     font-weight: 600;
-    background: black;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    background: white;
+    color: black;
+    padding: 10px 15px;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgb(237, 237, 237);
+    }
 }
 
 .postArea {
@@ -26,34 +33,34 @@
     width: 100%;
     display: flex;
     margin: 15px 0;
-    height: 100px;
-    &::after {
-        position: absolute;
-        content: "";
-        background: rgb(216, 216, 216);
-        width: 100%;
-        height: 1px;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
+    padding: 15px;
+    background: white;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgb(247, 247, 247);
     }
 }
 
 .quoteArea {
-    // border: 1px solid black;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: space-evenly;
+    justify-content: center;
     overflow: hidden;
+    padding: 0 15px;
+    gap: 8px;
+
     p {
         &:nth-of-type(1) {
-            font-size: 11px;
-            color: grey;
+            font-size: 12px;
+            color: rgb(139, 139, 139);
         }
         &:nth-of-type(2) {
-            font-size: 11px;
-            color: grey;
+            font-size: 12px;
+            color: rgb(139, 139, 139);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -67,28 +74,33 @@
         }
         &:nth-of-type(4) {
             font-size: 13px;
-            font-weight: 600;
+            color: rgb(139, 139, 139);
         }
     }
 }
 
 .bookCoverImage {
-    // border: 1px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 50px;
+    height: 70px;
+    background: rgb(237, 237, 237);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .authorArea {
-    // border: 1px solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     width: 50px;
+    gap: 5px;
+
     p {
         font-size: 12px;
+        color: rgb(139, 139, 139);
     }
 }
 
@@ -98,4 +110,5 @@
     overflow: hidden;
     height: 35px;
     width: 35px;
+    border: 1px solid rgb(225, 225, 225);
 }
