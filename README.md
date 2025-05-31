@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Meleti
 
-## Getting Started
+<div align="center">
+<br>
+<img width="400" alt="meleti logo" src="https://github.com/ghida5130/image-assets/blob/main/others/meleti_logo_shadow.png">
+<br><br>
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
+  <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/firebase-DD2C00?style=for-the-badge&logo=firebase&logoColor=white">
+</div>
 
-First, run the development server:
+## 배포 링크
+- https://meleti-sigma.vercel.app/
+<br><br>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 프로젝트 간단 소개
+- Next.js와 firebase의 firestore로 개발했으며 개인 프로젝트입니다.
+- 도서정보, 도서검색 등 도서 전반의 기능에 Aladin API를 활용했습니다.
+- 유저별 독서기록 기능을 제공하며 책 정보 및 구절 공유 커뮤니티 기능을 제공합니다. 관련 데이터는 firestore에서 관리합니다.
+- 도서 상세페이지에는 SEO를 적용했고 three.js로 도서를 입체적으로 확인할 수 있습니다.
+<br><br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Meleti - 나만의 모바일 서재
+### 📚 서비스 소개
+- 도서 정보 조회와 검색 기능을 제공하는 홈페이지입니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🏆 카테고리별 조회
+- 베스트셀러 등 카테고리별로 도서 조회가 가능합니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 📖 3D 도서 미리보기
+- 책을 구매하기 전 3D로 도서를 돌려보며 디자인, 크기, 두께를 확인할 수 있습니다.
 
-## Learn More
+### 💬 커뮤니티 기능
+- 책에서 인상 깊은 문장이나 책 정보 등을 공유하는 커뮤니티 기능을 제공합니다.
+<br><br>
 
-To learn more about Next.js, take a look at the following resources:
+## 화면 구성
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 메인 페이지
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<img alt="meleti main page screenshot" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_1.webp" width="600" />
+<br><br><br>
 
-## Deploy on Vercel
+- 도서 상세 페이지 - 책 둘러보기 (모바일)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<img alt="meleti book detail page screenshot - mobile" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_4.webp" width="300" />
+<br><br><br>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 마이 페이지
+
+<img alt="meleti mypage screenshot" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_3.webp" width="600" />
+<br><br><br>
+
+- 도서 상세 페이지
+
+<img alt="meleti book detail page screenshot" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_2.webp" width="600" />
+
