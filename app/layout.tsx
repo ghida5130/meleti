@@ -5,7 +5,6 @@ import Navbar from "../components/layout/navbar";
 import Footer from "../components/layout/footer";
 import Inner from "../components/layout/inner";
 import BottomBar from "../components/layout/bottomBar";
-import { SessionProvider } from "next-auth/react";
 import { QueryProvider } from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
@@ -21,9 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                     <Inner />
                     <div className={styles.main}>
                         <Navbar />
-                        <SessionProvider>
-                            <QueryProvider>{children}</QueryProvider>
-                        </SessionProvider>
+                        <QueryProvider>{children}</QueryProvider>
                         <Footer />
                         <BottomBar />
                     </div>

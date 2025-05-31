@@ -10,10 +10,11 @@ import quotesIcon from "@/public/myshelf/quotes.svg";
 import testBookImage from "@/public/test/frontTestImage.jpg";
 import Link from "next/link";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/firebase/firebasedb";
+import { auth, db } from "@/lib/firebase/firebasedb";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 interface UserLibraryType {
     id: string;
@@ -32,19 +33,30 @@ interface UserLibraryType {
 }
 
 export default function MyShelf() {
-    const { data: session } = useSession();
     const router = useRouter();
     const [books, setBooks] = useState<UserLibraryType[]>([]);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                setUser(firebaseUser);
+            } else {
+                setUser(null);
+            }
+        });
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         const fetchUserLibrary = async () => {
-            if (!session?.user?.email) {
+            if (!user?.email) {
                 router.push("/login");
                 return;
             }
             try {
-                const libraryRef = collection(db, "users", session.user.email, "library");
+                const libraryRef = collection(db, "users", String(user?.email), "library");
                 const querySnapShot = await getDocs(libraryRef);
                 const libraryBooks = querySnapShot.docs.map((doc) => ({
                     id: doc.id,
@@ -59,8 +71,10 @@ export default function MyShelf() {
             }
         };
 
-        fetchUserLibrary();
-    }, [session?.user?.email]);
+        if (user) {
+            fetchUserLibrary();
+        }
+    }, [user]);
 
     if (loading) return <div>Loading...</div>;
 
@@ -79,7 +93,6 @@ export default function MyShelf() {
             </div>
             <div className={styles.diaryArea}>
                 {books.map((val) => {
-                    console.log(val);
                     return (
                         <Link className={styles.diary} href="myshelf/detail/1234" key={val.id}>
                             <p>2024.03.02 ~ 2024.03.09</p>

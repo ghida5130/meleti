@@ -1,41 +1,52 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import styles from "/styles/mypage.module.scss";
 
 //image
 import defaultProfileImage from "@/public/study.jpg";
 
-// auth
-import { auth, signOut } from "@/auth";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "@/lib/firebase/firebasedb";
+import { signout } from "@/lib/firebase/auth";
 
-export default async function MyPage() {
-    const session = await auth();
+export default function MyPage() {
+    const [user, setUser] = useState<User | null>(null);
 
-    if (!session?.user) {
-        redirect("/login");
-    }
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                setUser(firebaseUser);
+            } else {
+                setUser(null);
+            }
+        });
+        return () => unsubscribe();
+    }, []);
 
+    if (!user) return <div>user data null</div>;
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>
                 <p>
-                    반갑습니다, <span>{session.user.name}</span>님.
+                    반갑습니다, <span>{user.displayName}</span>님.
                 </p>
                 <button>정보 수정</button>
             </div>
             <div className={styles.profileArea}>
                 <div className={styles.profileImage}>
                     <Image
-                        src={session.user.image ?? defaultProfileImage}
+                        src={user.photoURL ?? defaultProfileImage}
                         alt="profile image"
                         fill
                         priority
                         placeholder="empty"
                     />
                 </div>
-                <p>{session.user.name}</p>
-                <p>{session.user.email}</p>
+                <p>{user.displayName}</p>
+                <p>{user.email}</p>
             </div>
             <div className={styles.readingStatusArea}>
                 <div className={styles.readingInfo}>
@@ -80,14 +91,7 @@ export default async function MyPage() {
                         <Link href="/">개인정보 관리</Link>
                     </li>
                     <li>
-                        <form
-                            action={async () => {
-                                "use server";
-                                await signOut({ redirectTo: "/mypage" });
-                            }}
-                        >
-                            <button type="submit">로그아웃</button>
-                        </form>
+                        <button onClick={signout}>로그아웃</button>
                     </li>
                 </ul>
             </div>
