@@ -14,7 +14,6 @@ import { signout } from "@/lib/firebase/auth";
 
 export default function MyPage() {
     const [user, setUser] = useState<User | null>(null);
-
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             if (firebaseUser) {

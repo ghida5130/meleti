@@ -14,7 +14,7 @@ export default function BottomBar() {
         <div>
             <div className={styles.navbarWrap}>
                 <BottomBarBtn src={homeImage} href="/" alt="homePageButton" />
-                <BottomBarBtn src={searchImage} href="/" alt="searchPageButton" />
+                <BottomBarBtn src={searchImage} href="/login" alt="searchPageButton" />
                 <BottomBarBtn src={myShelfImage} href="/myshelf" alt="myShelfPageButton" />
                 <BottomBarBtn src={communityImage} href="/community" alt="communityPageButton" />
                 <BottomBarBtn src={myPageImage} href="/mypage" alt="myPageButton" />
