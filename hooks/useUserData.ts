@@ -17,7 +17,7 @@ export const useUserData = () => {
     const setUserData = ({ accessToken, name, email }: userDataType) =>
         dispatch(setUser({ accessToken: accessToken, name: name, email: email }));
     const clearUserData = () => {
-        clearUser();
+        dispatch(clearUser());
     };
 
     return { userName, userEmail, isLogin, setUserData, clearUserData };

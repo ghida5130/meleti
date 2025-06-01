@@ -1,11 +1,13 @@
 "use client";
 
 import styles from "@/styles/login.module.scss";
-import { signInWithGoogle, signInWithGithub } from "@/lib/firebase/auth";
+import { signInWithGoogle, signInWithGithub, signInDemo } from "@/lib/firebase/auth";
 import { useUserData } from "@/hooks/useUserData";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
     const { setUserData } = useUserData();
+    const router = useRouter();
 
     const handleGoogleLogin = async () => {
         try {
@@ -15,6 +17,7 @@ export default function Login() {
                 name: data.name,
                 email: data.email,
             });
+            router.push("/mypage");
         } catch (error) {
             console.error("로그인 실패:", error);
         }
@@ -28,6 +31,21 @@ export default function Login() {
                 name: data.name,
                 email: data.email,
             });
+            router.push("/mypage");
+        } catch (error) {
+            console.error("로그인 실패:", error);
+        }
+    };
+
+    const handleTestLogin = async () => {
+        try {
+            const data = await signInDemo();
+            setUserData({
+                accessToken: data.accessToken,
+                name: data.name,
+                email: data.email,
+            });
+            router.push("/mypage");
         } catch (error) {
             console.error("로그인 실패:", error);
         }
@@ -41,6 +59,9 @@ export default function Login() {
             </button>
             <button onClick={handleGithubLogin} className={styles.btn}>
                 Github 로그인
+            </button>
+            <button onClick={handleTestLogin} className={styles.btn}>
+                테스트 계정 로그인
             </button>
         </div>
     );

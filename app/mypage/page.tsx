@@ -10,6 +10,7 @@ import defaultProfileImage from "@/public/study.jpg";
 
 import { signout } from "@/lib/firebase/auth";
 import { useUserData } from "@/hooks/useUserData";
+import { useEffect } from "react";
 
 export default function MyPage() {
     const router = useRouter();
@@ -25,7 +26,12 @@ export default function MyPage() {
         }
     };
 
-    if (!isLogin) return <button onClick={handleLogout}>로그아웃</button>;
+    useEffect(() => {
+        if (!isLogin) {
+            router.push("/login");
+        }
+    }, [isLogin, router]);
+
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>

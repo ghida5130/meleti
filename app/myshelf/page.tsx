@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 // import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, User } from "firebase/auth";
+import { useUserData } from "@/hooks/useUserData";
 
 interface UserLibraryType {
     id: string;
@@ -36,27 +37,12 @@ export default function MyShelf() {
     const router = useRouter();
     const [books, setBooks] = useState<UserLibraryType[]>([]);
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            if (firebaseUser) {
-                setUser(firebaseUser);
-            } else {
-                setUser(null);
-            }
-        });
-        return () => unsubscribe();
-    }, []);
+    const { userName, userEmail, isLogin } = useUserData();
 
     useEffect(() => {
         const fetchUserLibrary = async () => {
-            if (!user?.email) {
-                router.push("/login");
-                return;
-            }
             try {
-                const libraryRef = collection(db, "users", String(user?.email), "library");
+                const libraryRef = collection(db, "users", String(userEmail), "library");
                 const querySnapShot = await getDocs(libraryRef);
                 const libraryBooks = querySnapShot.docs.map((doc) => ({
                     id: doc.id,
@@ -71,16 +57,16 @@ export default function MyShelf() {
             }
         };
 
-        if (user) {
+        if (isLogin) {
             fetchUserLibrary();
-        }
-    }, [user]);
+        } else router.push("/login");
+    }, []);
 
     if (loading) return <div>Loading...</div>;
 
     return (
         <div className={styles.wrap}>
-            <p style={{ fontSize: "25px", fontWeight: "800" }}>Meleti 님의 독서일기</p>
+            <p style={{ fontSize: "25px", fontWeight: "800" }}>{userName} 님의 독서일기</p>
             <div className={styles.userRecordArea}>
                 <RecordBox imageSrc={totalReadIcon} imageAlt="total read icon" title="읽은 책" data="24권" />
                 <RecordBox
