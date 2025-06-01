@@ -3,49 +3,43 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "/styles/mypage.module.scss";
+import { useRouter } from "next/navigation";
 
 //image
 import defaultProfileImage from "@/public/study.jpg";
 
-import { useEffect, useState } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebasedb";
 import { signout } from "@/lib/firebase/auth";
+import { useUserData } from "@/hooks/useUserData";
 
 export default function MyPage() {
-    const [user, setUser] = useState<User | null>(null);
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            if (firebaseUser) {
-                setUser(firebaseUser);
-            } else {
-                setUser(null);
-            }
-        });
-        return () => unsubscribe();
-    }, []);
+    const router = useRouter();
+    const { userName, userEmail, isLogin, clearUserData } = useUserData();
 
-    if (!user) return <div>user data null</div>;
+    const handleLogout = async () => {
+        try {
+            signout();
+            clearUserData();
+            router.push("/login");
+        } catch (error) {
+            console.error("로그인 실패:", error);
+        }
+    };
+
+    if (!isLogin) return <button onClick={handleLogout}>로그아웃</button>;
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>
                 <p>
-                    반갑습니다, <span>{user.displayName}</span>님.
+                    반갑습니다, <span>{userName}</span>님.
                 </p>
                 <button>정보 수정</button>
             </div>
             <div className={styles.profileArea}>
                 <div className={styles.profileImage}>
-                    <Image
-                        src={user.photoURL ?? defaultProfileImage}
-                        alt="profile image"
-                        fill
-                        priority
-                        placeholder="empty"
-                    />
+                    <Image src={defaultProfileImage} alt="profile image" fill priority placeholder="empty" />
                 </div>
-                <p>{user.displayName}</p>
-                <p>{user.email}</p>
+                <p>{userName}</p>
+                <p>{userEmail}</p>
             </div>
             <div className={styles.readingStatusArea}>
                 <div className={styles.readingInfo}>
@@ -90,7 +84,7 @@ export default function MyPage() {
                         <Link href="/">개인정보 관리</Link>
                     </li>
                     <li>
-                        <button onClick={signout}>로그아웃</button>
+                        <button onClick={handleLogout}>로그아웃</button>
                     </li>
                 </ul>
             </div>

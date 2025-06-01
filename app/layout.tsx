@@ -6,6 +6,7 @@ import Footer from "../components/layout/footer";
 import Inner from "../components/layout/inner";
 import BottomBar from "../components/layout/bottomBar";
 import { QueryProvider } from "@/providers/QueryProvider";
+import StoreProvider from "./storeProvider";
 
 export const metadata: Metadata = {
     title: "Meleti",
@@ -17,13 +18,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="en">
             <body>
                 <div className={styles.pageWrap}>
-                    <Inner />
-                    <div className={styles.main}>
-                        <Navbar />
-                        <QueryProvider>{children}</QueryProvider>
-                        <Footer />
-                        <BottomBar />
-                    </div>
+                    <StoreProvider>
+                        <Inner />
+                        <div className={styles.main}>
+                            <Navbar />
+                            <QueryProvider>{children}</QueryProvider>
+                            <Footer />
+                            <BottomBar />
+                        </div>
+                    </StoreProvider>
                 </div>
             </body>
         </html>
