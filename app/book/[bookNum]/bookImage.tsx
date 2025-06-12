@@ -1,7 +1,7 @@
 "use client";
 
 import useImageSize from "@/hooks/useImageSize";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
@@ -20,8 +20,13 @@ import plusButtonIcon from "@/public/bookImage/plus.svg";
 
 const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotationY, cover }) => {
     const bookRef = useRef<THREE.Mesh>(null);
+    const { invalidate } = useThree();
 
     const rotateAngle = [0, Math.PI * 0.5, Math.PI * 1, Math.PI * 0.2, Math.PI * 0.8, Math.PI * 1.3];
+
+    useEffect(() => {
+        invalidate();
+    }, [rotationY]);
 
     useFrame(() => {
         if (bookRef.current) {
@@ -30,6 +35,7 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
 
             if (Math.abs(currentY - targetY) > 0.001) {
                 bookRef.current.rotation.y = THREE.MathUtils.lerp(currentY, targetY, 0.1);
+                invalidate();
             } else {
                 bookRef.current.rotation.y = targetY;
             }
@@ -43,10 +49,15 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
     }
     const bookImageURL = cover.split(/coversum/)[0];
 
-    // 이미지 바인딩
-    const coverImage = cover.replace("coversum", "cover500");
-    const sideImage = `${bookImageURL}spineflip/${bookNum[1]}_d.jpg`;
-    const backImage = `${bookImageURL}letslook/${bookNum[1]}_b.jpg`;
+    // 이미지 가져오기
+    const coverImage = useMemo(() => cover.replace("coversum", "cover500"), [cover]); //큰 사이즈로 가져오기위해 url수정
+    const sideImage = useMemo(() => `${bookImageURL}spineflip/${bookNum[1]}_d.jpg`, [bookImageURL, bookNum]);
+    const backImage = useMemo(() => `${bookImageURL}letslook/${bookNum[1]}_b.jpg`, [bookImageURL, bookNum]);
+
+    // const sideImageTest = `/api/book-image/side?bookurl=${bookImageURL}&path=${bookNum[1]}`;
+    // const backImageTest = `/api/book-image/back?bookurl=${bookImageURL}&path=${bookNum[1]}`;
+
+    console.log(bookImageURL, bookNum[1]);
 
     // useImageSize를 이용해 책 사이즈 계산
     const [coverW, coverH] = useImageSize(coverImage);
@@ -103,7 +114,7 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
         textures.then((loadedTextures) => {
             setLoadedTextures(loadedTextures);
         });
-    });
+    }, [textures]);
 
     if (!loadedTextures) {
         return null;
@@ -165,7 +176,7 @@ const BookImage: React.FC<{ cover: string }> = ({ cover }) => {
     return (
         <>
             <div className={styles.wrap}>
-                <Canvas camera={{ position: [24, 0, 0], fov: 13 }} shadows>
+                <Canvas camera={{ position: [24, 0, 0], fov: 13 }} shadows frameloop="demand">
                     <ambientLight intensity={0.5} />
                     <spotLight
                         position={[20, 3, 3]}

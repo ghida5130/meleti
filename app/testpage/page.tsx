@@ -1,28 +1,40 @@
 "use client";
 
-import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebasedb";
+import React from "react";
+import { Canvas } from "@react-three/fiber";
+import { Environment, OrbitControls, MeshDistortMaterial } from "@react-three/drei";
+// import styles from "@/styles/test.module.scss"
 
-export default function Testpage() {
-    const handleLogin = async () => {
-        try {
-            const githubProvider = new GithubAuthProvider();
+export default function TestPage() {
+    return (
+        <div style={{ width: "100vw", height: "100vh", background: "#111" }}>
+            <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+                <ambientLight intensity={0.5} />
+                <directionalLight position={[5, 5, 5]} intensity={2} />
+                <Environment preset="city" /> {/* 환경맵으로 반사효과 자연스럽게 */}
+                <Glass />
+                <OrbitControls enableZoom={true} />
+            </Canvas>
+        </div>
+    );
+}
 
-            const result = await signInWithPopup(auth, githubProvider);
-            const credential = GithubAuthProvider.credentialFromResult(result);
-            const token = credential?.accessToken;
-            const user = result.user;
-
-            console.log("로그인 성공", user);
-            console.log("GitHub Access Token", token);
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error("로그인 에러", error.message);
-            } else {
-                console.error("알 수 없는 에러", error);
-            }
-        }
-    };
-
-    return <button onClick={handleLogin}>GitHub로 로그인</button>;
+function Glass() {
+    return (
+        <mesh>
+            <sphereGeometry args={[1.5, 128, 128]} />
+            <MeshDistortMaterial
+                color="#ffffff"
+                attach="material"
+                distort={0.3} // 유리 굴곡
+                speed={1.5}
+                roughness={0.1}
+                metalness={0.2}
+                transmission={1} // 유리 효과
+                thickness={5}
+                ior={1.5}
+                envMapIntensity={1.2}
+            />
+        </mesh>
+    );
 }

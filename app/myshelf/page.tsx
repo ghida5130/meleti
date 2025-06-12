@@ -10,11 +10,10 @@ import quotesIcon from "@/public/myshelf/quotes.svg";
 import testBookImage from "@/public/test/frontTestImage.jpg";
 import Link from "next/link";
 import { collection, getDocs } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase/firebasedb";
+import { db } from "@/lib/firebase/firebasedb";
 import { useEffect, useState } from "react";
 // import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { onAuthStateChanged, User } from "firebase/auth";
 import { useUserData } from "@/hooks/useUserData";
 
 interface UserLibraryType {
