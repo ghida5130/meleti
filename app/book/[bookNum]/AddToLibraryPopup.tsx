@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "/styles/book.module.scss";
 import { useBook } from "./BookContext";
 import { useRouter } from "next/navigation";
 import { useAddToLibrary } from "@/hooks/useAddToLibrary";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebasedb";
+import { useUserData } from "@/hooks/useUserData";
 
 interface BookTypes {
     isbn: string;
@@ -18,18 +17,8 @@ interface BookTypes {
 export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: BookTypes) {
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
-    const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            if (firebaseUser) {
-                setUser(firebaseUser);
-            } else {
-                setUser(null);
-            }
-        });
-        return () => unsubscribe();
-    }, []);
+    const { userAccessToken } = useUserData();
 
     // 팝업창, 독서상태 관리용 state (Context API)
     const { isPopupOpen, setIsPopupOpen, selectedStatus, setSelectedStatus } = useBook();
@@ -37,13 +26,12 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
     // 도서 데이터 사용자 라이브러리에 추가하기 (React-Query)
     const { mutate } = useAddToLibrary();
     const handleAddToLibrary = async () => {
-        if (!user?.email) {
+        if (!userAccessToken) {
             router.push("/login");
             return;
         }
-
         mutate({
-            email: user.email,
+            accessToken: userAccessToken,
             isbn,
             status: selectedStatus,
             title,

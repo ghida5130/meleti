@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
 interface AddToLibraryProps {
-    email: string;
+    accessToken: string;
     isbn: string;
     status: string;
     title: string;
@@ -12,10 +12,10 @@ interface AddToLibraryProps {
     cover: string;
 }
 
-const addToLibrary = async (data: AddToLibraryProps) => {
+const addToLibrary = async ({ accessToken, ...data }: AddToLibraryProps) => {
     const res = await fetch("/api/library", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
         body: JSON.stringify(data),
     });
 
@@ -37,7 +37,6 @@ export function useAddToLibrary() {
         },
         onError: (error) => {
             console.error("Error adding book:", error);
-            // 여기서 에러 토스트 띄우거나 처리 가능
         },
     });
 }

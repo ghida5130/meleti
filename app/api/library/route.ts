@@ -1,26 +1,59 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/firebase/firebasedb";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { admin } from "@/lib/firebase/firebaseAdmin";
+import jwt from "jsonwebtoken";
 
+// 사용자 library 도서 목록 조회
+export async function GET() {}
+
+// 사용자 library에 도서 추가
 export async function POST(req: NextRequest) {
-    const { email, isbn, status, title, totalPages, cover } = await req.json();
+    try {
+        const authHeader = req.headers.get("authorization");
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return NextResponse.json({ error: "No access token provided" }, { status: 401 });
+        }
 
-    if (!email) {
-        return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+        const accessToken = authHeader.split(" ")[1];
+        const { isbn, status, title, totalPages, cover } = await req.json();
+
+        const accessSecret = process.env.ACCESS_TOKEN_SECRET;
+        if (!accessSecret) throw new Error("ACCESS_TOKEN_SECRET is not set");
+
+        let decoded;
+        try {
+            decoded = jwt.verify(accessToken, accessSecret);
+        } catch {
+            return NextResponse.json({ error: "Invalid or expired access token" }, { status: 401 });
+        }
+
+        if (typeof decoded === "string") {
+            return NextResponse.json({ error: "Invalid token payload" }, { status: 400 });
+        }
+
+        const uid = decoded.uid;
+
+        if (!uid) {
+            return NextResponse.json({ error: "Invalid token payload" }, { status: 400 });
+        }
+
+        const db = admin.firestore();
+        const libraryRef = db.collection("users").doc(uid).collection("library").doc(isbn);
+
+        await libraryRef.set({
+            status,
+            addedAt: admin.firestore.FieldValue.serverTimestamp(),
+            title,
+            totalPages,
+            cover,
+            readPage: 0,
+            startedAt: 0,
+            finishedAt: 0,
+            quotes: [],
+        });
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error("Error adding book:", error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
-
-    const libraryRef = doc(db, "users", email, "library", isbn);
-    await setDoc(libraryRef, {
-        status: status,
-        addedAt: serverTimestamp(),
-        title: title,
-        totalPages: totalPages,
-        cover: cover,
-        readPage: 0,
-        startedAt: 0,
-        finishedAt: 0,
-        quotes: [],
-    });
-
-    return NextResponse.json({ success: true });
 }
