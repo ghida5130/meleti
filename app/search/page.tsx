@@ -15,14 +15,32 @@ export default function Search() {
         inputRef.current?.focus();
     }, []);
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        const value = inputRef.current?.value.trim();
+        if (!value) {
+            e.preventDefault();
+            alert("검색어를 입력해주세요.");
+        }
+    };
+
     return (
         <div className={styles.searchPageWrap}>
             <div className={styles.searchArea}>
                 <Link href="/">
                     <Image src={backArrow} alt="back button" width={20} />
                 </Link>
-                <form className={styles.searchFormArea} action="/search/result" method="get">
+                <form
+                    className={styles.searchFormArea}
+                    action="/search/result"
+                    method="get"
+                    data-testid="search-form"
+                    onSubmit={handleSubmit}
+                >
+                    <label htmlFor="search-input" className="sr-only">
+                        검색어
+                    </label>
                     <input
+                        id="search-input"
                         ref={inputRef}
                         className={styles.searchInputArea}
                         name="query"

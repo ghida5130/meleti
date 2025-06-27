@@ -1,6 +1,6 @@
 export default function SectionTitle({ title, width = "100%" }: { title: string; width?: string }) {
     return (
-        <p
+        <h2
             style={{
                 fontWeight: "700",
                 fontSize: "18px",
@@ -10,6 +10,6 @@ export default function SectionTitle({ title, width = "100%" }: { title: string;
             }}
         >
             {title}
-        </p>
+        </h2>
     );
 }

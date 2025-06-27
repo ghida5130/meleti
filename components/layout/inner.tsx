@@ -12,7 +12,7 @@ export default function Inner() {
                 {/* 메인폰트 : 학교안심 우주, 델타폰트 : 나눔스퀘어 라운드 Light */}
                 <Image src={logoImage} alt="meleti" width={150}></Image>
             </Link>
-            <h2>나만의 모바일 서재</h2>
+            <p>나만의 모바일 서재</p>
             <div className={styles.imageWrap}>
                 <Image src={innerImage} alt="inner image" width={448} />
             </div>

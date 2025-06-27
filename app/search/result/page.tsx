@@ -29,36 +29,41 @@ export default async function SearchResult({ searchParams }: { searchParams: { q
                 </p>
             </div>
             <div className={styles.main}>
-                {searchResultData.map((val) => {
-                    return (
-                        <Link href={`/book/${val.isbn13}`} className={styles.item} key={val.title}>
-                            <div className={styles.bookCoverImage}>
-                                <Image
-                                    src={val.cover}
-                                    alt={`${val.title} book cover`}
-                                    fill
-                                    style={{ objectFit: "cover", objectPosition: "top" }}
-                                />
-                            </div>
-                            <div className={styles.bookInfo}>
-                                <p style={{ fontSize: "18px" }}>⭐ {val.customerReviewRank || "-"}</p>
-                                <p style={{ fontSize: "18px", fontWeight: "700" }}>{val.title}</p>
-                                <p style={{ fontSize: "14px" }}>
-                                    <span>{val.author}</span> | <span>{val.publisher}</span> |{" "}
-                                    <span>{val.pubDate}</span>
-                                </p>
-                                <p>
-                                    <span style={{ fontSize: "14px" }}>
-                                        정가 {val.priceStandard.toLocaleString()}원 →{" "}
-                                    </span>
-                                    <span style={{ fontWeight: "600", color: "rgb(60, 133, 228)" }}>
-                                        {val.priceSales.toLocaleString()}원 (10% 할인)
-                                    </span>
-                                </p>
-                            </div>
-                        </Link>
-                    );
-                })}
+                {searchResultData.length !== 0 ? (
+                    searchResultData.map((val) => {
+                        return (
+                            <Link href={`/book/${val.isbn13}`} className={styles.item} key={val.title}>
+                                <div className={styles.bookCoverImage}>
+                                    <Image
+                                        src={val.cover}
+                                        alt={`${val.title} book cover`}
+                                        fill
+                                        sizes="120px"
+                                        style={{ objectFit: "cover", objectPosition: "top" }}
+                                    />
+                                </div>
+                                <div className={styles.bookInfo}>
+                                    <p style={{ fontSize: "18px" }}>⭐ {val.customerReviewRank || "-"}</p>
+                                    <p style={{ fontSize: "18px", fontWeight: "700" }}>{val.title}</p>
+                                    <p style={{ fontSize: "14px" }}>
+                                        <span>{val.author}</span> | <span>{val.publisher}</span> |{" "}
+                                        <span>{val.pubDate}</span>
+                                    </p>
+                                    <p>
+                                        <span style={{ fontSize: "14px" }}>
+                                            정가 {val.priceStandard.toLocaleString()}원 →{" "}
+                                        </span>
+                                        <span style={{ fontWeight: "600", color: "rgb(60, 133, 228)" }}>
+                                            {val.priceSales.toLocaleString()}원 (10% 할인)
+                                        </span>
+                                    </p>
+                                </div>
+                            </Link>
+                        );
+                    })
+                ) : (
+                    <p>검색 결과가 없습니다.</p>
+                )}
             </div>
         </div>
     );
