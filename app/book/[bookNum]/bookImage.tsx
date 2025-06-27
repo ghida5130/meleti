@@ -42,7 +42,6 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
         }
     });
 
-    // 책 이미지 불러오기
     const bookNum = cover.match(/coversum\/(.*?)_/);
     if (!bookNum) {
         throw new Error("'coversum', '_' not found.");
@@ -54,24 +53,25 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
     const sideImage = useMemo(() => `${bookImageURL}spineflip/${bookNum[1]}_d.jpg`, [bookImageURL, bookNum]);
     const backImage = useMemo(() => `${bookImageURL}letslook/${bookNum[1]}_b.jpg`, [bookImageURL, bookNum]);
 
-    // const sideImageTest = `/api/book-image/side?bookurl=${bookImageURL}&path=${bookNum[1]}`;
-    // const backImageTest = `/api/book-image/back?bookurl=${bookImageURL}&path=${bookNum[1]}`;
-
-    console.log(bookImageURL, bookNum[1]);
-
     // useImageSize를 이용해 책 사이즈 계산
-    const [coverW, coverH] = useImageSize(coverImage);
-    const [sideW] = useImageSize(sideImage);
+    const [coverWidth, coverHeight] = useImageSize(coverImage);
+    const [coverSideDepth] = useImageSize(sideImage);
 
-    // 높이, 깊이 값의 기본값을 지정 (일반적인 책 사이즈)
-    const bookSizeRatio = 3.3;
-    let convertH = 4.5;
-    let convertD = 0.3;
+    // 화면 영역 내부에 객체를 두기위한 고정 Height값과 기본 Width, Depth값 지정
+    const fixedHeight = 4.5;
+    let convertedWidth = 3;
+    let convertedDepth = 0.3;
+    let bookSizeRatio = 1;
 
-    // bookSizeRatio를 통해 책들의 크기를 비율을 유지하며 일률적으로 변경
-    if (coverW !== null && coverH !== null && sideW !== null) {
-        convertH = coverH * (bookSizeRatio / coverW);
-        convertD = sideW * (bookSizeRatio / coverW);
+    // Height와 Width의 비율을 통해 fixedHeight를 기준으로 convertedWidth 계산
+    if (coverHeight !== null && coverWidth !== null) {
+        bookSizeRatio = coverHeight / fixedHeight;
+        convertedWidth = coverWidth / bookSizeRatio;
+    }
+
+    // convertedDepth 계산
+    if (coverSideDepth !== null) {
+        convertedDepth = coverSideDepth / bookSizeRatio;
     }
 
     const [loadedTextures, setLoadedTextures] = useState<{
@@ -123,7 +123,7 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
     return (
         <>
             <mesh ref={bookRef} position={[0, 0, 0]} castShadow>
-                <boxGeometry args={[convertD, convertH, bookSizeRatio]} /> {/* 책 크기 */}
+                <boxGeometry args={[convertedDepth, fixedHeight, convertedWidth]} /> {/* 책 크기 */}
                 <meshBasicMaterial attach="material-0" map={loadedTextures.front} /> {/* 앞면 */}
                 <meshBasicMaterial attach="material-1" map={loadedTextures.back} /> {/* 뒷면 */}
                 <meshBasicMaterial attach="material-2" map={loadedTextures.white} /> {/* 윗면 */}
