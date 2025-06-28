@@ -16,6 +16,7 @@ export default function Login() {
                 accessToken: data.accessToken,
                 name: data.name,
                 email: data.email,
+                expiresIn: Date.now() + 15 * 60 * 1000,
             });
             router.push("/mypage");
         } catch (error) {
@@ -30,6 +31,7 @@ export default function Login() {
                 accessToken: data.accessToken,
                 name: data.name,
                 email: data.email,
+                expiresIn: Date.now() + 15 * 60 * 1000,
             });
             router.push("/mypage");
         } catch (error) {
@@ -44,6 +46,7 @@ export default function Login() {
                 accessToken: data.accessToken,
                 name: data.name,
                 email: data.email,
+                expiresIn: Date.now() + 15 * 60 * 1000,
             });
             router.push("/mypage");
         } catch (error) {
