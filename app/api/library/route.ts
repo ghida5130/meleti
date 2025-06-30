@@ -1,26 +1,69 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/firebase/firebasedb";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { admin } from "@/lib/firebase/firebaseAdmin";
+import { verifyAccessToken } from "@/lib/auth/verifyAccessToken";
 
-export async function POST(req: NextRequest) {
-    const { email, isbn, status, title, totalPages, cover } = await req.json();
+// 사용자 library 도서 목록 조회
+export async function GET(req: NextRequest) {
+    try {
+        const result = verifyAccessToken(req);
+        if ("uid" in result === false) return result;
+        const { uid } = result;
 
-    if (!email) {
-        return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+        const db = admin.firestore();
+        const libraryRef = db.collection("users").doc(uid).collection("library");
+
+        const snapshot = await libraryRef.get();
+
+        const books = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                addedAt: data.addedAt ?? "",
+                cover: data.cover ?? "",
+                finishedAt: data.finishedAt ?? 0,
+                quotes: data.quotes ?? [],
+                readPage: data.readPage ?? 0,
+                startedAt: data.startedAt ?? 0,
+                status: data.status ?? "",
+                title: data.title ?? "",
+                totalPages: data.totalPages ?? 0,
+            };
+        });
+
+        return NextResponse.json(books);
+    } catch (error) {
+        console.error("사용자 서재 정보 불러오기 실패", error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
+}
 
-    const libraryRef = doc(db, "users", email, "library", isbn);
-    await setDoc(libraryRef, {
-        status: status,
-        addedAt: serverTimestamp(),
-        title: title,
-        totalPages: totalPages,
-        cover: cover,
-        readPage: 0,
-        startedAt: 0,
-        finishedAt: 0,
-        quotes: [],
-    });
+// 사용자 library에 도서 추가
+export async function POST(req: NextRequest) {
+    try {
+        const result = verifyAccessToken(req);
+        if ("uid" in result === false) return result;
+        const { uid } = result;
 
-    return NextResponse.json({ success: true });
+        const { isbn, status, title, totalPages, cover } = await req.json();
+
+        const db = admin.firestore();
+        const libraryRef = db.collection("users").doc(uid).collection("library").doc(isbn);
+
+        await libraryRef.set({
+            status,
+            addedAt: admin.firestore.FieldValue.serverTimestamp(),
+            title,
+            totalPages,
+            cover,
+            readPage: 0,
+            startedAt: 0,
+            finishedAt: 0,
+            quotes: [],
+        });
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error("사용자 서재 도서 추가 실패 : ", error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
 }
