@@ -13,7 +13,15 @@ export default async function Home() {
     return (
         <div>
             <div className={styles.bannerArea}>
-                <Image src={testImage} alt="" fill style={{ objectFit: "cover" }} />
+                <Image
+                    src={testImage}
+                    alt=""
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="600px"
+                    priority
+                    fetchPriority="high"
+                />
             </div>
             <Content />
         </div>
