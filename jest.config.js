@@ -2,7 +2,7 @@ module.exports = {
     testEnvironment: "jest-environment-jsdom",
     setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
     transform: {
-        "^.+\\.(ts|tsx)$": "babel-jest", // ← 여기가 핵심
+        "^.+\\.(t|j)sx?$": ["babel-jest", { configFile: "./babel.config.jest.js" }],
     },
     moduleNameMapper: {
         "\\.(css|scss|sass)$": "identity-obj-proxy",

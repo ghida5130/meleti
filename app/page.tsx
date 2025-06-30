@@ -7,7 +7,7 @@ import testImage from "../public/study.jpg";
 // components
 import Content from "@/components/mainPage/content";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default async function Home() {
     return (
