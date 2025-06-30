@@ -21,5 +21,5 @@ export const useUserData = () => {
         dispatch(clearUser());
     };
 
-    return { userName, userEmail, isLogin, setUserData, clearUserData };
+    return { userName, userEmail, userAccessToken, isLogin, setUserData, clearUserData };
 };
