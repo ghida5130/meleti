@@ -2,16 +2,13 @@ import SectionTitle from "../atoms/sectionTitle";
 import Carousel from "./carousel";
 import styles from "/styles/page.module.scss";
 
-export default async function content() {
-    const bestSellerResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`, {
-        next: { revalidate: 3600 },
-    });
-    const newReleaseResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`, {
-        next: { revalidate: 3600 },
-    });
-    const blogBestResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`, {
-        next: { revalidate: 3600 },
-    });
+export const revalidate = 3600;
+
+export default async function Content() {
+    const bestSellerResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`);
+    const newReleaseResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`);
+    const blogBestResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`);
+
     const bestSellerData = await bestSellerResponse.json();
     const newReleaseData = await newReleaseResponse.json();
     const blogBestData = await blogBestResponse.json();
