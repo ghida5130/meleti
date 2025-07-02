@@ -1,5 +1,3 @@
-"use client";
-
 import LoginClient from "@/components/login/loginClient";
 import styles from "@/styles/login.module.scss";
 
