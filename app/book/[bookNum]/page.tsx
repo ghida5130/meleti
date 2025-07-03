@@ -1,5 +1,6 @@
 import styles from "/styles/book.module.scss";
 import Image from "next/image";
+// import dynamic from "next/dynamic";
 
 // image
 import authorIcon from "/public/bookPage/author.svg";
@@ -7,12 +8,19 @@ import publisherIcon from "/public/bookPage/publisher.svg";
 import pagesIcon from "/public/bookPage/pages.svg";
 
 // components
-import BookImage from "./bookImage";
+// import BookImage from "./bookImage";
 import DivideLine from "@/components/atoms/divideLine";
 import Carousel from "@/components/mainPage/carousel";
 import SectionTitle from "@/components/atoms/sectionTitle";
 import AddToLibraryPopup from "./AddToLibraryPopup";
 import { BookProvider } from "./BookContext";
+import { Suspense } from "react";
+import Book3D from "./book3D";
+
+// const BookImage = dynamic(() => import("./bookImage"), {
+//     ssr: false,
+//     loading: () => <div className={styles.bookLoading}>Loading 3D Book...</div>,
+// });
 
 interface AladinItemLookUpType {
     title: string;
@@ -91,10 +99,20 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
     };
 
     return (
-        <BookProvider>
+        <>
             <div className={styles.wrap}>
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
-                <BookImage cover={book.cover} />
+                <BookProvider>
+                    {/* <BookImage cover={book.cover} /> */}
+                    <Suspense fallback={null}>
+                        <Book3D cover={book.cover} />
+                    </Suspense>
+                    <AddToLibraryPopup
+                        isbn={params.bookNum}
+                        title={book.title}
+                        totalPages={book.subInfo.itemPage}
+                        cover={book.cover}
+                    />
+                </BookProvider>
                 <section className={styles.basicInfoArea}>
                     <h1 style={{ fontSize: "25px", fontWeight: "600" }}>{book.title}</h1>
                     {book.subInfo.subTitle && <h2 style={{ fontSize: "20px" }}>{book.subInfo.subTitle}</h2>}
@@ -145,13 +163,8 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
                     <p>추천도서, 관련도서, 같은 작가의 책 등</p>
                     <Carousel />
                 </section>
-                <AddToLibraryPopup
-                    isbn={params.bookNum}
-                    title={book.title}
-                    totalPages={book.subInfo.itemPage}
-                    cover={book.cover}
-                />
             </div>
-        </BookProvider>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
+        </>
     );
 }
