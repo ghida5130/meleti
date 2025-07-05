@@ -2,16 +2,21 @@ import SectionTitle from "../atoms/sectionTitle";
 import Carousel from "./carousel";
 import styles from "/styles/page.module.scss";
 
+// ISR 설정 (1시간마다 재생성)
 export const revalidate = 3600;
 
 export default async function Content() {
-    const bestSellerResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`);
-    const newReleaseResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`);
-    const blogBestResponse = await fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`);
+    const [bestSellerRes, newReleaseRes, blogBestRes] = await Promise.all([
+        fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BestSeller`),
+        fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=ItemNewSpecial`),
+        fetch(`${process.env.SERVER_BASE_URL}/api/aladinItemList?type=BlogBest`),
+    ]);
 
-    const bestSellerData = await bestSellerResponse.json();
-    const newReleaseData = await newReleaseResponse.json();
-    const blogBestData = await blogBestResponse.json();
+    const [bestSellerData, newReleaseData, blogBestData] = await Promise.all([
+        bestSellerRes.json(),
+        newReleaseRes.json(),
+        blogBestRes.json(),
+    ]);
 
     return (
         <div className={styles.content}>

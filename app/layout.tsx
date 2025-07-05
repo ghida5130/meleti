@@ -7,6 +7,7 @@ import Inner from "../components/layout/inner";
 import BottomBar from "../components/layout/bottomBar";
 import { QueryProvider } from "@/providers/QueryProvider";
 import StoreProvider from "./storeProvider";
+import { suit } from "@/lib/fonts";
 
 export const metadata: Metadata = {
     title: "Meleti",
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang="en">
+        <html lang="ko" className={suit.className}>
             <body>
                 <div className={styles.pageWrap}>
                     <StoreProvider>

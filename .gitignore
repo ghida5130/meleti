@@ -38,3 +38,6 @@ next-env.d.ts
 
 # service worker
 /public/sw.js
+
+# lighthouseci local
+.lighthouseci/
