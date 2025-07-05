@@ -12,14 +12,20 @@ jobs:
 
         steps:
             - name: checkout repository
-            - uses: actions/checkout@v2
+              uses: actions/checkout@v2
 
             - name: setup Node.js
-            - uses: actions/setup-node@v1
+              uses: actions/setup-node@v1
               with:
                   node-version: 20
-            - run: npm install && npm install -g @lhci/cli@0.8.x
-            - run: npm run build
-            - run: lhci autorun
+
+            - name: install deps & LHCI CLI
+              run: npm install && npm install -g @lhci/cli@0.8.x
+
+            - name: Build
+              run: npm run build
+
+            - name: run LHCI
+              run: lhci autorun
               env:
                   LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
