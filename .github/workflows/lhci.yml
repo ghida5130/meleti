@@ -1,0 +1,38 @@
+name: LHCI
+
+on:
+    push:
+        branches: [main, preview]
+    pull_request:
+        branches: [main, preview]
+
+jobs:
+    lighthouseci:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: checkout repository
+              uses: actions/checkout@v4
+
+            - name: setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: install deps & LHCI CLI
+              run: npm install && npm install -g @lhci/cli@0.8.x
+
+            - name: Build
+              run: npm run build
+              env:
+                  FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+                  SERVER_BASE_URL: ${{secrets.SERVER_BASE_URL}}
+                  ALADIN_TTB_KEY: ${{secrets.ALADIN_TTB_KEY}}
+
+            - name: run LHCI
+              run: lhci autorun
+              env:
+                  LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+                  FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+                  SERVER_BASE_URL: ${{secrets.SERVER_BASE_URL}}
+                  ALADIN_TTB_KEY: ${{secrets.ALADIN_TTB_KEY}}

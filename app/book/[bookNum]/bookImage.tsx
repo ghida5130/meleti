@@ -4,7 +4,8 @@ import useImageSize from "@/hooks/useImageSize";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
-import * as THREE from "three";
+// import * as THREE from "three";
+import { Mesh, MathUtils, Texture, TextureLoader } from "three";
 import styles from "/styles/bookImage.module.scss";
 import { useBook } from "./BookContext";
 
@@ -19,7 +20,7 @@ import sideEmptyImage from "/public/bookImage/sideEmptyImage.jpg";
 import plusButtonIcon from "@/public/bookImage/plus.svg";
 
 const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotationY, cover }) => {
-    const bookRef = useRef<THREE.Mesh>(null);
+    const bookRef = useRef<Mesh>(null);
     const { invalidate } = useThree();
 
     const rotateAngle = [0, Math.PI * 0.5, Math.PI * 1, Math.PI * 0.2, Math.PI * 0.8, Math.PI * 1.3];
@@ -34,7 +35,7 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
             const targetY = rotateAngle[rotationY];
 
             if (Math.abs(currentY - targetY) > 0.001) {
-                bookRef.current.rotation.y = THREE.MathUtils.lerp(currentY, targetY, 0.1);
+                bookRef.current.rotation.y = MathUtils.lerp(currentY, targetY, 0.1);
                 invalidate();
             } else {
                 bookRef.current.rotation.y = targetY;
@@ -75,16 +76,16 @@ const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotation
     }
 
     const [loadedTextures, setLoadedTextures] = useState<{
-        front: THREE.Texture;
-        back: THREE.Texture;
-        left: THREE.Texture;
-        white: THREE.Texture;
+        front: Texture;
+        back: Texture;
+        left: Texture;
+        white: Texture;
     } | null>(null);
 
     const textures = useMemo(() => {
-        const loader = new THREE.TextureLoader();
+        const loader = new TextureLoader();
 
-        const loadTexture = (url: string, fallback: string): Promise<THREE.Texture> => {
+        const loadTexture = (url: string, fallback: string): Promise<Texture> => {
             return new Promise((resolve) => {
                 loader.load(
                     url,

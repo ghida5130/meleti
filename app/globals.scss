@@ -1,31 +1,5 @@
-// @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 $background: rgb(215, 215, 215);
 $main_color: rgb(31, 31, 31);
-
-@import url("https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css");
-// @import url("https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css");
-// @import url("https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css");
-
-// @font-face {
-//     font-family: "LineSeed";
-//     src: url("/fonts/LINESeedKR-Th.woff") format("woff");
-//     font-weight: 400; /* Regular */
-//     font-style: normal;
-// }
-
-// @font-face {
-//     font-family: "LineSeed";
-//     src: url("/fonts/LINESeedKR-Rg.woff") format("woff");
-//     font-weight: 500; /* Bold */
-//     font-style: normal;
-// }
-
-// @font-face {
-//     font-family: "LineSeed";
-//     src: url("/fonts/LINESeedKR-Bd.woff") format("woff");
-//     font-weight: 700; /* Light */
-//     font-style: normal;
-// }
 
 html,
 body {
@@ -35,11 +9,9 @@ body {
     padding: 0;
     box-sizing: border-box;
     user-select: none;
-    font-family: "SUIT", sans-serif;
     font-weight: 400;
     color: $main_color;
     background: $background;
-    // background: grey;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
