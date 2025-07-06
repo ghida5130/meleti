@@ -26,6 +26,8 @@ jobs:
               run: npm run build
               env:
                   FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+                  SERVER_BASE_URL: ${{secrets.SERVER_BASE_URL}}
+                  ALADIN_TTB_KEY: ${{secrets.ALADIN_TTB_KEY}}
 
             - name: run LHCI
               run: lhci autorun
