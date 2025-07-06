@@ -2,7 +2,6 @@ import SectionTitle from "../atoms/sectionTitle";
 import Carousel from "./carousel";
 import styles from "/styles/page.module.scss";
 
-// ISR 설정 (1시간마다 재생성)
 export const revalidate = 3600;
 
 export default async function Content() {

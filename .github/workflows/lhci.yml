@@ -27,5 +27,7 @@ jobs:
 
             - name: run LHCI
               run: lhci autorun
+
               env:
                   LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+                  FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
