@@ -33,7 +33,7 @@ export function useAddToLibrary() {
         mutationFn: addToLibrary,
         onSuccess: () => {
             // 책 추가 성공하면 팝업 닫거나, 페이지 새로고침, 알림 띄우기 등
-            router.refresh(); // 예시로 새로고침 (next/navigation)
+            router.refresh(); // 새로고침 (next/navigation)
         },
         onError: (error) => {
             console.error("Error adding book:", error);

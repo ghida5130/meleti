@@ -1,4 +1,3 @@
-// lighthouserc.js
 module.exports = {
     ci: {
         collect: {
@@ -7,7 +6,6 @@ module.exports = {
             waitForReady: true,
             readyPattern: "Ready",
             numberOfRuns: 2,
-            // preCollectScript: "./warmup.mjs",
         },
         upload: {
             target: "temporary-public-storage",
