@@ -15,7 +15,7 @@ export default function MyPageClient() {
 
     const handleLogout = async () => {
         try {
-            signout();
+            await signout();
             clearUserData();
             router.push("/login");
         } catch (error) {

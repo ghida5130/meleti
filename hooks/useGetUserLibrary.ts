@@ -17,8 +17,8 @@ const getUserLibrary = async (accessToken: string | null) => {
 
 export function useGetUserLibrary(accessToken: string | null) {
     return useQuery({
-        queryKey: ["userLibrary"],
-        queryFn: () => getUserLibrary(accessToken),
+        queryKey: ["userLibrary", accessToken],
+        queryFn: () => getUserLibrary(accessToken!),
         enabled: !!accessToken,
     });
 }

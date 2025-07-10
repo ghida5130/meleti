@@ -6,7 +6,6 @@ interface TokenPayload {
     uid: string;
     email?: string;
     role?: string;
-    // 필요한 필드 추가
 }
 
 export function verifyAccessToken(req: Request): { uid: string } | Response {

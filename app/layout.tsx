@@ -8,6 +8,7 @@ import BottomBar from "../components/layout/bottomBar";
 import { QueryProvider } from "@/providers/QueryProvider";
 import StoreProvider from "./storeProvider";
 import { suit } from "@/lib/fonts";
+import AccessTokenInitializer from "@/components/layout/accessTokenInitializer";
 
 export const metadata: Metadata = {
     title: "Meleti",
@@ -23,7 +24,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                         <Inner />
                         <div className={styles.main}>
                             <Navbar />
-                            <QueryProvider>{children}</QueryProvider>
+                            <QueryProvider>
+                                <AccessTokenInitializer>{children}</AccessTokenInitializer>
+                            </QueryProvider>
                             <Footer />
                             <BottomBar />
                         </div>

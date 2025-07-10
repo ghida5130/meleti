@@ -3,9 +3,7 @@
 import { useState } from "react";
 import styles from "/styles/book.module.scss";
 import { useBook } from "./BookContext";
-import { useRouter } from "next/navigation";
-import { useAddToLibrary } from "@/hooks/useAddToLibrary";
-import { useUserData } from "@/hooks/useUserData";
+import { useSecurePostMutation } from "@/hooks/useSecurePostMutation";
 
 interface BookTypes {
     isbn: string;
@@ -14,24 +12,35 @@ interface BookTypes {
     cover: string;
 }
 
-export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: BookTypes) {
-    const router = useRouter();
-    const [isOpen, setIsOpen] = useState(false);
+type AddToLibraryInput = {
+    isbn: string;
+    status: string;
+    title: string;
+    totalPages?: number;
+    cover?: string;
+};
 
-    const { userAccessToken } = useUserData();
+export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: BookTypes) {
+    const [isOpen, setIsOpen] = useState(false);
 
     // 팝업창, 독서상태 관리용 state (Context API)
     const { isPopupOpen, setIsPopupOpen, selectedStatus, setSelectedStatus } = useBook();
 
+    // secureMutate 테스트
+    const { mutate: addToLibrary } = useSecurePostMutation<{ message: string }, AddToLibraryInput>("/api/library", {
+        onSuccess: (data) => {
+            console.log("사용자 서재 도서 추가 완료", data.message);
+        },
+        onError: (err) => {
+            console.error(`사용자 서재 도서 추가 에러 (${err.status}): ${err.message}`);
+        },
+    });
+
     // 도서 데이터 사용자 라이브러리에 추가하기 (React-Query)
-    const { mutate } = useAddToLibrary();
+
+    // const { mutate } = useAddToLibrary();
     const handleAddToLibrary = async () => {
-        if (!userAccessToken) {
-            router.push("/login");
-            return;
-        }
-        mutate({
-            accessToken: userAccessToken,
+        addToLibrary({
             isbn,
             status: selectedStatus,
             title,

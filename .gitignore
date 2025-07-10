@@ -41,3 +41,7 @@ next-env.d.ts
 
 # lighthouseci local
 .lighthouseci/
+
+# test
+test.js
+test.html

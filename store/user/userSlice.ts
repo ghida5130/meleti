@@ -5,6 +5,7 @@ interface userStateType {
     name: string | null;
     email: string | null;
     expiresIn: number | null;
+    isInitializing: boolean;
 }
 
 const initialState: userStateType = {
@@ -12,6 +13,7 @@ const initialState: userStateType = {
     name: null,
     email: null,
     expiresIn: null,
+    isInitializing: true,
 };
 
 const userSlice = createSlice({
@@ -23,15 +25,24 @@ const userSlice = createSlice({
             state.name = action.payload.name;
             state.email = action.payload.email;
             state.expiresIn = action.payload.expiresIn;
+            state.isInitializing = false;
         },
         clearUser(state) {
             state.accessToken = null;
             state.name = null;
             state.email = null;
             state.expiresIn = null;
+            state.isInitializing = false;
+        },
+        setToken(state, action) {
+            state.accessToken = action.payload.accessToken;
+            state.isInitializing = false;
+        },
+        finishInitializingUser(state) {
+            state.isInitializing = false;
         },
     },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, setToken, finishInitializingUser } = userSlice.actions;
 export default userSlice.reducer;
