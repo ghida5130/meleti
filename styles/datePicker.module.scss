@@ -1,0 +1,20 @@
+.react-datepicker {
+    font-family: "Pretendard";
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.react-datepicker__header {
+    background-color: #f5f5f5;
+    border-bottom: none;
+}
+
+.react-datepicker__day--selected {
+    background-color: #ff8a3d;
+    color: white;
+}
+
+.react-datepicker__day--today {
+    font-weight: bold;
+    border-bottom: 2px solid #ff8a3d;
+}

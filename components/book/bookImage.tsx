@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 // import * as THREE from "three";
 import { Mesh, MathUtils, Texture, TextureLoader } from "three";
 import styles from "/styles/bookImage.module.scss";
-import { useBook } from "./BookContext";
+import { useBook } from "@/providers/BookContext";
 
 // image
 import rotateIcon from "@/public/bookPage/rotate.svg";

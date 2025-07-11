@@ -6,9 +6,9 @@ import Footer from "../components/layout/footer";
 import Inner from "../components/layout/inner";
 import BottomBar from "../components/layout/bottomBar";
 import { QueryProvider } from "@/providers/QueryProvider";
-import StoreProvider from "./storeProvider";
+import StoreProvider from "@/providers/storeProvider";
 import { suit } from "@/lib/fonts";
-import AccessTokenInitializer from "@/components/layout/accessTokenInitializer";
+import AccessTokenInitializer from "@/components/auth/accessTokenInitializer";
 
 export const metadata: Metadata = {
     title: "Meleti",

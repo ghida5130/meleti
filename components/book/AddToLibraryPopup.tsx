@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import styles from "/styles/book.module.scss";
-import { useBook } from "./BookContext";
+import { useBook } from "@/providers/BookContext";
 import { useSecurePostMutation } from "@/hooks/useSecurePostMutation";
+
+import ReadBookInfo from "./readBookInfo";
+import FinishedBookInfo from "./finishedBookInfo";
+import { dateToYearMonth } from "@/utils/dateToYearMonth";
 
 interface BookTypes {
     isbn: string;
@@ -18,35 +22,79 @@ type AddToLibraryInput = {
     title: string;
     totalPages?: number;
     cover?: string;
+    startedAt: Date | null;
+    finishedAt: Date | null;
+    readPage: number;
+};
+
+type UpdateToMonthlyStatsInput = {
+    count: number;
+    pages: number;
+    finishedAt: string;
 };
 
 export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: BookTypes) {
     const [isOpen, setIsOpen] = useState(false);
+    const [startedAt, setStartedAt] = useState<Date | null>(new Date());
+    const [finishedAt, setFinishedAt] = useState<Date | null>(new Date());
+    // const [quotes, setQuotes] = useState<string[]>([]);
+    const [readPage, setReadPage] = useState("");
 
     // 팝업창, 독서상태 관리용 state (Context API)
     const { isPopupOpen, setIsPopupOpen, selectedStatus, setSelectedStatus } = useBook();
 
-    // secureMutate 테스트
-    const { mutate: addToLibrary } = useSecurePostMutation<{ message: string }, AddToLibraryInput>("/api/library", {
-        onSuccess: (data) => {
-            console.log("사용자 서재 도서 추가 완료", data.message);
-        },
-        onError: (err) => {
-            console.error(`사용자 서재 도서 추가 에러 (${err.status}): ${err.message}`);
-        },
-    });
+    // 사용자 서재에 도서 추가
+    const { mutate: addToLibrary } = useSecurePostMutation<{ message: string }, AddToLibraryInput>(
+        "/api/users/library",
+        {
+            onSuccess: (data) => {
+                console.log("사용자 서재 도서 추가 완료", data.message);
+            },
+            onError: (err) => {
+                console.error(`사용자 서재 도서 추가 에러 (${err.status}): ${err.message}`);
+            },
+        }
+    );
+
+    // 사용자 월별 독서 현황 count 수정
+    const { mutate: updateToMonthlyStats } = useSecurePostMutation<{ message: string }, UpdateToMonthlyStatsInput>(
+        "/api/users/monthly-stats",
+        {
+            onSuccess: (data) => {
+                console.log("사용자 월별 독서량 수정 완료", data.message);
+            },
+            onError: (err) => {
+                console.error(`사용자 월별 독서랑 수정 에러 (${err.status}): ${err.message}`);
+            },
+        }
+    );
 
     // 도서 데이터 사용자 라이브러리에 추가하기 (React-Query)
-
-    // const { mutate } = useAddToLibrary();
     const handleAddToLibrary = async () => {
+        if (!/^\d+$/.test(readPage) && selectedStatus === "읽는 중인 책") {
+            alert("현재 읽은 페이지에는 숫자만 입력해주세요.");
+            return;
+        }
+
         addToLibrary({
             isbn,
             status: selectedStatus,
             title,
             totalPages,
             cover,
+            startedAt,
+            finishedAt,
+            readPage: Number(readPage),
         });
+
+        if (selectedStatus === "읽은 책") {
+            const convertedDate = dateToYearMonth(String(finishedAt));
+            updateToMonthlyStats({
+                count: 1,
+                pages: totalPages,
+                finishedAt: convertedDate,
+            });
+        }
 
         setIsPopupOpen(false);
     };
@@ -97,6 +145,22 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
                         </div>
                     </div>
                 </div>
+                {selectedStatus === "읽는 중인 책" && (
+                    <ReadBookInfo
+                        startedAt={startedAt}
+                        setStartedAt={setStartedAt}
+                        readPage={readPage}
+                        setReadPage={setReadPage}
+                    />
+                )}
+                {selectedStatus === "읽은 책" && (
+                    <FinishedBookInfo
+                        startedAt={startedAt}
+                        setStartedAt={setStartedAt}
+                        finishedAt={finishedAt}
+                        setFinishedAt={setFinishedAt}
+                    />
+                )}
                 <button className={styles.addButton} onClick={handleAddToLibrary} disabled={!selectedStatus}>
                     추가하기
                 </button>

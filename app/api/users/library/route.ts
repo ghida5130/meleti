@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
         if ("uid" in result === false) return result;
         const { uid } = result;
 
-        const { isbn, status, title, totalPages, cover } = await req.json();
+        const { isbn, status, title, totalPages, cover, startedAt, finishedAt, readPage } = await req.json();
 
         const db = admin.firestore();
         const libraryRef = db.collection("users").doc(uid).collection("library").doc(isbn);
@@ -55,12 +55,13 @@ export async function POST(req: NextRequest) {
             title,
             totalPages,
             cover,
-            readPage: 0,
-            startedAt: 0,
-            finishedAt: 0,
+            readPage,
+            startedAt,
+            finishedAt,
             quotes: [],
         });
 
+        console.log("사용자 서재 도서 추가 완료");
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error("사용자 서재 도서 추가 실패 : ", error);

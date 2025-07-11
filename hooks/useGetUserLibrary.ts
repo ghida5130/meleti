@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const getUserLibrary = async (accessToken: string | null) => {
-    const res = await fetch("/api/library", {
+    const res = await fetch("/api/users/library", {
         method: "GET",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
     });

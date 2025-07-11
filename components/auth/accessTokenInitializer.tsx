@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useUserData } from "@/hooks/useUserData";
 import { signout } from "@/lib/firebase/auth";
 import Loading from "@/app/loading";
+import "@/styles/datePicker.module.scss";
 
 export default function AccessTokenInitializer({ children }: { children: React.ReactNode }) {
     const { userAccessToken, clearUserData, setUserData } = useUserData();

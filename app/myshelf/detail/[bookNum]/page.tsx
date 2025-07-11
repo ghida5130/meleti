@@ -1,8 +1,8 @@
 import Image from "next/image";
 import styles from "/styles/myshelfDetail.module.scss";
 
-import DivideLine from "@/components/atoms/divideLine";
-import SectionTitle from "@/components/atoms/sectionTitle";
+import DivideLine from "@/components/ui/divideLine";
+import SectionTitle from "@/components/ui/sectionTitle";
 
 import testBookImage from "@/public/test/frontTestImage.jpg";
 import authorIcon from "/public/bookPage/author.svg";

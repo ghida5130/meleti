@@ -1,4 +1,4 @@
-import LoadingImage from "@/components/atoms/loadingImage";
+import LoadingImage from "@/components/ui/loadingImage";
 
 export default function Loading() {
     return (

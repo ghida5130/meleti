@@ -1,3 +1,6 @@
+// ❌ Deprecated: 2024-07-10
+// 사용하지 않음. 이전 사용자 서재 표시 컴포넌트
+
 "use client";
 
 import Image from "next/image";
@@ -5,11 +8,10 @@ import styles from "/styles/shelves.module.scss";
 import { useEffect, useRef, useState } from "react";
 
 import plusBtn from "/public/myshelf/plus.svg";
-// import bookFrontTest from "/public/test/frontTestImage.jpg";
 import bookFrontTest2 from "/public/test/frontTestImage2.jpg";
 import bookSideTest from "/public/test/sideTestImage.jpg";
 import bookInnerImage from "/public/test2.jpg";
-import DivideLine from "@/components/atoms/divideLine";
+import DivideLine from "@/components/ui/divideLine";
 
 export default function Shelves() {
     return (

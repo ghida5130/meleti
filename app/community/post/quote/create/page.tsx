@@ -3,7 +3,7 @@ import styles from "/styles/createQuotePost.module.scss";
 
 import bookTestImage from "@/public/test/frontTestImage2.jpg";
 import bookSearchButtonIcon from "@/public/searchBtn.svg";
-import DivideLine from "@/components/atoms/divideLine";
+import DivideLine from "@/components/ui/divideLine";
 import newPostIcon from "@/public/community/newPost.svg";
 import bookFrontTest from "@/public/test/frontTestImage2.jpg";
 import backButtonIcon from "@/public/back_arrow.svg";

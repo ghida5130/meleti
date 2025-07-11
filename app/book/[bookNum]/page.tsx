@@ -1,6 +1,5 @@
 import styles from "/styles/book.module.scss";
 import Image from "next/image";
-// import dynamic from "next/dynamic";
 
 // image
 import authorIcon from "/public/bookPage/author.svg";
@@ -8,19 +7,12 @@ import publisherIcon from "/public/bookPage/publisher.svg";
 import pagesIcon from "/public/bookPage/pages.svg";
 
 // components
-// import BookImage from "./bookImage";
-import DivideLine from "@/components/atoms/divideLine";
+import DivideLine from "@/components/ui/divideLine";
 import Carousel from "@/components/mainPage/carousel";
-import SectionTitle from "@/components/atoms/sectionTitle";
-import AddToLibraryPopup from "./AddToLibraryPopup";
-import { BookProvider } from "./BookContext";
-import { Suspense } from "react";
-import Book3D from "./book3D";
-
-// const BookImage = dynamic(() => import("./bookImage"), {
-//     ssr: false,
-//     loading: () => <div className={styles.bookLoading}>Loading 3D Book...</div>,
-// });
+import SectionTitle from "@/components/ui/sectionTitle";
+import AddToLibraryPopup from "@/components/book/AddToLibraryPopup";
+import { BookProvider } from "../../../providers/BookContext";
+import BookImage from "@/components/book/bookImage";
 
 interface AladinItemLookUpType {
     title: string;
@@ -102,10 +94,7 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
         <>
             <div className={styles.wrap}>
                 <BookProvider>
-                    {/* <BookImage cover={book.cover} /> */}
-                    <Suspense fallback={null}>
-                        <Book3D cover={book.cover} />
-                    </Suspense>
+                    <BookImage cover={book.cover} />
                     <AddToLibraryPopup
                         isbn={params.bookNum}
                         title={book.title}

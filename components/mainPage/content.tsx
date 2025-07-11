@@ -1,4 +1,4 @@
-import SectionTitle from "../atoms/sectionTitle";
+import SectionTitle from "../ui/sectionTitle";
 import Carousel from "./carousel";
 import styles from "/styles/page.module.scss";
 
