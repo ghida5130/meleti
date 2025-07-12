@@ -1,7 +1,7 @@
 "use client";
 
 import { useSecureGetQuery } from "@/hooks/useSecureGetQuery";
-import { XAxis, YAxis, Tooltip, ResponsiveContainer, Bar, BarChart, CartesianGrid } from "recharts";
+import { XAxis, YAxis, ResponsiveContainer, Bar, BarChart, CartesianGrid, Cell } from "recharts";
 
 function fillMissingMonths(data: { month: string; count: number }[]) {
     const filled: { month: string; count: number }[] = [];
@@ -24,20 +24,27 @@ export default function UserMonthlyStatsChart() {
     if (isLoading) return <div>로딩중...</div>;
     if (error) return <div>에러: {error.message}</div>;
     if (!data) return <div>데이터 없음</div>;
+    const colors = ["#aab5c7", "#cac6d1", "#cfc7bd"];
 
-    const chartData = fillMissingMonths(data.data);
+    const chartData = fillMissingMonths(data.data).map((item, index) => ({
+        ...item,
+        fill: colors[index % colors.length],
+    }));
     const maxCount = Math.max(...chartData.map((d) => d.count));
     const rawTicks = Array.from({ length: maxCount + 1 }, (_, i) => i);
-    const yTicks = rawTicks.filter((v) => v !== 0); // 0 제외
+    const yTicks = rawTicks.filter((v) => v !== 0);
 
     return (
         <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={chartData} margin={{ right: 50, bottom: 20, top: 20 }}>
-                <CartesianGrid stroke="#ccc" strokeDasharray="3 3" strokeOpacity={0.5} vertical={false} />
-                <XAxis dataKey="month" interval={0} tick={{ fontSize: 15, dy: 4 }} tickLine={false} />
-                <YAxis ticks={yTicks} tick={{ fontSize: 15, dx: -2 }} tickLine={false} />
-                <Tooltip />
-                <Bar dataKey="count" fill="#8db3fe" />
+            <BarChart data={chartData} margin={{ right: 35, bottom: 20, top: 20 }} barCategoryGap={2}>
+                <CartesianGrid stroke="#ccc" strokeDasharray="3 3" strokeOpacity={0.6} vertical={false} />
+                <Bar dataKey="count">
+                    {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                    ))}
+                </Bar>
+                <XAxis dataKey="month" interval={1} tick={{ fontSize: 14, dy: 4 }} tickLine={false} />
+                <YAxis width={45} ticks={yTicks} tick={{ fontSize: 15, dx: -2 }} tickLine={false} />
             </BarChart>
         </ResponsiveContainer>
     );
