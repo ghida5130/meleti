@@ -1,18 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUserData } from "@/hooks/useUserData";
 import { signout } from "@/lib/firebase/auth";
-import Loading from "@/app/loading";
 import "@/styles/datePicker.module.scss";
 
-export default function AccessTokenInitializer({ children }: { children: React.ReactNode }) {
+export default function AccessTokenInitializer() {
     const { userAccessToken, clearUserData, setUserData } = useUserData();
-    const [isInit, setIsInit] = useState(false);
 
     useEffect(() => {
         if (userAccessToken) {
-            setIsInit(true);
             return;
         }
 
@@ -41,14 +38,11 @@ export default function AccessTokenInitializer({ children }: { children: React.R
                 }
                 clearUserData();
                 if (userAccessToken) signout();
-            } finally {
-                setIsInit(true);
             }
         };
 
         refresh();
     }, []);
 
-    if (!isInit) return <Loading />;
-    return <>{children}</>;
+    return null;
 }

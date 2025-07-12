@@ -10,7 +10,6 @@ import quotesIcon from "@/public/myshelf/quotes.svg";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useUserData } from "@/hooks/useUserData";
 import { useGetUserLibrary } from "@/hooks/useGetUserLibrary";
 
@@ -31,14 +30,9 @@ interface UserLibraryType {
 }
 
 export default function MyShelfClient() {
-    const router = useRouter();
     const [books, setBooks] = useState<UserLibraryType[]>([]);
-    const { userName, isLogin, userAccessToken } = useUserData();
+    const { userName, userAccessToken } = useUserData();
     const { data, isLoading, error } = useGetUserLibrary(userAccessToken);
-
-    useEffect(() => {
-        if (!isLogin) router.push("/login");
-    }, [isLogin, router]);
 
     useEffect(() => {
         if (data) setBooks(data);

@@ -33,7 +33,7 @@ export function useSecurePostMutation<TData, TVariables>(
                 throw error;
             }
 
-            return response.json() as Promise<TData>;
+            return response.json();
         };
 
         // POST 요청중 accessToken이 없거나 서버로부터 401응답을 받을경우 accessToken 재발급

@@ -3,11 +3,9 @@
 import styles from "@/styles/login.module.scss";
 import { signInWithGoogle, signInWithGithub, signInDemo } from "@/lib/firebase/auth";
 import { useUserData } from "@/hooks/useUserData";
-import { useRouter } from "next/navigation";
 
 export default function LoginClient() {
     const { setUserData } = useUserData();
-    const router = useRouter();
 
     const handleLogin = async (type: "google" | "github" | "demo") => {
         try {
@@ -20,7 +18,7 @@ export default function LoginClient() {
                 email: data.email,
                 expiresIn: Date.now() + 15 * 60 * 1000,
             });
-            router.push("/mypage");
+            window.location.href = "/";
         } catch (err) {
             console.error("로그인 실패:", err);
         }

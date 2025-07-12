@@ -21,12 +21,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <body>
                 <div className={styles.pageWrap}>
                     <StoreProvider>
+                        <AccessTokenInitializer />
                         <Inner />
                         <div className={styles.main}>
                             <Navbar />
-                            <QueryProvider>
-                                <AccessTokenInitializer>{children}</AccessTokenInitializer>
-                            </QueryProvider>
+                            <QueryProvider>{children}</QueryProvider>
                             <Footer />
                             <BottomBar />
                         </div>
