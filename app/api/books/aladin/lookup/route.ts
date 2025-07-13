@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import axios from "axios";
 
+export const dynamic = "force-dynamic";
+
 interface AladinItemLookupType {
     title: string;
     author: string;
