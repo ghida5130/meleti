@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import styles from "@/styles/mypage.module.scss";
-import defaultProfileImage from "@/public/study.jpg";
-import { useUserData } from "@/hooks/useUserData";
+import defaultProfileImage from "@/public/ui/study.jpg";
+import { useUserData } from "@/hooks/redux/useUserData";
 
 export default function MyPageUserInfoArea() {
     const { userName, userEmail } = useUserData();

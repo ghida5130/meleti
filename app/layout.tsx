@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 import styles from "/styles/layout.module.scss";
-import Navbar from "../components/layout/navbar";
-import Footer from "../components/layout/footer";
-import Inner from "../components/layout/inner";
-import BottomBar from "../components/layout/bottomBar";
+import { suit } from "@/lib/fonts";
+
+// providers
 import { QueryProvider } from "@/providers/QueryProvider";
 import StoreProvider from "@/providers/storeProvider";
-import { suit } from "@/lib/fonts";
+
+// components
+import Navbar from "../components/layout/navbar";
+import Footer from "../components/layout/footer";
+import Outer from "@/components/layout/outer";
+import BottomBar from "../components/layout/bottomBar";
 import AccessTokenInitializer from "@/components/auth/accessTokenInitializer";
 
 export const metadata: Metadata = {
@@ -22,7 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <div className={styles.pageWrap}>
                     <StoreProvider>
                         <AccessTokenInitializer />
-                        <Inner />
+                        <Outer />
                         <div className={styles.main}>
                             <Navbar />
                             <QueryProvider>{children}</QueryProvider>

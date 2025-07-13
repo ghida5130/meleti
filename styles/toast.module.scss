@@ -1,0 +1,24 @@
+.wrap {
+    position: fixed;
+    z-index: 99999;
+    bottom: 90px;
+    left: 50%;
+    background: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, 0);
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+
+    p {
+        font-size: 17px;
+    }
+}
+
+.hide {
+    transform: translate(-50%, 10px);
+    opacity: 0;
+    visibility: hidden;
+}

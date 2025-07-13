@@ -17,7 +17,7 @@ interface AladinSearchResultType {
 
 export default async function SearchResult({ searchParams }: { searchParams: { query?: string } }) {
     const searchResultResponse = await fetch(
-        `${process.env.SERVER_BASE_URL}/api/aladinSearch?query=${searchParams.query}`
+        `${process.env.SERVER_BASE_URL}/api/books/aladin/search?query=${searchParams.query}`
     );
     const searchResultData: AladinSearchResultType[] = await searchResultResponse.json();
 

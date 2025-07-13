@@ -10,8 +10,9 @@ import quotesIcon from "@/public/myshelf/quotes.svg";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useUserData } from "@/hooks/useUserData";
+import { useUserData } from "@/hooks/redux/useUserData";
 import { useGetUserLibrary } from "@/hooks/useGetUserLibrary";
+import Loading from "@/app/loading";
 
 interface UserLibraryType {
     id: string;
@@ -56,7 +57,7 @@ export default function MyShelfClient() {
 
             <div className={styles.diaryArea}>
                 {isLoading ? (
-                    <p>불러오는 중</p>
+                    <Loading />
                 ) : (
                     books.map((val) => {
                         const date = new Date(val.addedAt._seconds * 1000);

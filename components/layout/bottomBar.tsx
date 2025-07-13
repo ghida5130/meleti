@@ -8,11 +8,13 @@ import searchImage from "@/public/bottomBar/search.svg";
 import myShelfImage from "@/public/bottomBar/myshelf.svg";
 import communityImage from "@/public/bottomBar/community.svg";
 import myPageImage from "@/public/bottomBar/mypage.svg";
+import Toast from "../ui/toast";
 
 export default function BottomBar() {
     return (
         <div>
-            <div className={styles.navbarWrap}>
+            <Toast />
+            <div className={styles.bottomBarWrap}>
                 <BottomBarBtn src={homeImage} href="/" alt="homePageButton" />
                 <BottomBarBtn src={searchImage} href="/" alt="searchPageButton" />
                 <BottomBarBtn src={myShelfImage} href="/myshelf" alt="myShelfPageButton" />

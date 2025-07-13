@@ -1,11 +1,11 @@
 import Image from "next/image";
-import innerImage from "@/public/study.jpg";
-import logoImage from "@/public/meletiLogo.png";
-import styles from "/styles/inner.module.scss";
-import qrImage from "@/public/qr_test.png";
+import innerImage from "@/public/ui/study.jpg";
+import logoImage from "@/public/ui/meletiLogo.png";
+import styles from "/styles/outer.module.scss";
+import qrImage from "@/public/ui/qr_test.png";
 import Link from "next/link";
 
-export default function Inner() {
+export default function Outer() {
     return (
         <div className={styles.wrap}>
             <Link href="/">

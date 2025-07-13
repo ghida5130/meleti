@@ -3,8 +3,8 @@
 import Link from "next/link";
 import styles from "@/styles/search.module.scss";
 import Image from "next/image";
-import searchBtn from "@/public/searchBtn.svg";
-import backArrow from "@/public/back_arrow.svg";
+import searchBtn from "@/public/ui/searchBtn.svg";
+import backArrow from "@/public/ui/back_arrow.svg";
 import { useEffect, useRef } from "react";
 
 export default function SearchClient() {
@@ -59,8 +59,7 @@ export default function SearchClient() {
 
             <div className={styles.recommendBooksArea}>
                 <p style={{ fontWeight: "600" }}>추천하는 책</p>
-                <p>Algolia로 검색 기능 구현하기</p>
-                <p>알라딘에도 상품 검색 api가 있음</p>
+                <p>추천 도서가 없습니다.</p>
             </div>
         </>
     );

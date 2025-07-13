@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse, NextRequest } from "next/server";
 import axios from "axios";
 
 interface AladinSearchResultType {
@@ -14,13 +14,20 @@ interface AladinSearchResultType {
     [key: string]: unknown;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
     try {
-        const { query } = req.query;
+        const query = req.nextUrl.searchParams.get("query");
+
+        if (!query) {
+            return NextResponse.json({ error: "쿼리 파라미터 없음: query" }, { status: 400 });
+        }
+
         const response = await axios.get(
             `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&Query=${query}&QueryType=Keyword&MaxResults=10&start=1&SearchTarget=Book&output=js&Version=20131101&Cover=MidBig`
         );
+
         const result: AladinSearchResultType[] = response.data.item;
+
         const keysToRemain = [
             "title",
             "author",
@@ -32,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             "cover",
             "isbn13",
         ];
+
         const filteredResult = result.map((val) =>
             Object.keys(val).reduce((acc, key) => {
                 if (keysToRemain.includes(key)) {
@@ -40,9 +48,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 return acc;
             }, {} as Partial<AladinSearchResultType>)
         );
-        res.status(200).json(filteredResult);
+
+        return NextResponse.json(filteredResult);
     } catch (error) {
-        console.error("Error fetching data:", error);
-        res.status(500).json({ error: "Failed to fetch search result data" });
+        console.error("알라딘 도서 검색 결과 조회 에러 : ", error);
+        return NextResponse.json({ error: "알라딘 도서 검색 결과 조회 실패" }, { status: 500 });
     }
 }

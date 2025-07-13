@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse, NextRequest } from "next/server";
 import axios from "axios";
 
-interface AladinItemType {
+interface AladinItemLookupType {
     title: string;
     author: string;
     publisher: string;
@@ -18,13 +18,19 @@ interface AladinItemType {
     [key: string]: unknown;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
     try {
-        const { type } = req.query;
+        const type = req.nextUrl.searchParams.get("type");
+
+        if (!type) {
+            return NextResponse.json({ error: "쿼리 파라미터 없음: type" }, { status: 400 });
+        }
+
         const response = await axios.get(
             `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&itemIdType=ISBN13&itemId=${type}&output=js&Version=20131101`
         );
-        const result: AladinItemType[] = response.data.item;
+
+        const result: AladinItemLookupType[] = response.data.item;
         const keysToRemain = [
             "title",
             "author",
@@ -36,17 +42,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             "categoryName",
             "subInfo",
         ];
+
         const filteredResult = result.map((val) =>
             Object.keys(val).reduce((acc, key) => {
                 if (keysToRemain.includes(key)) {
-                    acc[key as keyof AladinItemType] = val[key];
+                    acc[key as keyof AladinItemLookupType] = val[key];
                 }
                 return acc;
-            }, {} as Partial<AladinItemType>)
+            }, {} as Partial<AladinItemLookupType>)
         );
-        res.status(200).json(filteredResult);
+
+        return NextResponse.json(filteredResult);
     } catch (error) {
-        console.error("Error fetching data:", error);
-        res.status(500).json({ error: "Failed to fetch best seller data" });
+        console.error("알라딘 ItemLookUp 도서 조회 에러 : ", error);
+        return NextResponse.json({ error: "알라딘 ItemLookUp 도서 조회 실패" }, { status: 500 });
     }
 }

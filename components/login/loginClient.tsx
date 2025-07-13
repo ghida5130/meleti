@@ -2,7 +2,7 @@
 
 import styles from "@/styles/login.module.scss";
 import { signInWithGoogle, signInWithGithub, signInDemo } from "@/lib/firebase/auth";
-import { useUserData } from "@/hooks/useUserData";
+import { useUserData } from "@/hooks/redux/useUserData";
 
 export default function LoginClient() {
     const { setUserData } = useUserData();

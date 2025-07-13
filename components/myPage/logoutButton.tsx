@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserData } from "@/hooks/useUserData";
+import { useUserData } from "@/hooks/redux/useUserData";
 import { signout } from "@/lib/firebase/auth";
 
 export default function LogoutButton() {

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import styles from "/styles/navbar.module.scss";
 import Image from "next/image";
-import logoImage from "@/public/meletiLogo.png";
-import searchBtn from "@/public/searchBtn.svg";
+import logoImage from "@/public/ui/meletiLogo.png";
+import searchBtn from "@/public/ui/searchBtn.svg";
 
 export default function Navbar() {
     const keyword = ["도서명으로 검색하기", "작가명으로 검색하기"];

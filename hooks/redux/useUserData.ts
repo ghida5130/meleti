@@ -8,6 +8,7 @@ interface userDataType {
     expiresIn: number;
 }
 
+// userData (accessToken 및 간단 정보) redux store 사용 custom hook
 export const useUserData = () => {
     const dispatch = useAppDispatch();
     const userName = useAppSelector((state) => state.user.name);
@@ -22,6 +23,8 @@ export const useUserData = () => {
         dispatch(clearUser());
     };
     const setAccessToken = (accessToken: string) => dispatch(setToken({ accessToken: accessToken }));
+
+    // UI용 init 변수 조정 (accessToken 발급 전 특정 동작 방지 용도)
     const finishInit = () => {
         dispatch(finishInitializingUser());
     };

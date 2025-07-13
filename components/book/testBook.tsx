@@ -7,7 +7,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 // import * as THREE from "three";
 import { Mesh, MathUtils, Texture, TextureLoader } from "three";
 import styles from "/styles/bookImage.module.scss";
-import { useBook } from "@/providers/BookContext";
 
 // image
 import rotateIcon from "@/public/bookPage/rotate.svg";
@@ -17,11 +16,6 @@ import Image from "next/image";
 import bookPageTextureImage from "/public/bookImage/bookPageTexture.jpg";
 import backEmptyImage from "/public/bookImage/backEmptyImage.jpg";
 import sideEmptyImage from "/public/bookImage/sideEmptyImage.jpg";
-import plusButtonIcon from "@/public/bookImage/plus.svg";
-import compareButtonIcon from "@/public/bookImage/compare.webp";
-import { useRouter } from "next/navigation";
-import { useUserData } from "@/hooks/redux/useUserData";
-import { useToast } from "@/hooks/redux/useToast";
 
 const RotatingBook: React.FC<{ rotationY: number; cover: string }> = ({ rotationY, cover }) => {
     const bookRef = useRef<Mesh>(null);
@@ -151,14 +145,8 @@ const Plane = () => (
     </mesh>
 );
 
-const BookImage: React.FC<{ cover: string; isbn: string }> = ({ cover, isbn }) => {
+const TestBook: React.FC<{ cover: string }> = ({ cover }) => {
     const [rotationY, setRotationY] = useState(3);
-    const { setIsPopupOpen } = useBook();
-    const router = useRouter();
-    const { isLogin } = useUserData();
-    const { setToast } = useToast();
-
-    console.log(isLogin);
 
     const handleRotate = () => {
         switch (rotationY) {
@@ -186,7 +174,7 @@ const BookImage: React.FC<{ cover: string; isbn: string }> = ({ cover, isbn }) =
     return (
         <>
             <div className={styles.wrap}>
-                <Canvas camera={{ position: [24, 0, 0], fov: 13 }} shadows frameloop="demand">
+                <Canvas camera={{ position: [50, 2, 0], fov: 13 }} shadows frameloop="demand">
                     <ambientLight intensity={0.5} />
                     <spotLight
                         position={[20, 3, 3]}
@@ -196,7 +184,12 @@ const BookImage: React.FC<{ cover: string; isbn: string }> = ({ cover, isbn }) =
                         shadow-mapSize-height={512}
                         shadow-radius={50}
                     />
-                    <RotatingBook rotationY={rotationY} cover={cover} />
+                    <group position={[0, 0, 2]}>
+                        <RotatingBook rotationY={rotationY} cover={cover} />
+                    </group>
+                    <group position={[0, 0, -2]}>
+                        <RotatingBook rotationY={rotationY} cover={cover} />
+                    </group>
                     <Plane />
                 </Canvas>
                 <button onClick={handleRotate} className={`${styles.btn} ${styles.rotateBtn}`}>
@@ -218,26 +211,9 @@ const BookImage: React.FC<{ cover: string; isbn: string }> = ({ cover, isbn }) =
                 >
                     <Image src={rightSideIcon} alt="right side button" width={35} priority />
                 </button>
-                <button
-                    className={`${styles.btn} ${styles.plusBtn}`}
-                    onClick={() => {
-                        if (isLogin) setIsPopupOpen(true);
-                        else setToast({ message: "로그인이 필요합니다", type: "error" });
-                    }}
-                >
-                    <Image src={plusButtonIcon} alt="add my library button" width={30} priority />
-                </button>
-                <button
-                    className={`${styles.btn} ${styles.compareBtn}`}
-                    onClick={() => {
-                        router.push(`/book/compare/select?base=${isbn}`);
-                    }}
-                >
-                    <Image src={compareButtonIcon} alt="add my library button" width={30} priority />
-                </button>
             </div>
         </>
     );
 };
 
-export default BookImage;
+export default TestBook;

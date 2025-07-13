@@ -12,89 +12,19 @@ import Carousel from "@/components/mainPage/carousel";
 import SectionTitle from "@/components/ui/sectionTitle";
 import AddToLibraryPopup from "@/components/book/AddToLibraryPopup";
 import { BookProvider } from "../../../providers/BookContext";
-import BookImage from "@/components/book/bookImage";
+import TestBook from "@/components/book/testBook";
 
-interface AladinItemLookUpType {
-    title: string;
-    author: string;
-    publisher: string;
-    pubDate: string;
-    isbn13: string;
-    description: string;
-    cover: string;
-    categoryName: string;
-    subInfo: {
-        subTitle: string;
-        originalTitle: string;
-        itemPage: number;
-    };
-}
-
-export async function generateMetadata({ params }: { params: { bookNum: string } }) {
-    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${params.bookNum}`, {
-        next: { revalidate: 0 },
-    });
-    const data: AladinItemLookUpType[] = await res.json();
-    const book = data[0];
-
-    // Metadata
-    return {
-        title: book.title,
-        description: book.description,
-        openGraph: {
-            title: book.title,
-            description: book.description,
-            images: [book.cover],
-        },
-        twitter: {
-            card: "summary_large_image",
-            title: book.title,
-            description: book.description,
-            images: [book.cover],
-        },
-        alternates: {
-            canonical: `https://meleti-sigma.vercel.app/book/${params.bookNum}`,
-        },
-        robots: {
-            index: true,
-            follow: true,
-        },
-    };
-}
-
-export default async function Book({ params }: { params: { bookNum: string } }) {
+export default async function Test({ params }: { params: { bookNum: string } }) {
     const isbn13 = params.bookNum;
     const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`);
     let book = await res.json();
     book = book[0];
 
-    // json-LD
-    const jsonLD = {
-        "@context": "https://schema.org",
-        "@type": "Book",
-        "name": book.title,
-        "author": {
-            "@type": "Person",
-            "name": book.author,
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": book.publisher,
-        },
-        "datePublished": book.pubDate,
-        "isbn": book.isbn,
-        "description": book.description,
-        "image": book.cover,
-        "category": book.categoryName,
-        "numberOfPages": book.subInfo.itemPage,
-        "url": `https://meleti-sigma.vercel.app/book/${params.bookNum}`,
-    };
-
     return (
         <>
             <div className={styles.wrap}>
                 <BookProvider>
-                    <BookImage cover={book.cover} isbn={isbn13} />
+                    <TestBook cover={book.cover} />
                     <AddToLibraryPopup
                         isbn={params.bookNum}
                         title={book.title}
@@ -153,7 +83,6 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
                     <Carousel />
                 </section>
             </div>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
         </>
     );
 }

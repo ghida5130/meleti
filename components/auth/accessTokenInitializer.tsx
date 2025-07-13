@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useUserData } from "@/hooks/useUserData";
+import { useUserData } from "@/hooks/redux/useUserData";
 import { signout } from "@/lib/firebase/auth";
 import "@/styles/datePicker.module.scss";
 

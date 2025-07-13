@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { useUserData } from "./useUserData";
+import { useUserData } from "./redux/useUserData";
 import { signout } from "@/lib/firebase/auth";
 
 type HttpError = {
@@ -7,7 +7,10 @@ type HttpError = {
     message: string;
 };
 
-export function useSecureGetQuery<TData>(url: string, options?: UseQueryOptions<TData, HttpError>) {
+export function useSecureGetQuery<TData>(
+    url: string,
+    options?: Omit<UseQueryOptions<TData, HttpError>, "queryKey" | "queryFn">
+) {
     const { userAccessToken, setAccessToken, clearUserData } = useUserData();
 
     const fetchWithAuth = async (token: string | null): Promise<TData> => {

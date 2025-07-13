@@ -2,11 +2,11 @@ import Image from "next/image";
 import styles from "/styles/createQuotePost.module.scss";
 
 import bookTestImage from "@/public/test/frontTestImage2.jpg";
-import bookSearchButtonIcon from "@/public/searchBtn.svg";
+import bookSearchButtonIcon from "@/public/ui/searchBtn.svg";
 import DivideLine from "@/components/ui/divideLine";
 import newPostIcon from "@/public/community/newPost.svg";
 import bookFrontTest from "@/public/test/frontTestImage2.jpg";
-import backButtonIcon from "@/public/back_arrow.svg";
+import backButtonIcon from "@/public/ui/back_arrow.svg";
 
 export default function CreateQuotePost() {
     return (

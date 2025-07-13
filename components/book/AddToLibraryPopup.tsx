@@ -8,6 +8,7 @@ import { useSecurePostMutation } from "@/hooks/useSecurePostMutation";
 import ReadBookInfo from "./readBookInfo";
 import FinishedBookInfo from "./finishedBookInfo";
 import { dateToYearMonth } from "@/utils/dateToYearMonth";
+import { useToast } from "@/hooks/redux/useToast";
 
 interface BookTypes {
     isbn: string;
@@ -39,6 +40,7 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
     const [finishedAt, setFinishedAt] = useState<Date | null>(new Date());
     // const [quotes, setQuotes] = useState<string[]>([]);
     const [readPage, setReadPage] = useState("");
+    const { setToast } = useToast();
 
     // 팝업창, 독서상태 관리용 state (Context API)
     const { isPopupOpen, setIsPopupOpen, selectedStatus, setSelectedStatus } = useBook();
@@ -51,6 +53,9 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
                 console.log("사용자 서재 도서 추가 완료", data.message);
             },
             onError: (err) => {
+                if (err.status === 409) {
+                    setToast({ message: "이미 추가된 도서입니다", type: "error" });
+                }
                 console.error(`사용자 서재 도서 추가 에러 (${err.status}): ${err.message}`);
             },
         }

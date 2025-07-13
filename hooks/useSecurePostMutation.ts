@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { useUserData } from "./useUserData";
+import { useUserData } from "./redux/useUserData";
 import { signout } from "@/lib/firebase/auth";
 
 type HttpError = {
