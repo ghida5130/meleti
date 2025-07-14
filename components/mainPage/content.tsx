@@ -6,9 +6,9 @@ export const revalidate = 3600;
 
 export default async function Content() {
     const [bestSellerRes, newReleaseRes, blogBestRes] = await Promise.all([
-        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin?type=BestSeller`),
-        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin?type=ItemNewSpecial`),
-        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin?type=BlogBest`),
+        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/bestSeller`),
+        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/itemNewSpecial`),
+        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/blogBest`),
     ]);
 
     const [bestSellerData, newReleaseData, blogBestData] = await Promise.all([

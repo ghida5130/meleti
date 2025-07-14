@@ -22,7 +22,8 @@ interface AladinItemLookupType {
 
 export async function GET(req: NextRequest) {
     try {
-        const type = req.nextUrl.searchParams.get("type");
+        const { searchParams } = new URL(req.url);
+        const type = searchParams.get("type");
 
         if (!type) {
             return NextResponse.json({ error: "쿼리 파라미터 없음: type" }, { status: 400 });

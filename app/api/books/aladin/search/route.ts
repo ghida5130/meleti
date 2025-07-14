@@ -18,7 +18,8 @@ interface AladinSearchResultType {
 
 export async function GET(req: NextRequest) {
     try {
-        const query = req.nextUrl.searchParams.get("query");
+        const { searchParams } = new URL(req.url);
+        const query = searchParams.get("query");
 
         if (!query) {
             return NextResponse.json({ error: "쿼리 파라미터 없음: query" }, { status: 400 });

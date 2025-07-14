@@ -1,7 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import axios from "axios";
-
-export const dynamic = "force-dynamic";
 
 interface AladinItemListType {
     title: string;
@@ -13,16 +11,10 @@ interface AladinItemListType {
     [key: string]: unknown;
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
-        const type = req.nextUrl.searchParams.get("type");
-
-        if (!type) {
-            return NextResponse.json({ error: "쿼리 파라미터 없음 : type" }, { status: 400 });
-        }
-
         const response = await axios.get(
-            `https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&QueryType=${type}&MaxResults=10&start=1&SearchTarget=Book&output=js&Version=20131101`
+            `https://www.aladin.co.kr/ttb/api/ItemList.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&QueryType=ItemNewSpecial&MaxResults=10&start=1&SearchTarget=Book&output=js&Version=20131101`
         );
 
         const result: AladinItemListType[] = response.data.item;
