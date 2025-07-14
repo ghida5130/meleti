@@ -5,17 +5,19 @@ import styles from "/styles/page.module.scss";
 export const revalidate = 3600;
 
 export default async function Content() {
-    const [bestSellerRes, newReleaseRes, blogBestRes] = await Promise.all([
-        fetch(`/api/books/aladin?type=BestSeller`),
-        fetch(`/api/books/aladin?type=ItemNewSpecial`),
-        fetch(`/api/books/aladin?type=BlogBest`),
-    ]);
+    const baseUrl = process.env.SERVER_BASE_URL
+        ? process.env.SERVER_BASE_URL.replace(/\/$/, "") // 마지막 슬래시 제거
+        : `https://${process.env.VERCEL_URL}`;
 
-    const [bestSellerData, newReleaseData, blogBestData] = await Promise.all([
-        bestSellerRes.json(),
-        newReleaseRes.json(),
-        blogBestRes.json(),
-    ]);
+    const urls = [
+        `${baseUrl}/api/books/aladin?type=BestSeller`,
+        `${baseUrl}/api/books/aladin?type=ItemNewSpecial`,
+        `${baseUrl}/api/books/aladin?type=BlogBest`,
+    ];
+
+    const [bestSellerData, newReleaseData, blogBestData] = await Promise.all(
+        urls.map((u) => fetch(u, { next: { revalidate } }).then((r) => r.json()))
+    );
 
     return (
         <div className={styles.content}>

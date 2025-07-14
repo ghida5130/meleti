@@ -7,7 +7,6 @@ const pwaConfig = {
     register: true,
     skipWaiting: true,
     disable: process.env.NODE_ENV !== "production",
-    buildExcludes: [/middleware-manifest\.json$/],
 };
 
 const nextConfig = {
