@@ -66,8 +66,6 @@ export async function POST(req: NextRequest) {
                 quotes: [],
             });
         });
-
-        console.log("사용자 서재 도서 추가 완료");
         return NextResponse.json({ success: true });
     } catch (error: unknown) {
         if (error instanceof Error && error.message === "이미 추가된 도서입니다") {

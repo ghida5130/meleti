@@ -10,8 +10,6 @@ export async function fetchAladinItems(type: string): Promise<AladinItemsType[]>
 
     const result: AladinItemsType[] = response.data.item;
 
-    console.log("알라딘 기본 데이터");
-
     return result.map((val) =>
         Object.keys(val).reduce((acc, key) => {
             if (keysToRemain.includes(key)) {

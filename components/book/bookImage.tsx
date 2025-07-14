@@ -158,8 +158,6 @@ const BookImage: React.FC<{ cover: string; isbn: string }> = ({ cover, isbn }) =
     const { isLogin } = useUserData();
     const { setToast } = useToast();
 
-    console.log(isLogin);
-
     const handleRotate = () => {
         switch (rotationY) {
             case 0:

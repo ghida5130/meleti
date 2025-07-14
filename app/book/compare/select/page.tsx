@@ -3,12 +3,13 @@
 //alt 속성 수정
 
 import { useSecureGetQuery } from "@/hooks/useSecureGetQuery";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "/styles/compareSelect.module.scss";
 import Image from "next/image";
 import searchBtn from "@/public/ui/searchBtn.svg";
-import testImage2 from "@/public/test/frontTestImage2.jpg";
+import emptyBookIcon from "@/public/bookImage/compare.webp";
 import { useState } from "react";
+import { useToast } from "@/hooks/redux/useToast";
 
 interface AladinItemLookupType {
     title: string;
@@ -41,6 +42,8 @@ interface AladinSearchResultType {
 }
 
 export default function Select() {
+    const router = useRouter();
+    const { setToast } = useToast();
     const searchParams = useSearchParams();
     const baseIsbn = searchParams.get("base");
     const [searchKeyword, setSearchKeyword] = useState("");
@@ -71,6 +74,15 @@ export default function Select() {
         else setSearchResult([]);
     };
 
+    // 비교 버튼 누르면 compare 페이지로 이동
+    const handleCompare = () => {
+        if (baseIsbn && selectedBookIsbn) {
+            router.push(`/book/compare/${baseIsbn}_${selectedBookIsbn}`);
+        } else {
+            setToast({ message: "비교할 책을 선택해주세요.", type: "error" });
+        }
+    };
+
     if (isBaseLoading) return <div>Base Loading...</div>;
     if (baseError) return <div>base error</div>;
     if (!baseData) return <div>데이터 없음</div>;
@@ -87,19 +99,17 @@ export default function Select() {
                     <p className={styles.selectedBookText}>{baseData[0].title}</p>
                 </div>
                 <div className={styles.selectedBook}>
-                    <div className={styles.selectedBookImage}>
-                        <Image
-                            src={selectedBookCover === null ? testImage2 : selectedBookCover}
-                            alt=""
-                            fill
-                            sizes="100px"
-                            style={{ objectFit: "contain" }}
-                        />
+                    <div className={`${styles.selectedBookImage} ${!selectedBookCover && styles.emptySelectedBook}`}>
+                        {selectedBookCover ? (
+                            <Image src={selectedBookCover} alt="" fill sizes="100px" style={{ objectFit: "contain" }} />
+                        ) : (
+                            <Image src={emptyBookIcon} alt="" width={30} />
+                        )}
                     </div>
                     <p className={styles.selectedBookText}>{selectedBookTitle}</p>
                 </div>
             </div>
-            <button className={`${styles.compareBtn} ${selectedBookIsbn && styles.bgBluePink}`}>
+            <button onClick={handleCompare} className={`${styles.compareBtn} ${selectedBookIsbn && styles.bgBluePink}`}>
                 {selectedBookIsbn ? "선택 완료" : "비교할 도서 선택"}
             </button>
             <div className={styles.searchArea}>

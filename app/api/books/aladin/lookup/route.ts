@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const dynamic = "force-dynamic";
 
-interface AladinItemLookupType {
+export interface AladinItemLookupType {
     title: string;
     author: string;
     publisher: string;
@@ -16,6 +16,13 @@ interface AladinItemLookupType {
         subTitle: string;
         originalTitle: string;
         itemPage: number;
+        packing: {
+            styleDesc: string;
+            weight: number;
+            sizeDepth: number;
+            sizeHeight: number;
+            sizeWidth: number;
+        };
     };
     [key: string]: unknown;
 }
@@ -30,7 +37,7 @@ export async function GET(req: NextRequest) {
         }
 
         const response = await axios.get(
-            `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&itemIdType=ISBN13&itemId=${type}&output=js&Version=20131101`
+            `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&itemIdType=ISBN13&itemId=${type}&output=js&Version=20131101&OptResult=packing`
         );
 
         const result: AladinItemLookupType[] = response.data.item;
