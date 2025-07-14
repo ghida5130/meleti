@@ -4,17 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import styles from "/styles/carousel.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { AladinItemsType } from "@/types/aladin";
 
 interface CarouselData {
-    data?: itemTypes[];
-}
-interface itemTypes {
-    title: string;
-    author: string;
-    isbn: string;
-    isbn13: string;
-    itemid: number;
-    cover: string;
+    data?: AladinItemsType[];
 }
 
 export default function Carousel({ data }: CarouselData) {

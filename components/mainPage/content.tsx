@@ -1,3 +1,4 @@
+import { fetchAladinItems } from "@/lib/api/fetchAladinItems";
 import SectionTitle from "../ui/sectionTitle";
 import Carousel from "./carousel";
 import styles from "/styles/page.module.scss";
@@ -5,17 +6,9 @@ import styles from "/styles/page.module.scss";
 export const revalidate = 3600;
 
 export default async function Content() {
-    const [bestSellerRes, newReleaseRes, blogBestRes] = await Promise.all([
-        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/bestSeller`),
-        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/itemNewSpecial`),
-        fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/blogBest`),
-    ]);
-
-    const [bestSellerData, newReleaseData, blogBestData] = await Promise.all([
-        bestSellerRes.json(),
-        newReleaseRes.json(),
-        blogBestRes.json(),
-    ]);
+    const bestSellerData = await fetchAladinItems("BestSeller");
+    const newReleaseData = await fetchAladinItems("ItemNewSpecial");
+    const blogBestData = await fetchAladinItems("BlogBest");
 
     return (
         <div className={styles.content}>
