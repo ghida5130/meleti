@@ -16,21 +16,17 @@ export function calculateCompareBookSize({ w1, h1, d1, w2, h2, d2 }: CalculateCo
     let [cw1, ch1, cd1] = [5, 3, 0.4];
     let [cw2, ch2, cd2] = [5, 3, 0.4];
 
+    // 최대 높이 5에 맞추기 위해 곱해줄 값 (두 도서중 높이가 높은쪽을 기준)
     const largerHeight = h1 > h2 ? h1 : h2;
     const scaleFactor = maxHeight / largerHeight;
 
+    // 사이즈 조정
     ch1 = h1 * scaleFactor;
     ch2 = h2 * scaleFactor;
-
     cw1 = w1 * scaleFactor;
     cw2 = w2 * scaleFactor;
-
     if (d1 !== null) cd1 = d1 * scaleFactor;
     if (d2 !== null) cd2 = d2 * scaleFactor;
 
     return [cw1, ch1, cd1, cw2, ch2, cd2];
-
-    //만약 largerHeight(height1)가 47 이고 나머지(height2)가 35인 경우
-    // 47이 largerHeight에 저장되어있음 => 5에 맞춰야함
-    // 곱해야할 수 = 5 / largerHeight
 }

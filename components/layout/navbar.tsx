@@ -1,6 +1,8 @@
 import Link from "next/link";
 import styles from "/styles/navbar.module.scss";
 import Image from "next/image";
+
+// components
 import logoImage from "@/public/ui/meletiLogo.png";
 import searchBtn from "@/public/ui/searchBtn.svg";
 

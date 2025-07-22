@@ -15,7 +15,7 @@ import BottomBar from "../components/layout/bottomBar";
 import AccessTokenInitializer from "@/components/auth/accessTokenInitializer";
 
 export const metadata: Metadata = {
-    title: "Meleti",
+    title: "Meleti 나만의 모바일 서재",
     description: "나만의 서재를 만들고 독서를 시작해보세요.",
 };
 

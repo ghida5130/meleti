@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { admin } from "@/lib/firebase/firebaseAdmin";
 import { verifyAccessToken } from "@/lib/auth/verifyAccessToken";
 
-// 사용자 library 도서 목록 조회
+// 사용자 서재 목록 조회
+// req: accessToken
+// res: 사용자 서재 목록
 export async function GET(req: NextRequest) {
     try {
         const result = verifyAccessToken(req);

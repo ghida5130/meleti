@@ -15,6 +15,12 @@ interface AladinSearchResultType {
     [key: string]: unknown;
 }
 
+export async function generateMetadata({ searchParams }: { searchParams: { query?: string } }) {
+    return {
+        title: `Meleti 검색 : ${searchParams.query}`,
+    };
+}
+
 export default async function SearchResult({ searchParams }: { searchParams: { query?: string } }) {
     const searchResultResponse = await fetch(
         `${process.env.SERVER_BASE_URL}/api/books/aladin/search?query=${searchParams.query}`
@@ -32,7 +38,11 @@ export default async function SearchResult({ searchParams }: { searchParams: { q
                 {searchResultData.length !== 0 ? (
                     searchResultData.map((val) => {
                         return (
-                            <Link href={`/book/${val.isbn13}`} className={styles.item} key={val.title}>
+                            <Link
+                                href={`/book/${val.isbn13}`}
+                                className={styles.item}
+                                key={`${val.title} ${val.pubDate}`}
+                            >
                                 <div className={styles.bookCoverImage}>
                                     <Image
                                         src={val.cover}

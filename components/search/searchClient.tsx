@@ -3,9 +3,11 @@
 import Link from "next/link";
 import styles from "@/styles/search.module.scss";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
+
+// public
 import searchBtn from "@/public/ui/searchBtn.svg";
 import backArrow from "@/public/ui/back_arrow.svg";
-import { useEffect, useRef } from "react";
 
 export default function SearchClient() {
     const inputRef = useRef<HTMLInputElement>(null);

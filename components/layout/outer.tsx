@@ -1,9 +1,10 @@
 import Image from "next/image";
+import styles from "/styles/outer.module.scss";
+import Link from "next/link";
+
 import innerImage from "@/public/ui/study.jpg";
 import logoImage from "@/public/ui/meletiLogo.png";
-import styles from "/styles/outer.module.scss";
 import qrImage from "@/public/ui/qr_test.png";
-import Link from "next/link";
 
 export default function Outer() {
     return (

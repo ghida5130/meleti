@@ -3,6 +3,9 @@ import { admin } from "@/lib/firebase/firebaseAdmin";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 
+// 로그인
+// req: firebase idToken
+// res: 사용자 기본 정보, accessToken, refreshToken
 export async function POST(req: Request) {
     try {
         const { idToken } = await req.json();

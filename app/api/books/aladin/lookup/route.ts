@@ -27,6 +27,9 @@ export interface AladinItemLookupType {
     [key: string]: unknown;
 }
 
+// Aladin에서 도서 상세정보 조회
+// req: 도서 ISBN
+// res: 도서 상세정보
 export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
@@ -62,7 +65,7 @@ export async function GET(req: NextRequest) {
             }, {} as Partial<AladinItemLookupType>)
         );
 
-        return NextResponse.json(filteredResult);
+        return NextResponse.json(filteredResult[0]);
     } catch (error) {
         console.error("알라딘 ItemLookUp 도서 조회 에러 : ", error);
         return NextResponse.json({ error: "알라딘 ItemLookUp 도서 조회 실패" }, { status: 500 });

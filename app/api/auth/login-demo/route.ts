@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 
+// Demo 사용자로 로그인
+// res: 데모 유저 기본정보, accessToken, refreshToken
 export async function POST() {
     try {
         // 데모 유저 더미 데이터

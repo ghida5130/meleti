@@ -1,3 +1,4 @@
+// bcrypt로 암호화
 import bcrypt from "bcryptjs";
 
 export async function hashPassword(plain: string): Promise<string> {

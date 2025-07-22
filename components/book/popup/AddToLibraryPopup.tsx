@@ -3,12 +3,15 @@
 import { useState } from "react";
 import styles from "/styles/book.module.scss";
 import { useBook } from "@/providers/BookContext";
-import { useSecurePostMutation } from "@/hooks/useSecurePostMutation";
 
-import ReadBookInfo from "./readBookInfo";
-import FinishedBookInfo from "./finishedBookInfo";
+// hooks & utils
+import { useSecurePostMutation } from "@/hooks/queries/useSecurePostMutation";
 import { dateToYearMonth } from "@/utils/dateToYearMonth";
 import { useToast } from "@/hooks/redux/useToast";
+
+// components
+import ReadBookInfo from "./readBookInfo";
+import FinishedBookInfo from "./finishedBookInfo";
 
 interface BookTypes {
     isbn: string;
@@ -102,6 +105,7 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
         }
 
         setIsPopupOpen(false);
+        setToast({ message: "서재에 추가되었습니다", type: "success" });
     };
 
     if (!isPopupOpen) return null;

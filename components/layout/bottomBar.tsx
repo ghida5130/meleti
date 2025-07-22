@@ -3,11 +3,14 @@ import styles from "/styles/bottombar.module.scss";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 
+// public
 import homeImage from "@/public/bottomBar/home.svg";
 import searchImage from "@/public/bottomBar/search.svg";
 import myShelfImage from "@/public/bottomBar/myshelf.svg";
 import communityImage from "@/public/bottomBar/community.svg";
 import myPageImage from "@/public/bottomBar/mypage.svg";
+
+// components
 import Toast from "../ui/toast";
 
 export default function BottomBar() {

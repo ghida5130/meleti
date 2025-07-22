@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react";
-import { useSecureGetQuery } from "./useSecureGetQuery";
 import { AladinItemLookupType } from "@/app/api/books/aladin/lookup/route";
+import { usePublicGetQuery } from "../queries/usePublicGetQuery";
 
 type SizeResult = [number | null, number | null, number | null];
 
-const useBookSize = (isbn: string): SizeResult => {
+type UseBookSizeReturn = {
+    size: SizeResult;
+    isLoading: boolean;
+    error: unknown;
+};
+
+const useBookSize = (isbn: string): UseBookSizeReturn => {
     const [size, setSize] = useState<SizeResult>([null, null, null]);
 
-    const { data } = useSecureGetQuery<AladinItemLookupType[]>(`/api/books/aladin/lookup?type=${isbn}`, {
-        enabled: !!isbn,
-    });
+    const { data, isLoading, error } = usePublicGetQuery<AladinItemLookupType>(
+        `/api/books/aladin/lookup?type=${isbn}`,
+        {
+            enabled: !!isbn,
+        }
+    );
 
     useEffect(() => {
         if (!data) {
             return;
         }
 
-        const packing = data[0].subInfo?.packing;
+        const packing = data.subInfo?.packing;
 
         if (packing) {
             const { sizeWidth, sizeHeight, sizeDepth } = packing;
@@ -26,7 +35,7 @@ const useBookSize = (isbn: string): SizeResult => {
         }
     }, [data]);
 
-    return size;
+    return { size, isLoading, error };
 };
 
 export default useBookSize;

@@ -1,4 +1,4 @@
-// ISO 8601 형식의 날짜데이터를 yy MM 형식으로 변환
+// ISO 8601 형식의 날짜데이터를 "yy.MM" 형식으로 변환
 export function dateToYearMonth(dateStr: string): string {
     const date = new Date(dateStr);
 
