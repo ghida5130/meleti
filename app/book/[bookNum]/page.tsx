@@ -53,7 +53,7 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
     const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`);
     const book = (await res.json()) as AladinItemLookupType;
 
-    const [title, subtitle] = splitBookTitle(book.title, book.subInfo.subTitle);
+    const [title, subtitle] = splitBookTitle(book.title, book.subInfo.subTitle ?? "");
 
     // json-LD
     const jsonLD = {
