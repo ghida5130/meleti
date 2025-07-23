@@ -18,9 +18,8 @@ import Book3DViewer from "@/components/book/viewer/book3DViewer";
 
 // 동적 메타데이터
 export async function generateMetadata({ params }: { params: { bookNum: string } }) {
-    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${params.bookNum}`, {
-        next: { revalidate: 0 },
-    });
+    const isbn13 = params.bookNum;
+    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`);
     const book = (await res.json()) as AladinItemLookupType;
 
     // Metadata
