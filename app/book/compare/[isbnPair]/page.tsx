@@ -12,11 +12,15 @@ export default async function Compare({ params }: { params: { isbnPair: string }
     const [isbn1, isbn2] = params.isbnPair.split("_");
 
     // 첫번째 도서
-    const res1 = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn1}`);
+    const res1 = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn1}`, {
+        next: { revalidate: 0 },
+    });
     const book1 = (await res1.json()) as AladinItemLookupType;
 
     // 두번째 도서
-    const res2 = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn2}`);
+    const res2 = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn2}`, {
+        next: { revalidate: 0 },
+    });
     const book2 = (await res2.json()) as AladinItemLookupType;
 
     return (

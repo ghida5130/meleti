@@ -19,7 +19,9 @@ import Book3DViewer from "@/components/book/viewer/book3DViewer";
 // 동적 메타데이터
 export async function generateMetadata({ params }: { params: { bookNum: string } }) {
     const isbn13 = params.bookNum;
-    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`);
+    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`, {
+        next: { revalidate: 0 },
+    });
     const book = (await res.json()) as AladinItemLookupType;
 
     // Metadata
@@ -49,7 +51,9 @@ export async function generateMetadata({ params }: { params: { bookNum: string }
 
 export default async function Book({ params }: { params: { bookNum: string } }) {
     const isbn13 = params.bookNum;
-    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`);
+    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`, {
+        next: { revalidate: 0 },
+    });
     const book = (await res.json()) as AladinItemLookupType;
 
     const [title, subtitle] = splitBookTitle(book.title, book.subInfo.subTitle ?? "");
