@@ -1,15 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "/styles/community.module.scss";
 
+// public
 import newPostIcon from "@/public/community/newPost.svg";
 import testBookImage from "@/public/test/frontTestImage2.jpg";
-import Link from "next/link";
+
+export const metadata = {
+    title: "Meleti 커뮤니티",
+};
 
 export default function Community() {
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>
-                <p style={{ fontSize: "25px", fontWeight: "800" }}>커뮤니티</p>
+                <h1 style={{ fontSize: "25px", fontWeight: "800" }}>커뮤니티</h1>
                 <Link href="/community/post/quote/create" className={styles.newPostButton}>
                     <Image src={newPostIcon} alt="new post button" width={15} />새 글
                 </Link>

@@ -1,9 +1,10 @@
-// 사용자 refreshToken을 통해 accessToken을 재발급
-
 import { NextRequest, NextResponse } from "next/server";
 import { admin } from "@/lib/firebase/firebaseAdmin";
 import jwt from "jsonwebtoken";
 
+// 사용자 refreshToken을 통해 accessToken을 재발급
+// req: refreshToken
+// res: 사용자 기본 정보, accessToken
 export async function POST(req: NextRequest) {
     try {
         const refreshSecret = process.env.REFRESH_TOKEN_SECRET;

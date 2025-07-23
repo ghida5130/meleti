@@ -1,6 +1,8 @@
 "use client";
 
 import styles from "/styles/toast.module.scss";
+
+// hooks & utils
 import { useToast } from "@/hooks/redux/useToast";
 
 export default function Toast() {
@@ -20,9 +22,11 @@ export default function Toast() {
 
     return (
         <div className={`${styles.wrap} ${!toastVisible && styles.hide}`}>
-            <p>
-                {getIcon(toastType)} {toastMessage}
-            </p>
+            <div className={styles.toast}>
+                <p>
+                    {getIcon(toastType)} {toastMessage}
+                </p>
+            </div>
         </div>
     );
 }

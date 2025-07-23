@@ -16,6 +16,9 @@ interface AladinSearchResultType {
     [key: string]: unknown;
 }
 
+// Aladin에서 도서 제목으로 검색
+// req: 검색어
+// res: 검색 결과
 export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);

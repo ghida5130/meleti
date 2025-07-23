@@ -1,7 +1,12 @@
 "use client";
 
-import { useSecureGetQuery } from "@/hooks/useSecureGetQuery";
 import { XAxis, YAxis, ResponsiveContainer, Bar, BarChart, CartesianGrid, Cell } from "recharts";
+
+// hooks & utils
+import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
+
+// components
+import ChartSkeleton from "./chartSkeleton";
 
 function fillMissingMonths(data: { month: string; count: number }[]) {
     const filled: { month: string; count: number }[] = [];
@@ -21,7 +26,7 @@ export default function UserMonthlyStatsChart() {
         data: { month: string; count: number }[];
     }>("/api/users/monthly-stats?year=2024");
 
-    if (isLoading) return <div>로딩중...</div>;
+    if (isLoading) return <ChartSkeleton />;
     if (error) return <div>에러: {error.message}</div>;
     if (!data) return <div>데이터 없음</div>;
     const colors = ["#aab5c7", "#cac6d1", "#cfc7bd"];

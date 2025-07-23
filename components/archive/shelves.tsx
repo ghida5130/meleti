@@ -7,10 +7,10 @@ import Image from "next/image";
 import styles from "/styles/shelves.module.scss";
 import { useEffect, useRef, useState } from "react";
 
-import plusBtn from "/public/myshelf/plus.svg";
-import bookFrontTest2 from "/public/test/frontTestImage2.jpg";
-import bookSideTest from "/public/test/sideTestImage.jpg";
-import bookInnerImage from "/public/test2.jpg";
+import plusBtn from "@/public/myshelf/plus.svg";
+import bookFrontTest2 from "@/public/test/frontTestImage2.jpg";
+import bookSideTest from "@/public/test/sideTestImage.jpg";
+import bookInnerImage from "@/public/test2.jpg";
 import DivideLine from "@/components/ui/divideLine";
 
 export default function Shelves() {

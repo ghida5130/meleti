@@ -1,17 +1,23 @@
+import Link from "next/link";
 import Image from "next/image";
 import styles from "/styles/myshelfDetail.module.scss";
 
+// components
 import DivideLine from "@/components/ui/divideLine";
 import SectionTitle from "@/components/ui/sectionTitle";
 
+// public
 import testBookImage from "@/public/test/frontTestImage.jpg";
-import authorIcon from "/public/bookPage/author.svg";
-import publisherIcon from "/public/bookPage/publisher.svg";
+import authorIcon from "@/public/bookPage/author.svg";
+import publisherIcon from "@/public/bookPage/publisher.svg";
 import underArrowIcon from "@/public/myshelf/underArrow.svg";
 import editIcon from "@/public/myshelf/edit.svg";
 import newQuoteIcon from "@/public/myshelf/newQuote.svg";
 import prevPageIcon from "@/public/myshelf/backArrow.svg";
-import Link from "next/link";
+
+export const metadata = {
+    title: "Meleti 서재",
+};
 
 export default async function Detail({ params }: { params: Promise<{ bookNum: string }> }) {
     const isbn = (await params).bookNum;

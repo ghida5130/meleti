@@ -1,3 +1,4 @@
+// 도서 cover 기본 url을 통해 앞,뒤,옆면 이미지를 반환
 export function generateBookCoverUrl(cover: string) {
     const bookNum = cover.match(/coversum\/(.*?)_/);
     if (!bookNum) {

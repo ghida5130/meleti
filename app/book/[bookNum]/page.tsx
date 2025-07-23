@@ -1,45 +1,32 @@
 import styles from "/styles/book.module.scss";
 import Image from "next/image";
+import { AladinItemLookupType } from "@/app/api/books/aladin/lookup/route";
+import { splitBookTitle } from "@/utils/book/splitBookTitle";
+import { BookProvider } from "../../../providers/BookContext";
 
 // image
-import authorIcon from "/public/bookPage/author.svg";
-import publisherIcon from "/public/bookPage/publisher.svg";
-import pagesIcon from "/public/bookPage/pages.svg";
+import authorIcon from "@/public/bookPage/author.svg";
+import publisherIcon from "@/public/bookPage/publisher.svg";
+import pagesIcon from "@/public/bookPage/pages.svg";
 
 // components
 import DivideLine from "@/components/ui/divideLine";
 import Carousel from "@/components/mainPage/carousel";
 import SectionTitle from "@/components/ui/sectionTitle";
-import AddToLibraryPopup from "@/components/book/AddToLibraryPopup";
-import { BookProvider } from "../../../providers/BookContext";
-import BookImage from "@/components/book/bookImage";
+import AddToLibraryPopup from "@/components/book/popup/AddToLibraryPopup";
+import Book3DViewer from "@/components/book/viewer/book3DViewer";
 
-interface AladinItemLookUpType {
-    title: string;
-    author: string;
-    publisher: string;
-    pubDate: string;
-    isbn13: string;
-    description: string;
-    cover: string;
-    categoryName: string;
-    subInfo: {
-        subTitle: string;
-        originalTitle: string;
-        itemPage: number;
-    };
-}
-
+// 동적 메타데이터
 export async function generateMetadata({ params }: { params: { bookNum: string } }) {
-    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${params.bookNum}`, {
+    const isbn13 = params.bookNum;
+    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`, {
         next: { revalidate: 0 },
     });
-    const data: AladinItemLookUpType[] = await res.json();
-    const book = data[0];
+    const book = (await res.json()) as AladinItemLookupType;
 
     // Metadata
     return {
-        title: book.title,
+        title: `${book.title} : Meleti`,
         description: book.description,
         openGraph: {
             title: book.title,
@@ -64,15 +51,18 @@ export async function generateMetadata({ params }: { params: { bookNum: string }
 
 export default async function Book({ params }: { params: { bookNum: string } }) {
     const isbn13 = params.bookNum;
-    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`);
-    let book = await res.json();
-    book = book[0];
+    const res = await fetch(`${process.env.SERVER_BASE_URL}/api/books/aladin/lookup?type=${isbn13}`, {
+        next: { revalidate: 0 },
+    });
+    const book = (await res.json()) as AladinItemLookupType;
+
+    const [title, subtitle] = splitBookTitle(book.title, book.subInfo.subTitle ?? "");
 
     // json-LD
     const jsonLD = {
         "@context": "https://schema.org",
         "@type": "Book",
-        "name": book.title,
+        "name": title,
         "author": {
             "@type": "Person",
             "name": book.author,
@@ -82,7 +72,7 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
             "name": book.publisher,
         },
         "datePublished": book.pubDate,
-        "isbn": book.isbn,
+        "isbn": book.isbn13,
         "description": book.description,
         "image": book.cover,
         "category": book.categoryName,
@@ -94,17 +84,17 @@ export default async function Book({ params }: { params: { bookNum: string } }) 
         <>
             <div className={styles.wrap}>
                 <BookProvider>
-                    <BookImage cover={book.cover} isbn={isbn13} />
+                    <Book3DViewer cover={book.cover} isbn={isbn13} />
                     <AddToLibraryPopup
                         isbn={params.bookNum}
-                        title={book.title}
+                        title={title}
                         totalPages={book.subInfo.itemPage}
                         cover={book.cover}
                     />
                 </BookProvider>
                 <section className={styles.basicInfoArea}>
-                    <h1 style={{ fontSize: "25px", fontWeight: "600" }}>{book.title}</h1>
-                    {book.subInfo.subTitle && <h2 style={{ fontSize: "20px" }}>{book.subInfo.subTitle}</h2>}
+                    <h1 style={{ fontSize: "25px", fontWeight: "600" }}>{title}</h1>
+                    {subtitle && <h2 style={{ fontSize: "20px" }}>{subtitle}</h2>}
                     <p>
                         <Image
                             src={authorIcon}

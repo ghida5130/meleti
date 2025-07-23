@@ -1,32 +1,24 @@
 "use client";
 
-//alt 속성 수정
-
-import { useSecureGetQuery } from "@/hooks/useSecureGetQuery";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "/styles/compareSelect.module.scss";
 import Image from "next/image";
+
+// types
+import { AladinItemLookupType } from "@/app/api/books/aladin/lookup/route";
+
+// hooks & utils
+import { useToast } from "@/hooks/redux/useToast";
+import { usePublicGetQuery } from "@/hooks/queries/usePublicGetQuery";
+import { splitBookTitle } from "@/utils/book/splitBookTitle";
+
+// components
+import Loading from "@/app/loading";
+
+// public
 import searchBtn from "@/public/ui/searchBtn.svg";
 import emptyBookIcon from "@/public/bookImage/compare.webp";
-import { useState } from "react";
-import { useToast } from "@/hooks/redux/useToast";
-
-interface AladinItemLookupType {
-    title: string;
-    author: string;
-    publisher: string;
-    pubDate: string;
-    isbn13: string;
-    description: string;
-    cover: string;
-    categoryName: string;
-    subInfo: {
-        subTitle: string;
-        originalTitle: string;
-        itemPage: number;
-    };
-    [key: string]: unknown;
-}
 
 interface AladinSearchResultType {
     customerReviewRank: number;
@@ -57,10 +49,10 @@ export default function Select() {
         data: baseData,
         isLoading: isBaseLoading,
         error: baseError,
-    } = useSecureGetQuery<AladinItemLookupType[]>(`/api/books/aladin/lookup?type=${baseIsbn}`);
+    } = usePublicGetQuery<AladinItemLookupType>(`/api/books/aladin/lookup?type=${baseIsbn}`);
 
     // 검색 버튼 입력시 searchKeyword로 검색 결과 API 요청
-    const { isFetching: isSearchLoading, refetch: refetchSearch } = useSecureGetQuery<AladinSearchResultType[]>(
+    const { isFetching: isSearchLoading, refetch: refetchSearch } = usePublicGetQuery<AladinSearchResultType[]>(
         `/api/books/aladin/search?query=${searchKeyword}`,
         {
             enabled: false,
@@ -83,7 +75,12 @@ export default function Select() {
         }
     };
 
-    if (isBaseLoading) return <div>Base Loading...</div>;
+    // 페이지 최상단으로 스크롤
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    if (isBaseLoading) return <Loading />;
     if (baseError) return <div>base error</div>;
     if (!baseData) return <div>데이터 없음</div>;
     return (
@@ -94,16 +91,28 @@ export default function Select() {
             <div className={styles.selectedArea}>
                 <div className={styles.selectedBook}>
                     <div className={styles.selectedBookImage}>
-                        <Image src={baseData[0].cover} alt="" fill sizes="100px" style={{ objectFit: "contain" }} />
+                        <Image
+                            src={baseData.cover}
+                            alt="첫번째 선택 도서 표지"
+                            fill
+                            sizes="100px"
+                            style={{ objectFit: "contain" }}
+                        />
                     </div>
-                    <p className={styles.selectedBookText}>{baseData[0].title}</p>
+                    <p className={styles.selectedBookText}>{baseData.title}</p>
                 </div>
                 <div className={styles.selectedBook}>
                     <div className={`${styles.selectedBookImage} ${!selectedBookCover && styles.emptySelectedBook}`}>
                         {selectedBookCover ? (
-                            <Image src={selectedBookCover} alt="" fill sizes="100px" style={{ objectFit: "contain" }} />
+                            <Image
+                                src={selectedBookCover}
+                                alt="두번째 선택 도서 표지"
+                                fill
+                                sizes="100px"
+                                style={{ objectFit: "contain" }}
+                            />
                         ) : (
-                            <Image src={emptyBookIcon} alt="" width={30} />
+                            <Image src={emptyBookIcon} alt="두번째 도서가 선택되지 않음" width={30} />
                         )}
                     </div>
                     <p className={styles.selectedBookText}>{selectedBookTitle}</p>
@@ -126,36 +135,46 @@ export default function Select() {
                         }
                     }}
                 ></input>
-                <button onClick={handleSearch}>
-                    <Image src={searchBtn} alt="search button" width={20} />
+                <button onClick={handleSearch} aria-label="검색">
+                    <Image src={searchBtn} alt="" width={20} />
                 </button>
             </div>
-            {isSearchLoading ? (
-                <div>검색중</div>
-            ) : searchResult.length ? (
-                <div className={styles.resultGrid}>
-                    {searchResult.map((val) => {
-                        return (
-                            <button
-                                onClick={() => {
-                                    setSelectedBookTitle(val.title);
-                                    setSelectedBookCover(val.cover);
-                                    setSelectedBookIsbn(val.isbn13);
-                                }}
-                                className={styles.resultItemButton}
-                                key={val.title}
-                            >
-                                <div className={styles.resultImageArea}>
-                                    <Image src={val.cover} alt="" fill sizes="100px" style={{ objectFit: "contain" }} />
-                                </div>
-                                <p className={styles.resultItemText}>{val.title}</p>
-                            </button>
-                        );
-                    })}
-                </div>
-            ) : (
-                <div>검색결과가 없습니다.</div>
-            )}
+            <div className={styles.resultArea}>
+                {isSearchLoading ? (
+                    <Loading />
+                ) : searchResult.length ? (
+                    <div className={styles.resultGrid}>
+                        {searchResult.map((val) => {
+                            const [title] = splitBookTitle("val.title", "");
+                            return (
+                                <button
+                                    onClick={() => {
+                                        setSelectedBookTitle(val.title);
+                                        setSelectedBookCover(val.cover);
+                                        setSelectedBookIsbn(val.isbn13);
+                                        scrollToTop();
+                                    }}
+                                    className={styles.resultItemButton}
+                                    key={val.title}
+                                >
+                                    <div className={styles.resultImageArea}>
+                                        <Image
+                                            src={val.cover}
+                                            alt={title}
+                                            fill
+                                            sizes="100px"
+                                            style={{ objectFit: "contain" }}
+                                        />
+                                    </div>
+                                    <p className={styles.resultItemText}>{val.title}</p>
+                                </button>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div>검색결과가 없습니다.</div>
+                )}
+            </div>
         </div>
     );
 }

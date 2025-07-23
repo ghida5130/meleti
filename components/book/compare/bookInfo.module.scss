@@ -1,0 +1,68 @@
+@use "@/styles/_mixins" as mixin;
+
+.booksInfoArea {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 2;
+}
+
+.bookCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    overflow: hidden;
+
+    p {
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    dt {
+        @include mixin.onlyScreenReader;
+    }
+}
+
+.labelCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    min-width: 60px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #555;
+
+    p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        width: 100%;
+        text-align: center;
+    }
+
+    p:not(:first-of-type) {
+        border-bottom: 1px solid #ccc;
+    }
+}
+
+.titleText {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 6px 0;
+}

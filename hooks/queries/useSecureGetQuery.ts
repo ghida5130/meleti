@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { useUserData } from "./redux/useUserData";
+import { useUserData } from "../redux/useUserData";
 import { signout } from "@/lib/firebase/auth";
 
 type HttpError = {

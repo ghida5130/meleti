@@ -1,8 +1,14 @@
+import styles from "@/styles/mypage.module.scss";
+import Link from "next/link";
+
+// components
 import LogoutButton from "@/components/myPage/logoutButton";
 import MyPageUserInfoArea from "@/components/myPage/myPageUserInfoArea";
 import UserMonthlyStatsChart from "@/components/myPage/userMonthlyStatsChart";
-import styles from "@/styles/mypage.module.scss";
-import Link from "next/link";
+
+export const metadata = {
+    title: "Meleti 마이페이지",
+};
 
 export default function MyPagePage() {
     return (

@@ -1,3 +1,4 @@
+// components
 import LoadingImage from "@/components/ui/loadingImage";
 
 export default function Loading() {

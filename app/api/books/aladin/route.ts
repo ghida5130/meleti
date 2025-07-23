@@ -2,6 +2,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchAladinItems } from "@/lib/api/fetchAladinItems";
 
+// Aladin에서 타입에 따른 도서 목록 조회 (베스트셀러, 신간, 블로그)
+// req: 조회할 타입
+// res: 조회 결과
 export async function GET(req: NextRequest) {
     const type = req.nextUrl.searchParams.get("type") ?? "BestSeller";
 

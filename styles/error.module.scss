@@ -1,0 +1,12 @@
+.bookImageWrap {
+    width: 100%;
+    max-width: 600px;
+    min-width: 320px;
+    height: 500px;
+    background: #e6e6e6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}

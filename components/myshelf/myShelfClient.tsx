@@ -1,17 +1,21 @@
 "use client";
 
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import styles from "@/styles/myshelf.module.scss";
 
+// public
 import totalReadIcon from "@/public/myshelf/totalRead.svg";
 import thisYearReadIcon from "@/public/myshelf/thisYearRead.svg";
 import planReadIcon from "@/public/myshelf/planRead.svg";
 import quotesIcon from "@/public/myshelf/quotes.svg";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
+// hooks & utils
 import { useUserData } from "@/hooks/redux/useUserData";
-import { useGetUserLibrary } from "@/hooks/useGetUserLibrary";
+import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
+
+// components
 import Loading from "@/app/loading";
 
 interface UserLibraryType {
@@ -32,8 +36,8 @@ interface UserLibraryType {
 
 export default function MyShelfClient() {
     const [books, setBooks] = useState<UserLibraryType[]>([]);
-    const { userName, userAccessToken } = useUserData();
-    const { data, isLoading, error } = useGetUserLibrary(userAccessToken);
+    const { userName } = useUserData();
+    const { data, isLoading, error } = useSecureGetQuery<UserLibraryType[]>("api/users/library");
 
     useEffect(() => {
         if (data) setBooks(data);

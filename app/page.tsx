@@ -1,8 +1,8 @@
 import Image from "next/image";
 import styles from "/styles/page.module.scss";
 
-//images
-import testImage from "../public/ui/study.jpg";
+// public
+import testImage from "@/public/ui/study.jpg";
 
 // components
 import Content from "@/components/mainPage/content";

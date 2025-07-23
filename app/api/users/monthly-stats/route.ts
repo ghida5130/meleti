@@ -3,6 +3,8 @@ import { admin } from "@/lib/firebase/firebaseAdmin";
 import { verifyAccessToken } from "@/lib/auth/verifyAccessToken";
 
 // 사용자 컬렉션 monthly-stats에 월별 독서량 count 수정
+// req: accessToken
+// res: 월별 독서량 수정 성공 여부
 export async function POST(req: NextRequest) {
     try {
         const result = verifyAccessToken(req);

@@ -1,7 +1,11 @@
+import styles from "/styles/page.module.scss";
+
+// hooks & utils
 import { fetchAladinItems } from "@/lib/api/fetchAladinItems";
+
+// components
 import SectionTitle from "../ui/sectionTitle";
 import Carousel from "./carousel";
-import styles from "/styles/page.module.scss";
 
 export const revalidate = 3600;
 
