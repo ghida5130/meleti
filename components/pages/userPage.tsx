@@ -2,15 +2,11 @@ import styles from "@/styles/mypage.module.scss";
 import Link from "next/link";
 
 // components
-import LogoutButton from "@/components/myPage/logoutButton";
-import MyPageUserInfoArea from "@/components/myPage/myPageUserInfoArea";
-import UserMonthlyStatsChart from "@/components/myPage/userMonthlyStatsChart";
+import MyPageUserInfoArea from "../myPage/myPageUserInfoArea";
+import UserMonthlyStatsChart from "../myPage/userMonthlyStatsChart";
+import LogoutButton from "../myPage/logoutButton";
 
-export const metadata = {
-    title: "Meleti 마이페이지",
-};
-
-export default function MyPagePage() {
+export default function UserPage() {
     return (
         <div className={styles.wrap}>
             <MyPageUserInfoArea />

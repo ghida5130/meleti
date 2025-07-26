@@ -18,20 +18,20 @@ export default function BottomBar() {
         <div>
             <Toast />
             <div className={styles.bottomBarWrap}>
-                <BottomBarBtn src={homeImage} href="/" alt="homePageButton" />
-                <BottomBarBtn src={searchImage} href="/" alt="searchPageButton" />
-                <BottomBarBtn src={myShelfImage} href="/myshelf" alt="myShelfPageButton" />
-                <BottomBarBtn src={communityImage} href="/community" alt="communityPageButton" />
-                <BottomBarBtn src={myPageImage} href="/mypage" alt="myPageButton" />
+                <BottomBarBtn src={homeImage} href="/" aria="홈" />
+                <BottomBarBtn src={searchImage} href="/" aria="검색" />
+                <BottomBarBtn src={myShelfImage} href="/myshelf" aria="나의 서재" />
+                <BottomBarBtn src={communityImage} href="/community" aria="커뮤니티" />
+                <BottomBarBtn src={myPageImage} href="/user" aria="마이페이지" />
             </div>
         </div>
     );
 }
 
-const BottomBarBtn = ({ src, href, alt }: { src: StaticImageData; href: string; alt: string }) => {
+const BottomBarBtn = ({ src, href, aria }: { src: StaticImageData; href: string; aria: string }) => {
     return (
-        <Link className={styles.bottomBarBtn} href={href}>
-            <Image src={src} width={25} alt={alt} />
+        <Link className={styles.bottomBarBtn} href={href} aria-label={aria}>
+            <Image src={src} width={25} alt="" />
         </Link>
     );
 };
