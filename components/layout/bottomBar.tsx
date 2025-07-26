@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "/styles/bottombar.module.scss";
+import styles from "@/styles/bottombar.module.scss";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 

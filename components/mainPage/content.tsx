@@ -1,4 +1,4 @@
-import styles from "/styles/page.module.scss";
+import styles from "@/styles/page.module.scss";
 
 // hooks & utils
 import { fetchAladinItems } from "@/lib/api/fetchAladinItems";

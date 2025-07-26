@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "/styles/searchResultPage.module.scss";
+import styles from "@/styles/searchResultPage.module.scss";
 import Image from "next/image";
 
 interface AladinSearchResultType {

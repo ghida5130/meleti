@@ -1,4 +1,4 @@
-import styles from "/styles/myshelf.module.scss";
+import styles from "@/styles/myshelf.module.scss";
 
 // components
 import MyShelfClient from "@/components/myshelf/myShelfClient";

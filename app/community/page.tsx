@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import styles from "/styles/community.module.scss";
+import styles from "@/styles/community.module.scss";
 
 // public
 import newPostIcon from "@/public/community/newPost.svg";

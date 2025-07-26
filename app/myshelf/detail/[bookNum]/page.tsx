@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import styles from "/styles/myshelfDetail.module.scss";
+import styles from "@/styles/myshelfDetail.module.scss";
 
 // components
 import DivideLine from "@/components/ui/divideLine";

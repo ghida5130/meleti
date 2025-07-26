@@ -1,4 +1,4 @@
-import styles from "/styles/book.module.scss";
+import styles from "@/styles/book.module.scss";
 import Image from "next/image";
 import { AladinItemLookupType } from "@/app/api/books/aladin/lookup/route";
 import { splitBookTitle } from "@/utils/book/splitBookTitle";

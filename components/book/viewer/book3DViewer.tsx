@@ -6,7 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mesh, MathUtils, Texture, TextureLoader } from "three";
-import styles from "/styles/bookImage.module.scss";
+import styles from "@/styles/bookImage.module.scss";
 import { useBook } from "@/providers/BookContext";
 
 // public

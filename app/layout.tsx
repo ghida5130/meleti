@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.scss";
-import styles from "/styles/layout.module.scss";
+import styles from "@/styles/layout.module.scss";
 import { suit } from "@/lib/fonts";
 
 // providers

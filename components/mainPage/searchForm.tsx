@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import styles from "/styles/searchForm.module.scss";
+import styles from "@/styles/searchForm.module.scss";
 
 export default function SearchForm() {
     const [query, setQuery] = useState("");

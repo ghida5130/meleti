@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import styles from "/styles/book.module.scss";
+import styles from "@/styles/book.module.scss";
 import { useBook } from "@/providers/BookContext";
 
 // hooks & utils

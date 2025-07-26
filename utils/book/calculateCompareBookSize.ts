@@ -7,8 +7,19 @@ type CalculateCompareBookSizeType = {
     d2: number | null;
 };
 
-// 이미지 원본 사이즈를 입력받아 최적 사이즈로 변환하여 반환
-export function calculateCompareBookSize({ w1, h1, d1, w2, h2, d2 }: CalculateCompareBookSizeType) {
+/**
+ * 두 도서의 이미지 원본 크기를 기준 비율에 맞게 정규화하여 반환
+ *
+ * @param size 두 도서의 원본 사이즈 객체
+ * @param size.w1 첫번째 도서 가로 (단위: cm)
+ * @param size.h1 첫번째 도서 세로 (단위: cm)
+ * @param size.d1 첫번째 도서 두께 (단위: cm)
+ * @param size.w2 두번째 도서 가로 (단위: cm)
+ * @param size.h2 두번째 도서 세로 (단위: cm)
+ * @param size.d2 두번째 도서 두께 (단위: cm)
+ * @returns [첫째가로, 첫째세로, 첫째두께, 둘째가로, 둘째세로, 둘째두께] (단위: cm)
+ */
+export function calculateCompareBookSize({ w1, h1, d1, w2, h2, d2 }: CalculateCompareBookSizeType): number[] {
     // 최대 책 높이 지정
     const maxHeight = 5;
 

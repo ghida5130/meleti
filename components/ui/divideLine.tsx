@@ -1,4 +1,4 @@
-import styles from "/styles/divideLine.module.scss";
+import styles from "@/styles/divideLine.module.scss";
 
 export default function DivideLine() {
     return (

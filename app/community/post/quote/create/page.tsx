@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "/styles/createQuotePost.module.scss";
+import styles from "@/styles/createQuotePost.module.scss";
 
 // components
 import DivideLine from "@/components/ui/divideLine";

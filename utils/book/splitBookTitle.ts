@@ -1,7 +1,9 @@
-// 입력 : title:string, subtitle:string
-// 출력 : [title:string, subtitle:string]
-
-// title에서 subtitle을 분리하여 title만을 반환하고 subtitle이 없을경우 title에서 분리한 subtitle을 반환
+/**
+ * 제목과 부제목을 분리하여 반환
+ * @param title title
+ * @param subtitle subtitle (선택사항). 없으면 title에서 추출
+ * @returns [제목, 부제목]
+ */
 export function splitBookTitle(title: string, subtitle?: string): [string, string] {
     const dashIndex = title.indexOf("-");
 

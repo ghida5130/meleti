@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "/styles/toast.module.scss";
+import styles from "@/styles/toast.module.scss";
 
 // hooks & utils
 import { useToast } from "@/hooks/redux/useToast";

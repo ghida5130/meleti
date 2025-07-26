@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useUserData } from "@/hooks/redux/useUserData";
 import { signout } from "@/lib/firebase/auth";
-import "@/styles/datePicker.module.scss";
 
 export default function AccessTokenInitializer() {
     const { userAccessToken, clearUserData, setUserData } = useUserData();

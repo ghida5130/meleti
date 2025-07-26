@@ -5,7 +5,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Mesh, MathUtils, Texture, TextureLoader } from "three";
-import styles from "/styles/bookImage.module.scss";
+import styles from "@/styles/bookImage.module.scss";
 
 // public
 import rotateIcon from "@/public/bookPage/rotate.svg";

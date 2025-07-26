@@ -4,7 +4,7 @@
 "use client";
 
 import Image from "next/image";
-import styles from "/styles/shelves.module.scss";
+import styles from "@/styles/shelves.module.scss";
 import { useEffect, useRef, useState } from "react";
 
 import plusBtn from "@/public/myshelf/plus.svg";

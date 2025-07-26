@@ -4,8 +4,16 @@ type NormalizeBookSizeType = {
     depth: number | null;
 };
 
-// 이미지 원본 사이즈를 입력받아 최적 사이즈로 변환하여 반환
-export function normalizeBookSize({ width, height, depth }: NormalizeBookSizeType) {
+/**
+ * 도서 원본 크기를 기준 비율에 맞게 정규화하여 반환
+ *
+ * @param size 변환할 책의 원본 사이즈 객체
+ * @param size.width 가로 길이 (단위: cm), 없으면 기본값 사용
+ * @param size.height 세로 길이 (단위: cm), 없으면 기본값 사용
+ * @param size.depth 두께 (단위: cm), 없으면 기본값 사용
+ * @returns [가로, 세로, 두께] (단위: cm)
+ */
+export function normalizeBookSize({ width, height, depth }: NormalizeBookSizeType): [number, number, number] {
     // 최대 책 높이 지정
     const maxHeight = 4.5;
 
