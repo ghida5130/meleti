@@ -36,22 +36,25 @@
 
 ## 화면 구성
 
-- 메인 페이지
-
-<img alt="meleti main page screenshot" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_1.webp" width="600" />
+- 도서 상세 페이지 - 책 둘러보기, 비교하기 (모바일)
+  
+<div style="display: flex; justify-content: center;">
+<img alt="meleti book detail page" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_4.webp" height="600""/>
+<img alt="meleti book compare page" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_5.webp" height="600" />
+</div>
 <br><br><br>
 
-- 도서 상세 페이지 - 책 둘러보기 (모바일)
+- 메인 페이지
 
-<img alt="meleti book detail page screenshot - mobile" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_4.webp" width="300" />
+<img alt="meleti main page" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_1.webp" width="600" />
 <br><br><br>
 
 - 마이 페이지
 
-<img alt="meleti mypage screenshot" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_3.webp" width="600" />
+<img alt="meleti mypage" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_3.webp" width="600" />
 <br><br><br>
 
 - 도서 상세 페이지
 
-<img alt="meleti book detail page screenshot" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_2.webp" width="600" />
+<img alt="meleti book detail page" src="https://raw.githubusercontent.com/ghida5130/image-assets/refs/heads/main/comma/projects/meleti/meleti_2.webp" width="600" />
 
