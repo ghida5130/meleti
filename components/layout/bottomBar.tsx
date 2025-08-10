@@ -1,4 +1,3 @@
-import Link from "next/link";
 import styles from "@/styles/bottombar.module.scss";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
@@ -30,8 +29,8 @@ export default function BottomBar() {
 
 const BottomBarBtn = ({ src, href, ariaLabel }: { src: StaticImageData; href: string; ariaLabel: string }) => {
     return (
-        <Link className={styles.bottomBarBtn} href={href} aria-label={ariaLabel}>
+        <a className={styles.bottomBarBtn} href={href} aria-label={ariaLabel}>
             <Image src={src} width={25} alt="" />
-        </Link>
+        </a>
     );
 };

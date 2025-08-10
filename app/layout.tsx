@@ -13,7 +13,6 @@ import Footer from "../components/layout/footer";
 import Outer from "@/components/layout/outer";
 import BottomBar from "../components/layout/bottomBar";
 import AccessTokenInitializer from "@/components/auth/accessTokenInitializer";
-import Prefetcher from "@/providers/preFetcher";
 
 export const metadata: Metadata = {
     title: "Meleti 나만의 모바일 서재",
@@ -23,7 +22,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="ko" className={suit.className}>
-            <Prefetcher />
             <body>
                 <div className={styles.pageWrap}>
                     <StoreProvider>
