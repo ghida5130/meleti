@@ -9,5 +9,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/myshelf/:path*", "/mypage/:path"],
+    matcher: ["/myshelf/:path*", "/user/:path*"],
 };

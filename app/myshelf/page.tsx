@@ -1,5 +1,4 @@
-import MyShelfPage from "@/components/pages/myShelfPage";
-import "@/styles/myshelf.module.scss";
+import MyShelfPage from "@/components/pages/myShelf/myShelfPage";
 
 export const metadata = {
     title: "Meleti 서재",

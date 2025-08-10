@@ -1,5 +1,4 @@
-import "@/styles/search.module.scss";
-import SearchPage from "@/components/pages/searchPage";
+import SearchPage from "@/components/pages/search/searchPage";
 
 export const metadata = {
     title: "Meleti 도서 검색",

@@ -1,7 +1,7 @@
 import styles from "@/styles/myshelf.module.scss";
 
 // components
-import MyShelfClient from "../myshelf/myShelfClient";
+import MyShelfClient from "@/components/myshelf/myShelfClient";
 
 export default function MyShelfPage() {
     return (

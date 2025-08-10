@@ -1,0 +1,186 @@
+/* 기본 래퍼 */
+.header {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin: 30px auto 0;
+}
+
+.formWrap {
+    width: 320px;
+    min-height: 480px;
+    margin: 40px auto 0;
+    border-radius: 16px;
+}
+
+/* 드롭존 (label) */
+.dropzone {
+    position: relative;
+    margin-bottom: 20px;
+    width: 320px;
+    height: 320px;
+    border: 2px dashed #c7ccd4; /* 대비 향상 */
+    border-radius: 16px;
+    background: #f7f9fc;
+    transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease, background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    cursor: pointer;
+
+    &:hover {
+        border-color: #8b97a8;
+        background: #f2f6fb;
+    }
+
+    /* 포커스 링: 접근성 */
+    &:focus-within {
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+    }
+}
+
+/* 드래깅 상태 */
+.dragging,
+.dropzone[data-dragging="true"] {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: translateY(-1px);
+}
+
+/* 숨김 파일 input */
+.fileInput {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 프리뷰 */
+.preview {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* 플레이스홀더 */
+.placeholder {
+    text-align: center;
+    color: #4b5563; /* 대비 강화 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+}
+
+.placeholderIcon {
+    font-size: 32px;
+}
+
+.placeholderText {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.hint {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* 버튼 영역 */
+.row {
+    display: flex;
+    gap: 8px;
+}
+
+.primaryBtn,
+.secondaryBtn {
+    flex: 1;
+    height: 44px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    text-align: center;
+}
+
+/* 충분한 색 대비(검정에 가까운 배경 + 흰 글씨) */
+.primaryBtn {
+    background: #111827;
+    color: #ffffff;
+
+    &:hover {
+        background: #0b1220;
+        transform: translateY(-1px);
+    }
+
+    &:disabled,
+    &[aria-disabled="true"] {
+        background: #e5e7eb;
+        color: #6b7280;
+        transform: none;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: 3px solid rgba(59, 130, 246, 0.45);
+        outline-offset: 2px;
+    }
+}
+
+.secondaryBtn {
+    background: #f3f4f6;
+    color: #111827;
+    border-color: #e5e7eb;
+
+    &:hover {
+        background: #e9eaee;
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        background: #f5f6f8;
+        color: #b6bcc6;
+        transform: none;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: 3px solid rgba(59, 130, 246, 0.45);
+        outline-offset: 2px;
+    }
+}
+
+.inlineActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.linkBtn {
+    background: transparent;
+    border: none;
+    text-decoration: underline;
+    color: #1f2937;
+    cursor: pointer;
+    padding: 4px 2px;
+    font-size: 14px;
+
+    &:hover {
+        text-decoration-thickness: 2px;
+    }
+
+    &:focus-visible {
+        outline: 3px solid rgba(59, 130, 246, 0.45);
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+}
+
+/* 에러 텍스트 */
+.error {
+    margin: 0;
+    font-size: 13px;
+    color: #b91c1c; /* 대비 강한 적색 */
+}

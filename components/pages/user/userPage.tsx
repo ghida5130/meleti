@@ -2,9 +2,9 @@ import styles from "@/styles/mypage.module.scss";
 import Link from "next/link";
 
 // components
-import MyPageUserInfoArea from "../myPage/myPageUserInfoArea";
-import UserMonthlyStatsChart from "../myPage/userMonthlyStatsChart";
-import LogoutButton from "../myPage/logoutButton";
+import MyPageUserInfoArea from "@/components/myPage/myPageUserInfoArea";
+import UserMonthlyStatsChart from "@/components/myPage/userMonthlyStatsChart";
+import LogoutButton from "@/components/myPage/logoutButton";
 
 export default function UserPage() {
     return (

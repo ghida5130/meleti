@@ -1,4 +1,4 @@
-import SearchResultPage from "@/components/pages/searchResultPage";
+import SearchResultPage from "@/components/pages/search/searchResultPage";
 
 export async function generateMetadata({ searchParams }: { searchParams: { query?: string } }) {
     return {

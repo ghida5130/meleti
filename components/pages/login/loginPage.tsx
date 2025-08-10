@@ -1,7 +1,7 @@
 import styles from "@/styles/login.module.scss";
 
 // components
-import LoginButtonGroup from "../login/loginButtonGroup";
+import LoginButtonGroup from "@/components/login/loginButtonGroup";
 
 export default function LoginPage() {
     return (

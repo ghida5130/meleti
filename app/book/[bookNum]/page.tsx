@@ -9,7 +9,6 @@ export async function generateMetadata({ params }: { params: { bookNum: string }
     });
     const book = (await res.json()) as AladinItemLookupType;
 
-    // Metadata
     return {
         title: `${book.title} : Meleti`,
         description: book.description,

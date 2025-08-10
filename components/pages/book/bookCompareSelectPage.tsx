@@ -170,7 +170,7 @@ export default function BookCompareSelectPage({ baseIsbn }: { baseIsbn: string |
                         })}
                     </div>
                 ) : (
-                    <div>검색결과가 없습니다.</div>
+                    <div style={{ height: "1000px" }}>검색결과가 없습니다.</div>
                 )}
             </div>
         </div>

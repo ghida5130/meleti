@@ -1,5 +1,4 @@
-import UserPage from "@/components/pages/userPage";
-import "@/styles/mypage.module.scss";
+import UserPage from "@/components/pages/user/userPage";
 
 export const metadata = {
     title: "Meleti 마이페이지",
