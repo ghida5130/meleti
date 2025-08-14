@@ -27,6 +27,7 @@
 .profileArea {
     margin-bottom: 30px;
     .profileImage {
+        display: relative;
         margin: 30px auto 0;
         position: relative;
         width: 100px;
@@ -36,8 +37,7 @@
         overflow: hidden;
         box-shadow: 5px 5px 10px rgb(201, 201, 201);
 
-        image {
-            position: absolute;
+        img {
             object-fit: cover;
         }
     }

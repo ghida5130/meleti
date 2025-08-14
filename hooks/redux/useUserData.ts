@@ -5,6 +5,7 @@ interface userDataType {
     accessToken: string;
     name: string;
     email: string;
+    userImage: string | null;
     expiresIn: number;
 }
 
@@ -13,12 +14,15 @@ export const useUserData = () => {
     const dispatch = useAppDispatch();
     const userName = useAppSelector((state) => state.user.name);
     const userEmail = useAppSelector((state) => state.user.email);
+    const userImage = useAppSelector((state) => state.user.userImage);
     const userAccessToken = useAppSelector((state) => state.user.accessToken);
     const isLogin = !!userAccessToken;
     const isTokenInit = useAppSelector((state) => state.user.isInitializing);
 
-    const setUserData = ({ accessToken, name, email, expiresIn }: userDataType) =>
-        dispatch(setUser({ accessToken: accessToken, name: name, email: email, expiresIn: expiresIn }));
+    const setUserData = ({ accessToken, name, email, userImage, expiresIn }: userDataType) =>
+        dispatch(
+            setUser({ accessToken: accessToken, name: name, email: email, userImage: userImage, expiresIn: expiresIn })
+        );
     const clearUserData = () => {
         dispatch(clearUser());
     };
@@ -32,6 +36,7 @@ export const useUserData = () => {
     return {
         userName,
         userEmail,
+        userImage,
         userAccessToken,
         isLogin,
         isTokenInit,

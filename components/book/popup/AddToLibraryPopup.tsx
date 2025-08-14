@@ -52,29 +52,17 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
     const { mutate: addToLibrary } = useSecurePostMutation<{ message: string }, AddToLibraryInput>(
         "/api/users/library",
         {
-            onSuccess: (data) => {
-                console.log("사용자 서재 도서 추가 완료", data.message);
-            },
             onError: (err) => {
                 if (err.status === 409) {
                     setToast({ message: "이미 추가된 도서입니다", type: "error" });
                 }
-                console.error(`사용자 서재 도서 추가 에러 (${err.status}): ${err.message}`);
             },
         }
     );
 
     // 사용자 월별 독서 현황 count 수정
     const { mutate: updateToMonthlyStats } = useSecurePostMutation<{ message: string }, UpdateToMonthlyStatsInput>(
-        "/api/users/monthly-stats",
-        {
-            onSuccess: (data) => {
-                console.log("사용자 월별 독서량 수정 완료", data.message);
-            },
-            onError: (err) => {
-                console.error(`사용자 월별 독서랑 수정 에러 (${err.status}): ${err.message}`);
-            },
-        }
+        "/api/users/monthly-stats"
     );
 
     // 도서 데이터 사용자 라이브러리에 추가하기 (React-Query)

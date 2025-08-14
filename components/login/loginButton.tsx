@@ -17,10 +17,12 @@ export default function LoginButton({ provider }: LoginButtonProps) {
                 provider === "google" ? signInWithGoogle : provider === "github" ? signInWithGithub : signInDemo;
 
             const data = await signInFn();
+            console.log(data.userImage);
             setUserData({
                 accessToken: data.accessToken,
                 name: data.name,
                 email: data.email,
+                userImage: data.userImage,
                 expiresIn: Date.now() + 15 * 60 * 1000,
             });
             window.location.href = "/";

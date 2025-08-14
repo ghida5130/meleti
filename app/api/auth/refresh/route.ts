@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
             {
                 uid,
                 email: userData.email,
+                userImage: userData.userImage,
                 role: userData.role || "user",
             },
             accessSecret,
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
             uid,
             name: userData.name,
             email: userData.email,
+            userImage: userData.userImage,
             accessToken,
         });
     } catch (err) {

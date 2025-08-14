@@ -27,6 +27,7 @@ export default function AccessTokenInitializer() {
                     accessToken: data.accessToken,
                     name: data.name,
                     email: data.email,
+                    userImage: data.userImage,
                     expiresIn: Date.now() + 15 * 60 * 1000,
                 });
             } catch (error) {

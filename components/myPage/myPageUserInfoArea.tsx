@@ -11,11 +11,11 @@ import { useUserData } from "@/hooks/redux/useUserData";
 import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
 
 // public
-import defaultProfileImage from "@/public/ui/study.jpg";
+import defaultProfileImage from "@/public/mypage/defaultProfileImage.png";
 import Link from "next/link";
 
 export default function MyPageUserInfoArea() {
-    const { userName, userEmail } = useUserData();
+    const { userName, userEmail, userImage } = useUserData();
     const { data, isLoading, error } = useSecureGetQuery<CountByStatusType>("api/users/library/count");
 
     return (
@@ -28,7 +28,13 @@ export default function MyPageUserInfoArea() {
             </div>
             <div className={styles.profileArea}>
                 <div className={styles.profileImage}>
-                    <Image src={defaultProfileImage} alt="profile image" fill priority placeholder="empty" />
+                    <Image
+                        src={userImage ?? defaultProfileImage}
+                        alt="profile image"
+                        fill
+                        priority
+                        placeholder="empty"
+                    />
                 </div>
                 <p>{userName}</p>
                 <p>{userEmail}</p>

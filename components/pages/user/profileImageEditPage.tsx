@@ -3,8 +3,9 @@
 import { useEffect, useId, useRef, useState } from "react";
 import styles from "./profileImageEditPage.module.scss";
 import Image from "next/image";
+import { useSecureFilePostMutation } from "@/hooks/queries/useSecureFilePostMutation";
 
-const API_ENDPOINT = "/api/profile/image"; // 변경해서 사용
+const API_ENDPOINT = "/api/users/profile/image"; // 변경해서 사용
 
 export default function ProfileImageEditPage() {
     const inputId = useId();
@@ -20,6 +21,8 @@ export default function ProfileImageEditPage() {
     const [status, setStatus] = useState<string>("");
     const inputRef = useRef<HTMLInputElement | null>(null);
 
+    const { mutate: editProfileImage } = useSecureFilePostMutation<{ url: string }>(API_ENDPOINT);
+
     useEffect(() => {
         if (!image) {
             setPreviewUrl(null);
@@ -30,6 +33,7 @@ export default function ProfileImageEditPage() {
         return () => URL.revokeObjectURL(url);
     }, [image]);
 
+    // 파일 선택(드래그)이후 실행되는 검증 로직
     const onSelectFile = (file?: File) => {
         setError(null);
         setStatus("");
@@ -61,24 +65,32 @@ export default function ProfileImageEditPage() {
         setIsUploading(true);
         setError(null);
         setStatus("업로드 중…");
-        try {
-            const formData = new FormData();
-            formData.set("file", image);
-            const res = await fetch(API_ENDPOINT, { method: "POST", body: formData });
-            if (!res.ok) {
-                const msg = await res.text().catch(() => "업로드 실패");
-                throw new Error(msg || "업로드 실패");
+
+        editProfileImage(
+            {
+                file: image,
+                fileKey: "file",
+            },
+            {
+                onSuccess: (data) => {
+                    console.log("사용자 프로필 이미지 수정 완료", data.url);
+                    setImage(null);
+                    setPreviewUrl(null);
+                    setStatus("프로필 이미지 수정 완료");
+                },
+                onError: (err) => {
+                    console.error(`사용자 프로필 이미지 수정 에러 (${err.status}): ${err.message}`);
+                    let msg = err?.message || "업로드 중 오류 발생";
+                    if (err.status === 413) msg = "파일 용량이 너무 큽니다. 5MB 이하로 업로드 해주세요.";
+                    if (err.status === 415) msg = "지원하지 않는 파일 형식입니다.";
+                    setError(msg);
+                    setStatus("");
+                },
+                onSettled: () => {
+                    setIsUploading(false);
+                },
             }
-            setImage(null);
-            setPreviewUrl(null);
-            setStatus("프로필 이미지 수정 완료");
-        } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : "업로드 중 오류 발생";
-            setError(msg);
-            setStatus("");
-        } finally {
-            setIsUploading(false);
-        }
+        );
     };
 
     return (

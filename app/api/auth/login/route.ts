@@ -18,6 +18,7 @@ export async function POST(req: Request) {
         // firebase id token 유효성 검증
         const decodedToken = await admin.auth().verifyIdToken(idToken);
 
+        const userImage = decodedToken.picture;
         const uid = decodedToken.uid;
         const email = decodedToken.email;
         const name = decodedToken.name;
@@ -33,6 +34,7 @@ export async function POST(req: Request) {
                 uid,
                 email,
                 name,
+                userImage,
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
                 role: "user",
             });
@@ -47,7 +49,7 @@ export async function POST(req: Request) {
         if (!accessSecret || !refreshSecret) throw new Error("Token secret is not set");
 
         const accessToken = jwt.sign(
-            { uid, email, role: userDoc.exists ? userDoc.data()?.role : "user" },
+            { uid, email, userImage, role: userDoc.exists ? userDoc.data()?.role : "user" },
             accessSecret,
             { expiresIn: "15m", issuer: "meleti" }
         );
@@ -66,6 +68,7 @@ export async function POST(req: Request) {
             uid,
             email,
             name,
+            userImage,
             isNewUser: !userDoc.exists,
             role: userDoc.exists ? userDoc.data()?.role : "user",
             accessToken,
