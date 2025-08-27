@@ -38,8 +38,8 @@ export default function ProfileImageEditPage() {
         setError(null);
         setStatus("");
         if (!file) return;
-        if (!file.type.startsWith("image/")) {
-            setError("이미지 파일만 업로드 해주세요.");
+        if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+            setError("png, jpg, jpeg, webp 형식만 지원합니다.");
             return;
         }
         const MAX = 5 * 1024 * 1024;
@@ -153,7 +153,7 @@ export default function ProfileImageEditPage() {
                     id={inputId}
                     className={styles.fileInput}
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg, image/png, image/webp"
                     onChange={(e) => onSelectFile(e.target.files?.[0] ?? undefined)}
                     aria-invalid={error ? true : false}
                     aria-errormessage={error ? errorId : undefined}

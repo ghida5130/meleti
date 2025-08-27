@@ -3,6 +3,10 @@
 import { useSearchParams } from "next/navigation";
 import BookCompareSelectPage from "@/components/pages/book/bookCompareSelectPage";
 
+export const metadata = {
+    title: "Meleti - 도서 비교",
+};
+
 export default function Select() {
     const searchParams = useSearchParams();
     const baseIsbn = searchParams.get("base");

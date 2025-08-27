@@ -2,7 +2,7 @@ import SearchResultPage from "@/components/pages/search/searchResultPage";
 
 export async function generateMetadata({ searchParams }: { searchParams: { query?: string } }) {
     return {
-        title: `Meleti 검색 : ${searchParams.query}`,
+        title: `Meleti - ${searchParams.query} 검색결과`,
     };
 }
 

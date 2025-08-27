@@ -7,7 +7,7 @@ import { randomUUID } from "crypto";
 export const runtime = "nodejs"; // 파일 업로드는 node 런타임 권장
 export const dynamic = "force-dynamic";
 
-const ACCEPTED_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "image/avif"]);
+const ACCEPTED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
 
@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "파일 용량 초과" }, { status: 413 });
         }
 
+        // 저장할 파일명 지정
         const originalName = (file as File).name || "upload.bin";
         const timestamp = Date.now();
         const safeName = originalName.replace(/[^\w.\-]+/g, "_");
@@ -47,11 +48,10 @@ export async function POST(req: NextRequest) {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
 
-        // 3) Firebase Storage 업로드(관리자 권한)
-        const bucket = admin.storage().bucket(); // 기본 버킷
+        const bucket = admin.storage().bucket();
         const gcsFile = bucket.file(objectPath);
 
-        // 다운로드 토큰 생성(공유 URL 만들 때 사용)
+        // 다운로드 토큰 생성(URL 만들 때 사용)
         const token = randomUUID();
 
         await gcsFile.save(buffer, {
@@ -65,18 +65,18 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        // 4) 다운로드 URL 구성
+        // 다운로드 URL 구성
         const downloadURL = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(
             objectPath
         )}?alt=media&token=${token}`;
 
-        // 5) Firestore에 유저 프로필 이미지 URL 업데이트
+        // Firestore에 유저 프로필 이미지 URL 업데이트
         const db = admin.firestore();
         const userRef = db.collection("users").doc(uid);
         await userRef.set(
             {
                 userImage: downloadURL,
-                userImagePath: objectPath, // 나중에 교체/삭제할 때 유용
+                userImagePath: objectPath, // 나중에 교체,삭제할 때 사용
                 userImageUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
             },
             { merge: true }

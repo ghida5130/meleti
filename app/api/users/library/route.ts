@@ -2,6 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { admin } from "@/lib/firebase/firebaseAdmin";
 import { verifyAccessToken } from "@/lib/auth/verifyAccessToken";
 
+export interface UsersBookInfo {
+    id: string;
+    addedAt: {
+        _seconds: number;
+        _nanoseconds: number;
+    };
+    cover: string;
+    finishedAt: string;
+    quotes: string[];
+    readPage: number;
+    startedAt: string;
+    status: string;
+    title: string;
+    totalPages: number;
+}
+
 // 사용자 서재 목록 조회
 // req: accessToken
 // res: 사용자 서재 목록
@@ -22,10 +38,10 @@ export async function GET(req: NextRequest) {
                 id: doc.id,
                 addedAt: data.addedAt ?? "",
                 cover: data.cover ?? "",
-                finishedAt: data.finishedAt ?? 0,
+                finishedAt: data.finishedAt ?? "",
                 quotes: data.quotes ?? [],
                 readPage: data.readPage ?? 0,
-                startedAt: data.startedAt ?? 0,
+                startedAt: data.startedAt ?? "",
                 status: data.status ?? "",
                 title: data.title ?? "",
                 totalPages: data.totalPages ?? 0,

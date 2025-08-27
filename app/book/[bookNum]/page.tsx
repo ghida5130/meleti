@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: { bookNum: string }
     const book = (await res.json()) as AladinItemLookupType;
 
     return {
-        title: `${book.title} : Meleti`,
+        title: `Meleti - ${book.title}`,
         description: book.description,
         openGraph: {
             title: book.title,
