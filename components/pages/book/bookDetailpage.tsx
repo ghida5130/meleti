@@ -51,7 +51,7 @@ export default async function BookDetailPage({ bookNum }: { bookNum: string }) {
         <>
             <div className={styles.wrap}>
                 <BookProvider>
-                    <Book3DViewer cover={book.cover} isbn={isbn13} />
+                    <Book3DViewer cover={book.cover} isbn={isbn13} packing={book.subInfo.packing} />
                     <AddToLibraryPopup
                         isbn={bookNum}
                         title={title}
@@ -110,7 +110,7 @@ export default async function BookDetailPage({ bookNum }: { bookNum: string }) {
                     <Carousel />
                 </section>
             </div>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD).replace(/</g, "\\u003c") }} />
         </>
     );
 }

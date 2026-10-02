@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { admin } from "@/lib/firebase/firebaseAdmin";
-import { verifyAccessToken } from "@/lib/auth/verifyAccessToken";
+import { verifySession } from "@/lib/auth/session";
+import { checkOrigin } from "@/lib/auth/checkOrigin";
+import { getDemoBooks } from "@/lib/demo/books";
 
 export interface UsersBookInfo {
     id: string;
@@ -19,12 +21,13 @@ export interface UsersBookInfo {
 }
 
 // 사용자 서재 목록 조회
-// req: accessToken
+// - req: 세션 쿠키
 // res: 사용자 서재 목록
 export async function GET(req: NextRequest) {
     try {
-        const result = verifyAccessToken(req);
-        if ("uid" in result === false) return result;
+        const result = await verifySession(req);
+        if (result instanceof Response) return result;
+        if (result.isDemo) return NextResponse.json(getDemoBooks(), { headers: { "Cache-Control": "no-store" } });
         const { uid } = result;
 
         // 사옹자 서재 컬렉션 가져오기
@@ -48,7 +51,7 @@ export async function GET(req: NextRequest) {
             };
         });
 
-        return NextResponse.json(books);
+        return NextResponse.json(books, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
         console.error("사용자 서재 정보 불러오기 실패", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -57,17 +60,37 @@ export async function GET(req: NextRequest) {
 
 // 사용자 library에 도서 추가
 export async function POST(req: NextRequest) {
+    const originError = checkOrigin(req);
+    if (originError) return originError;
     try {
-        const result = verifyAccessToken(req);
-        if ("uid" in result === false) return result;
+        const result = await verifySession(req, true);
+        if (result instanceof Response) return result;
         const { uid } = result;
 
         const { isbn, status, title, totalPages, cover, startedAt, finishedAt, readPage } = await req.json();
 
+        const allowedStatuses = ["읽고 싶은 책", "읽는 중인 책", "읽은 책"];
+        const finishDate = finishedAt ? new Date(finishedAt) : null;
+        const startDate = startedAt ? new Date(startedAt) : null;
+        if (
+            typeof isbn !== "string" || !/^\d{13}$/.test(isbn) ||
+            typeof title !== "string" || !title.trim() ||
+            typeof cover !== "string" || !cover.startsWith("https://image.aladin.co.kr/") ||
+            !allowedStatuses.includes(status) ||
+            !Number.isInteger(totalPages) || totalPages < 0 ||
+            !Number.isInteger(readPage) || readPage < 0 || (totalPages > 0 && readPage > totalPages) ||
+            (startedAt != null && (!startDate || Number.isNaN(startDate.getTime()))) ||
+            (finishedAt != null && (!finishDate || Number.isNaN(finishDate.getTime()))) ||
+            (status === "읽은 책" && !finishDate) ||
+            (startDate && finishDate && startDate > finishDate)
+        ) {
+            return NextResponse.json({ error: "도서 기록 입력값이 올바르지 않습니다" }, { status: 400 });
+        }
+
         const db = admin.firestore();
+        const libraryRef = db.collection("users").doc(uid).collection("library").doc(isbn);
 
         await db.runTransaction(async (transaction) => {
-            const libraryRef = db.collection("users").doc(uid).collection("library").doc(isbn);
             const existing = await transaction.get(libraryRef);
 
             if (existing.exists) throw new Error("이미 추가된 도서입니다");

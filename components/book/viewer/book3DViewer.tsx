@@ -22,12 +22,9 @@ import compareButtonIcon from "@/public/bookImage/compare.webp";
 // hooks & utils
 import { useUserData } from "@/hooks/redux/useUserData";
 import { useToast } from "@/hooks/redux/useToast";
-import useBookSize from "@/hooks/utils/useBookSize";
 import { normalizeBookSize } from "@/utils/book/normalizeBookSize";
 import { generateBookCoverUrl } from "@/utils/book/generateBookCoverUrl";
-
-// components
-import BookImageSkeleton from "./bookImageSkeleton";
+import type { AladinItemLookupType } from "@/app/api/books/aladin/lookup/route";
 
 type RotatingBookPropsType = {
     rotationY: number;
@@ -136,11 +133,19 @@ const Plane = () => (
     </mesh>
 );
 
-export default function Book3DViewer({ cover, isbn }: { cover: string; isbn: string }) {
+export default function Book3DViewer({
+    cover,
+    isbn,
+    packing,
+}: {
+    cover: string;
+    isbn: string;
+    packing: AladinItemLookupType["subInfo"]["packing"] | undefined;
+}) {
     const [rotationY, setRotationY] = useState(3);
     const { setIsPopupOpen } = useBook();
     const router = useRouter();
-    const { isLogin } = useUserData();
+    const { isLogin, isDemo } = useUserData();
     const { setToast } = useToast();
 
     const handleRotate = () => {
@@ -167,17 +172,13 @@ export default function Book3DViewer({ cover, isbn }: { cover: string; isbn: str
     };
 
     // 책의 실제 사이즈
-    const { size, isLoading, error } = useBookSize(isbn);
-    const [width, height, depth] = size;
-
-    if (isLoading) return <BookImageSkeleton />;
+    const width = Number(packing?.sizeWidth) || null;
+    const height = Number(packing?.sizeHeight) || null;
+    const depth = Number(packing?.sizeDepth) || null;
 
     // 표시영역에 맞춰 책 사이즈 계산
     const [convertedWidth, convertedHeight, convertedDepth] = normalizeBookSize({ width, height, depth });
 
-    if (error) {
-        setToast({ message: "책 사이즈 정보가 없어 기본 사이즈로 표시합니다.", type: "error" });
-    }
     return (
         <>
             <div className={styles.wrap}>
@@ -222,8 +223,9 @@ export default function Book3DViewer({ cover, isbn }: { cover: string; isbn: str
                 <button
                     className={`${styles.btn} ${styles.plusBtn}`}
                     onClick={() => {
-                        if (isLogin) setIsPopupOpen(true);
-                        else setToast({ message: "로그인이 필요합니다", type: "error" });
+                        if (!isLogin) setToast({ message: "로그인이 필요합니다", type: "error" });
+                        else if (isDemo) setToast({ message: "데모 계정은 기록을 변경할 수 없습니다", type: "error" });
+                        else setIsPopupOpen(true);
                     }}
                 >
                     <Image src={plusButtonIcon} alt="add my library button" width={30} priority />

@@ -1,6 +1,7 @@
 import styles from "@/styles/bottombar.module.scss";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
+import Link from "next/link";
 
 // public
 import homeImage from "@/public/bottomBar/home.svg";
@@ -18,7 +19,7 @@ export default function BottomBar() {
             <Toast />
             <div className={styles.bottomBarWrap}>
                 <BottomBarBtn src={homeImage} href="/" ariaLabel="홈" />
-                <BottomBarBtn src={searchImage} href="/" ariaLabel="검색" />
+                <BottomBarBtn src={searchImage} href="/search" ariaLabel="검색" />
                 <BottomBarBtn src={myShelfImage} href="/myshelf" ariaLabel="나의 서재" />
                 <BottomBarBtn src={communityImage} href="/community" ariaLabel="커뮤니티" />
                 <BottomBarBtn src={myPageImage} href="/user" ariaLabel="마이페이지" />
@@ -29,8 +30,8 @@ export default function BottomBar() {
 
 const BottomBarBtn = ({ src, href, ariaLabel }: { src: StaticImageData; href: string; ariaLabel: string }) => {
     return (
-        <a className={styles.bottomBarBtn} href={href} aria-label={ariaLabel}>
+        <Link className={styles.bottomBarBtn} href={href} aria-label={ariaLabel}>
             <Image src={src} width={25} alt="" />
-        </a>
+        </Link>
     );
 };

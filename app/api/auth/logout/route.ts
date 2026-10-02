@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
+import { checkOrigin } from "@/lib/auth/checkOrigin";
+import { clearSessionCookie, deleteSession } from "@/lib/auth/session";
 
-// refreshToken 만료로 로그아웃 처리
-// res: 만료된 refreshToken
-export async function POST() {
-    const response = NextResponse.json({ message: "Logged out" });
+export async function POST(req: Request) {
+    const originError = checkOrigin(req);
+    if (originError) return originError;
 
-    // refreshToken 쿠키 무효화
-    response.cookies.set("refreshToken", "", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        expires: new Date(0), // 즉시 만료
-    });
-
-    return response;
+    try {
+        await deleteSession(req);
+        const response = NextResponse.json({ message: "Logged out" });
+        clearSessionCookie(response);
+        return response;
+    } catch (error) {
+        console.error("로그아웃 실패:", error);
+        return NextResponse.json({ error: "로그아웃에 실패했습니다" }, { status: 500 });
+    }
 }

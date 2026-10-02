@@ -1,75 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
 import { admin } from "@/lib/firebase/firebaseAdmin";
-import { verifyAccessToken } from "@/lib/auth/verifyAccessToken";
-
-// 사용자 컬렉션 monthly-stats에 월별 독서량 count 수정
-// req: accessToken
-// res: 월별 독서량 수정 성공 여부
-export async function POST(req: NextRequest) {
-    try {
-        const result = verifyAccessToken(req);
-        if ("uid" in result === false) return result;
-        const { uid } = result;
-
-        const { count, pages, finishedAt } = await req.json();
-
-        const db = admin.firestore();
-        const monthlyStatsRef = db.collection("users").doc(uid).collection("monthlyStats").doc(finishedAt);
-
-        const docSnap = await monthlyStatsRef.get();
-
-        if (docSnap.exists) {
-            await monthlyStatsRef.update({
-                count: admin.firestore.FieldValue.increment(count),
-                readPages: admin.firestore.FieldValue.increment(pages),
-                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-            });
-        } else {
-            await monthlyStatsRef.set({
-                count,
-                readPages: pages,
-                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-                createdAt: admin.firestore.FieldValue.serverTimestamp(),
-            });
-        }
-
-        return NextResponse.json({ message: "서버 월별 독서량 업데이트 완료", success: true });
-    } catch (error) {
-        console.error("사용자 월별 독서량 업데이트 실패 : ", error);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-    }
-}
+import { verifySession } from "@/lib/auth/session";
+import { getDemoBooks } from "@/lib/demo/books";
 
 export async function GET(req: NextRequest) {
     try {
-        const result = verifyAccessToken(req);
-        if ("uid" in result === false) return result;
-        const { uid } = result;
+        const result = await verifySession(req);
+        if (result instanceof Response) return result;
 
         const year = req.nextUrl.searchParams.get("year");
-
-        if (!year) {
-            return NextResponse.json({ error: "연도 정보 없음" }, { status: 400 });
+        if (!year || !/^\d{4}$/.test(year)) {
+            return NextResponse.json({ error: "올바른 연도가 필요합니다" }, { status: 400 });
         }
+        const books = result.isDemo
+            ? getDemoBooks()
+            : (await admin.firestore().collection("users").doc(result.uid).collection("library").get())
+                .docs.map((doc) => doc.data());
+        const formatter = new Intl.DateTimeFormat("ko-KR", {
+            timeZone: "Asia/Seoul",
+            year: "numeric",
+            month: "2-digit",
+        });
+        const counts = new Map<string, number>();
+        for (const book of books) {
+            if (book.status !== "읽은 책" || typeof book.finishedAt !== "string") continue;
+            const date = new Date(book.finishedAt);
+            if (Number.isNaN(date.getTime())) continue;
+            const parts = formatter.formatToParts(date);
+            const bookYear = parts.find((part) => part.type === "year")?.value;
+            const month = parts.find((part) => part.type === "month")?.value;
+            if (bookYear !== year || !month) continue;
+            const key = `${year.slice(2)}.${month}`;
+            counts.set(key, (counts.get(key) ?? 0) + 1);
+        }
+        const data = Array.from(counts).map(([month, count]) => ({ month, count }))
+            .sort((a, b) => a.month.localeCompare(b.month));
 
-        const db = admin.firestore();
-        const monthlyStatsRef = db.collection("users").doc(uid).collection("monthlyStats");
-
-        const snapshot = await monthlyStatsRef.get();
-
-        const monthlyStatsData = snapshot.docs
-            .map((doc) => {
-                const id = doc.id;
-                const data = doc.data();
-                if (!id.startsWith(year.slice(2))) return null;
-                return { month: id, count: data.count ?? 0 };
-            })
-            .filter(Boolean)
-            .sort((a, b) => a!.month.localeCompare(b!.month));
-
-        return NextResponse.json({ data: monthlyStatsData });
+        return NextResponse.json({ data }, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
-        console.error("사용자 월별 독서량 조회 실패 :", error);
+        console.error("사용자 월별 독서량 조회 실패:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

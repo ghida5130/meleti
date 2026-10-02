@@ -24,13 +24,23 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const query = searchParams.get("query");
 
-        if (!query) {
+        if (!query?.trim() || query.length > 100) {
             return NextResponse.json({ error: "쿼리 파라미터 없음: query" }, { status: 400 });
         }
 
-        const response = await axios.get(
-            `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&Query=${query}&QueryType=Keyword&MaxResults=10&start=1&SearchTarget=Book&output=js&Version=20131101&Cover=MidBig`
-        );
+        const response = await axios.get("https://www.aladin.co.kr/ttb/api/ItemSearch.aspx", {
+            params: {
+                ttbkey: process.env.ALADIN_TTB_KEY,
+                Query: query.trim(),
+                QueryType: "Keyword",
+                MaxResults: 10,
+                start: 1,
+                SearchTarget: "Book",
+                output: "js",
+                Version: "20131101",
+                Cover: "MidBig",
+            },
+        });
 
         const result: AladinSearchResultType[] = response.data.item;
 

@@ -6,8 +6,9 @@ import { useBook } from "@/providers/BookContext";
 
 // hooks & utils
 import { useSecurePostMutation } from "@/hooks/queries/useSecurePostMutation";
-import { dateToYearMonth } from "@/utils/dateToYearMonth";
 import { useToast } from "@/hooks/redux/useToast";
+import { useUserData } from "@/hooks/redux/useUserData";
+import { useQueryClient } from "@tanstack/react-query";
 
 // components
 import ReadBookInfo from "./readBookInfo";
@@ -31,12 +32,6 @@ type AddToLibraryInput = {
     readPage: number;
 };
 
-type UpdateToMonthlyStatsInput = {
-    count: number;
-    pages: number;
-    finishedAt: string;
-};
-
 export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: BookTypes) {
     const [isOpen, setIsOpen] = useState(false);
     const [startedAt, setStartedAt] = useState<Date | null>(new Date());
@@ -44,25 +39,15 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
     // const [quotes, setQuotes] = useState<string[]>([]);
     const [readPage, setReadPage] = useState("");
     const { setToast } = useToast();
+    const { uid, isDemo } = useUserData();
+    const queryClient = useQueryClient();
 
     // 팝업창, 독서상태 관리용 state (Context API)
     const { isPopupOpen, setIsPopupOpen, selectedStatus, setSelectedStatus } = useBook();
 
     // 사용자 서재에 도서 추가
-    const { mutate: addToLibrary } = useSecurePostMutation<{ message: string }, AddToLibraryInput>(
-        "/api/users/library",
-        {
-            onError: (err) => {
-                if (err.status === 409) {
-                    setToast({ message: "이미 추가된 도서입니다", type: "error" });
-                }
-            },
-        }
-    );
-
-    // 사용자 월별 독서 현황 count 수정
-    const { mutate: updateToMonthlyStats } = useSecurePostMutation<{ message: string }, UpdateToMonthlyStatsInput>(
-        "/api/users/monthly-stats"
+    const { mutateAsync: addToLibrary, isPending } = useSecurePostMutation<{ success: boolean }, AddToLibraryInput>(
+        "/api/users/library"
     );
 
     // 도서 데이터 사용자 라이브러리에 추가하기 (React-Query)
@@ -72,28 +57,31 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
             return;
         }
 
-        addToLibrary({
-            isbn,
-            status: selectedStatus,
-            title,
-            totalPages,
-            cover,
-            startedAt,
-            finishedAt,
-            readPage: Number(readPage),
-        });
-
-        if (selectedStatus === "읽은 책") {
-            const convertedDate = dateToYearMonth(String(finishedAt));
-            updateToMonthlyStats({
-                count: 1,
-                pages: totalPages,
-                finishedAt: convertedDate,
-            });
+        if (isDemo) {
+            setToast({ message: "데모 계정은 기록을 변경할 수 없습니다", type: "error" });
+            return;
         }
 
-        setIsPopupOpen(false);
-        setToast({ message: "서재에 추가되었습니다", type: "success" });
+        try {
+            await addToLibrary({
+                isbn,
+                status: selectedStatus,
+                title,
+                totalPages,
+                cover,
+                startedAt: selectedStatus === "읽고 싶은 책" ? null : startedAt,
+                finishedAt: selectedStatus === "읽은 책" ? finishedAt : null,
+                readPage: selectedStatus === "읽은 책" ? totalPages : Number(readPage),
+            });
+            await queryClient.invalidateQueries({ queryKey: [uid] });
+            setIsPopupOpen(false);
+            setToast({ message: "서재에 추가되었습니다", type: "success" });
+        } catch (error) {
+            const message = error && typeof error === "object" && "message" in error
+                ? String(error.message)
+                : "서재에 추가하지 못했습니다";
+            setToast({ message, type: "error" });
+        }
     };
 
     if (!isPopupOpen) return null;
@@ -158,7 +146,7 @@ export default function AddToLibraryPopup({ isbn, title, totalPages, cover }: Bo
                         setFinishedAt={setFinishedAt}
                     />
                 )}
-                <button className={styles.addButton} onClick={handleAddToLibrary} disabled={!selectedStatus}>
+                <button className={styles.addButton} onClick={handleAddToLibrary} disabled={!selectedStatus || isPending}>
                     추가하기
                 </button>
             </div>

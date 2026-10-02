@@ -83,7 +83,7 @@ export default function Carousel({ data }: CarouselData) {
                                             fill
                                             sizes="240px"
                                             style={{ objectFit: "cover", objectPosition: "top" }}
-                                            priority
+                                            priority={idx < 3}
                                         />
                                     </div>
                                     <div className={styles.bestSellerTitleArea}>

@@ -1,0 +1,48 @@
+.list {
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.item {
+    flex: 0 0 120px;
+    height: 190px;
+    overflow: hidden;
+    border: 1px solid rgb(206, 206, 206);
+    border-radius: 5px;
+}
+
+.cover {
+    height: 140px;
+    background: #e5e5e5;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.text,
+.textShort {
+    height: 10px;
+    margin: 8px 6px 0;
+    border-radius: 3px;
+    background: #e5e5e5;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.textShort {
+    width: 60%;
+    margin-top: 6px;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cover,
+    .text,
+    .textShort {
+        animation: none;
+    }
+}

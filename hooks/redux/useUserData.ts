@@ -1,48 +1,38 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { clearUser, setUser, setToken, finishInitializingUser } from "@/store/user/userSlice";
+import { clearUser, setUser, setUserImage } from "@/store/user/userSlice";
 
 interface userDataType {
-    accessToken: string;
-    name: string;
-    email: string;
+    uid: string;
+    name: string | null;
+    email: string | null;
     userImage: string | null;
-    expiresIn: number;
+    isDemo: boolean;
 }
 
-// userData (accessToken 및 간단 정보) redux store 사용 custom hook
+// - 사용자 화면 정보만 Redux에 보관
 export const useUserData = () => {
     const dispatch = useAppDispatch();
     const userName = useAppSelector((state) => state.user.name);
     const userEmail = useAppSelector((state) => state.user.email);
     const userImage = useAppSelector((state) => state.user.userImage);
-    const userAccessToken = useAppSelector((state) => state.user.accessToken);
-    const isLogin = !!userAccessToken;
-    const isTokenInit = useAppSelector((state) => state.user.isInitializing);
+    const uid = useAppSelector((state) => state.user.uid);
+    const isDemo = useAppSelector((state) => state.user.isDemo);
+    const isLogin = !!uid;
 
-    const setUserData = ({ accessToken, name, email, userImage, expiresIn }: userDataType) =>
-        dispatch(
-            setUser({ accessToken: accessToken, name: name, email: email, userImage: userImage, expiresIn: expiresIn })
-        );
+    const setUserData = (data: userDataType) => dispatch(setUser(data));
+    const updateUserImage = (url: string) => dispatch(setUserImage(url));
     const clearUserData = () => {
         dispatch(clearUser());
     };
-    const setAccessToken = (accessToken: string) => dispatch(setToken({ accessToken: accessToken }));
-
-    // UI용 init 변수 조정 (accessToken 발급 전 특정 동작 방지 용도)
-    const finishInit = () => {
-        dispatch(finishInitializingUser());
-    };
-
     return {
         userName,
         userEmail,
         userImage,
-        userAccessToken,
+        uid,
+        isDemo,
         isLogin,
-        isTokenInit,
         setUserData,
+        updateUserImage,
         clearUserData,
-        setAccessToken,
-        finishInit,
     };
 };

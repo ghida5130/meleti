@@ -12,7 +12,8 @@ import Navbar from "../components/layout/navbar";
 import Footer from "../components/layout/footer";
 import Outer from "@/components/layout/outer";
 import BottomBar from "../components/layout/bottomBar";
-import AccessTokenInitializer from "@/components/auth/accessTokenInitializer";
+import SessionInitializer from "@/components/auth/sessionInitializer";
+import AgentationDevTools from "@/components/agentationDevTools";
 
 export const metadata: Metadata = {
     title: "Meleti - 나만의 모바일 서재",
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <body>
                 <div className={styles.pageWrap}>
                     <StoreProvider>
-                        <AccessTokenInitializer />
+                        <SessionInitializer />
                         <Outer />
                         <div className={styles.main}>
                             <Navbar />
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                         </div>
                     </StoreProvider>
                 </div>
+                <AgentationDevTools />
             </body>
         </html>
     );

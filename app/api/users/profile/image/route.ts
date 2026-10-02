@@ -1,7 +1,8 @@
 // app/api/user/profile-image/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { admin } from "@/lib/firebase/firebaseAdmin";
-import { verifyAccessToken } from "@/lib/auth/verifyAccessToken";
+import { verifySession } from "@/lib/auth/session";
+import { checkOrigin } from "@/lib/auth/checkOrigin";
 import { randomUUID } from "crypto";
 
 export const runtime = "nodejs"; // 파일 업로드는 node 런타임 권장
@@ -12,10 +13,12 @@ const ACCEPTED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
 
 export async function POST(req: NextRequest) {
+    const originError = checkOrigin(req);
+    if (originError) return originError;
     try {
-        // accessToken 검증
-        const result = verifyAccessToken(req);
-        if ("uid" in result === false) return result;
+        // - 세션 검증
+        const result = await verifySession(req, true);
+        if (result instanceof Response) return result;
         const { uid } = result;
 
         // req로 받은 파일 추출

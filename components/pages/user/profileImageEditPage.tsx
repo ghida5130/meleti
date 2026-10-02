@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import styles from "./profileImageEditPage.module.scss";
 import Image from "next/image";
 import { useSecureFilePostMutation } from "@/hooks/queries/useSecureFilePostMutation";
+import { useUserData } from "@/hooks/redux/useUserData";
 
 const API_ENDPOINT = "/api/users/profile/image"; // 변경해서 사용
 
@@ -22,6 +23,7 @@ export default function ProfileImageEditPage() {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const { mutate: editProfileImage } = useSecureFilePostMutation<{ url: string }>(API_ENDPOINT);
+    const { isDemo, updateUserImage } = useUserData();
 
     useEffect(() => {
         if (!image) {
@@ -62,6 +64,10 @@ export default function ProfileImageEditPage() {
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
         if (!image) return;
+        if (isDemo) {
+            setError("데모 계정은 프로필 이미지를 변경할 수 없습니다.");
+            return;
+        }
         setIsUploading(true);
         setError(null);
         setStatus("업로드 중…");
@@ -74,6 +80,7 @@ export default function ProfileImageEditPage() {
             {
                 onSuccess: (data) => {
                     console.log("사용자 프로필 이미지 수정 완료", data.url);
+                    updateUserImage(data.url);
                     setImage(null);
                     setPreviewUrl(null);
                     setStatus("프로필 이미지 수정 완료");

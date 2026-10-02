@@ -1,8 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-    const hasRefresh = req.cookies.get("refreshToken")?.value;
-    if (!hasRefresh) {
+    const hasSession = req.cookies.get("meletiSession")?.value;
+    if (!hasSession) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
     return NextResponse.next();
