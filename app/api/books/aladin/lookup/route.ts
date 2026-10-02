@@ -35,13 +35,20 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const type = searchParams.get("type");
 
-        if (!type) {
-            return NextResponse.json({ error: "쿼리 파라미터 없음: type" }, { status: 400 });
+        if (!type || !/^\d{13}$/.test(type)) {
+            return NextResponse.json({ error: "올바른 ISBN13이 필요합니다" }, { status: 400 });
         }
 
-        const response = await axios.get(
-            `https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${process.env.ALADIN_TTB_KEY}&itemIdType=ISBN13&itemId=${type}&output=js&Version=20131101&OptResult=packing`
-        );
+        const response = await axios.get("https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx", {
+            params: {
+                ttbkey: process.env.ALADIN_TTB_KEY,
+                itemIdType: "ISBN13",
+                itemId: type,
+                output: "js",
+                Version: "20131101",
+                OptResult: "packing",
+            },
+        });
 
         const result: AladinItemLookupType[] = response.data.item;
         const keysToRemain = [
