@@ -13,6 +13,7 @@ import Footer from "../components/layout/footer";
 import Outer from "@/components/layout/outer";
 import BottomBar from "../components/layout/bottomBar";
 import SessionInitializer from "@/components/auth/sessionInitializer";
+import AgentationDevTools from "@/components/agentationDevTools";
 
 export const metadata: Metadata = {
     title: "Meleti - 나만의 모바일 서재",
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                         </div>
                     </StoreProvider>
                 </div>
+                <AgentationDevTools />
             </body>
         </html>
     );
