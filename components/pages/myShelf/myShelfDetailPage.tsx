@@ -1,120 +1,58 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/myshelfDetail.module.scss";
-
-// components
+import { UsersBookInfo } from "@/app/api/users/library/route";
+import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
 import DivideLine from "@/components/ui/divideLine";
 import SectionTitle from "@/components/ui/sectionTitle";
-
-// public
-import testBookImage from "@/public/test/frontTestImage.jpg";
-import authorIcon from "@/public/bookPage/author.svg";
-import publisherIcon from "@/public/bookPage/publisher.svg";
-import underArrowIcon from "@/public/myshelf/underArrow.svg";
-import editIcon from "@/public/myshelf/edit.svg";
-import newQuoteIcon from "@/public/myshelf/newQuote.svg";
 import prevPageIcon from "@/public/myshelf/backArrow.svg";
 
 export default function MyShelfDetailPage({ isbn }: { isbn: string }) {
-    console.log(isbn);
+    const { data: book, isLoading, error } = useSecureGetQuery<UsersBookInfo>(`/api/users/library/${isbn}`);
+
+    if (isLoading) return <p>독서 기록을 불러오는 중입니다.</p>;
+    if (error || !book) return <p>{error?.message ?? "독서 기록을 찾을 수 없습니다."}</p>;
+
+    const readPage = book.status === "읽은 책" ? book.totalPages : book.readPage;
+    const progress = book.totalPages > 0 ? Math.min(100, Math.round(readPage / book.totalPages * 100)) : 0;
+    const addedDate = book.addedAt?._seconds
+        ? new Date(book.addedAt._seconds * 1000).toLocaleDateString("ko-KR")
+        : "-";
+
     return (
         <div className={styles.wrap}>
             <div className={styles.header}>
                 <Link href="/myshelf" scroll={true}>
-                    <Image src={prevPageIcon} alt="previous page button" width={35} />
+                    <Image src={prevPageIcon} alt="서재로 돌아가기" width={35} />
                 </Link>
-                <h1 style={{ fontSize: "25px", fontWeight: "600" }}>멸망 이전의 샹그릴라</h1>
+                <h1 style={{ fontSize: "25px", fontWeight: "600" }}>{book.title}</h1>
             </div>
-            <h2 style={{ fontSize: "20px" }}>샹그릴라 - 부제목</h2>
             <div className={styles.bookInfoArea}>
-                <Image src={testBookImage} alt="book cover image" height={250} />
-                <p>
-                    <Image src={authorIcon} alt="authorIcon" width={14} style={{ display: "inline-block" }} />
-                    &nbsp;나기라 유 (지은이), 김선영 (옮긴이)
-                </p>
-                <p>
-                    <Image src={publisherIcon} alt="publisherIcon" width={14} style={{ display: "inline-block" }} />
-                    &nbsp;한즈미디어(한스미디어)
-                </p>
+                <Image src={book.cover} alt={`${book.title} 표지`} width={170} height={250} style={{ objectFit: "contain" }} />
+                <p>{book.status}</p>
             </div>
             <DivideLine />
             <div className={styles.readProgressArea}>
                 <SectionTitle title="나의 독서량" />
                 <div className={styles.progressBarArea}>
                     <div className={styles.progressBarBackground} />
-                    <div className={styles.progressBar} style={{ clipPath: `inset(0 calc(${100 - 68}%) 0 0)` }} />
-                    <div className={styles.progressBarPointer} />
+                    <div className={styles.progressBar} style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }} />
                 </div>
-                <p style={{ fontSize: "20px", fontWeight: "600" }}>68%</p>
-                <button className={styles.progressPageButton}>
-                    <p>
-                        <span style={{ fontSize: "20px", fontWeight: "600" }}>219</span> / 341 페이지
-                    </p>
-                    <Image
-                        src={underArrowIcon}
-                        alt="reading status button icon"
-                        width={20}
-                        style={{ display: "inline-block" }}
-                    />
-                </button>
+                <p>{readPage} / {book.totalPages} 페이지 ({progress}%)</p>
             </div>
             <DivideLine />
             <div className={styles.readHistoryArea}>
                 <SectionTitle title="나의 독서 이력" />
-                <button>
-                    읽고 있는 책
-                    <Image
-                        src={underArrowIcon}
-                        alt="reading status button"
-                        width={20}
-                        style={{ display: "inline-block" }}
-                    />
-                </button>
-                <p>일기에 추가한 날짜 : 2024-03-02</p>
-                <button>
-                    읽기 시작한 날짜 : 2024-03-03
-                    <Image
-                        src={underArrowIcon}
-                        alt="reading start date button"
-                        width={20}
-                        style={{ display: "inline-block" }}
-                    />
-                </button>
-                <button>
-                    다 읽은 날짜 : -
-                    <Image
-                        src={underArrowIcon}
-                        alt="reading finish date button"
-                        width={20}
-                        style={{ display: "inline-block" }}
-                    />
-                </button>
+                <p>서재에 추가한 날짜: {addedDate}</p>
+                {book.startedAt && <p>읽기 시작한 날짜: {new Date(book.startedAt).toLocaleDateString("ko-KR")}</p>}
+                {book.finishedAt && <p>다 읽은 날짜: {new Date(book.finishedAt).toLocaleDateString("ko-KR")}</p>}
             </div>
             <DivideLine />
-
             <div className={styles.quotesArea}>
                 <SectionTitle title="글귀" />
-                <p>
-                    &quot;이곳에 저장된 글귀가 표시됩니다.&quot;
-                    <button>
-                        <Image src={editIcon} alt="quotes edit button" />
-                    </button>
-                </p>
-                <p>
-                    &quot;이곳에 저장된 글귀가 표시됩니다.&quot;
-                    <button>
-                        <Image src={editIcon} alt="quotes edit button" />
-                    </button>
-                </p>
-                <p>
-                    &quot;글귀 최대 개수 지정하기&quot;
-                    <button>
-                        <Image src={editIcon} alt="quotes edit button" />
-                    </button>
-                </p>
-                <button className={styles.addQuoteButton}>
-                    <Image src={newQuoteIcon} alt="quotes edit button" width={25} />
-                </button>
+                {book.quotes.length ? book.quotes.map((quote, index) => <p key={`${index}-${quote}`}>{quote}</p>) : <p>저장한 글귀가 없습니다.</p>}
             </div>
         </div>
     );

@@ -5,13 +5,10 @@ import styles from "@/styles/myshelf.module.scss";
 import quotesIcon from "@/public/myshelf/quotes.svg";
 
 export default function BookCard({ val }: { val: UsersBookInfo }) {
-    const date = new Date(val.addedAt._seconds * 1000);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const convertedDate = `${year}.${month}.${day}`;
+    const date = val.addedAt?._seconds ? new Date(val.addedAt._seconds * 1000) : null;
+    const convertedDate = date ? date.toLocaleDateString("ko-KR") : "-";
     return (
-        <Link className={styles.diary} href="myshelf/detail/1234" key={val.id}>
+        <Link className={styles.diary} href={`/myshelf/detail/${val.id}`} key={val.id}>
             <div className={styles.diaryInfoBox}>
                 <div className={styles.bookCoverArea}>
                     <Image
@@ -24,7 +21,7 @@ export default function BookCard({ val }: { val: UsersBookInfo }) {
                 </div>
                 <div className={styles.diaryTextBox}>
                     <p>
-                        {val.status === "읽은 책" && `${val.startedAt.split("T")[0]} ~ ${val.finishedAt.split("T")[0]}`}
+                            {val.status === "읽은 책" && val.startedAt && val.finishedAt && `${val.startedAt.split("T")[0]} ~ ${val.finishedAt.split("T")[0]}`}
                     </p>
                     <p>{val.title}</p>
                     <p>
@@ -43,8 +40,7 @@ export default function BookCard({ val }: { val: UsersBookInfo }) {
                         <span>저장한 글귀</span>
                     </p>
                     <div className={styles.quote}>
-                        <p>&quot;여기에 글귀가 추가됩니다.(최대 표시 개수 지정하기(예상3개))&quot;</p>
-                        <p>- p.139</p>
+                        {val.quotes.slice(0, 3).map((quote, index) => <p key={`${index}-${quote}`}>&quot;{quote}&quot;</p>)}
                     </div>
                 </div>
             )}
