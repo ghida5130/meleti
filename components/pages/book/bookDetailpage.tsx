@@ -110,7 +110,7 @@ export default async function BookDetailPage({ bookNum }: { bookNum: string }) {
                     <Carousel />
                 </section>
             </div>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLD).replace(/</g, "\\u003c") }} />
         </>
     );
 }
