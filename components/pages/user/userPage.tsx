@@ -12,7 +12,7 @@ export default function UserPage() {
             <MyPageUserInfoArea />
             <div className={styles.divide} />
             <div className={styles.chartArea}>
-                <div className={styles.menuTitle}>2024년 독서 통계</div>
+                <div className={styles.menuTitle}>{new Date().getFullYear()}년 독서 통계</div>
                 <UserMonthlyStatsChart />
             </div>
             <div className={styles.divide} />

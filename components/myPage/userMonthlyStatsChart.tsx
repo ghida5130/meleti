@@ -8,11 +8,11 @@ import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
 // components
 import ChartSkeleton from "./chartSkeleton";
 
-function fillMissingMonths(data: { month: string; count: number }[]) {
+function fillMissingMonths(data: { month: string; count: number }[], year: number) {
     const filled: { month: string; count: number }[] = [];
 
     for (let i = 1; i <= 12; i++) {
-        const key = `24.${String(i).padStart(2, "0")}`; // 예: "24.01"
+        const key = `${String(year).slice(2)}.${String(i).padStart(2, "0")}`; // - 예: "24.01"
         const label = `${i}월`; // 예: "1월"
         const found = data.find((d) => d.month === key);
         filled.push({ month: label, count: found?.count ?? 0 });
@@ -22,16 +22,17 @@ function fillMissingMonths(data: { month: string; count: number }[]) {
 }
 
 export default function UserMonthlyStatsChart() {
+    const year = new Date().getFullYear();
     const { data, isLoading, error } = useSecureGetQuery<{
         data: { month: string; count: number }[];
-    }>("/api/users/monthly-stats?year=2024");
+    }>(`/api/users/monthly-stats?year=${year}`);
 
     if (isLoading) return <ChartSkeleton />;
     if (error) return <div>에러: {error.message}</div>;
     if (!data) return <div>데이터 없음</div>;
     const colors = ["#aab5c7", "#cac6d1", "#cfc7bd"];
 
-    const chartData = fillMissingMonths(data.data).map((item, index) => ({
+    const chartData = fillMissingMonths(data.data, year).map((item, index) => ({
         ...item,
         fill: colors[index % colors.length],
     }));
