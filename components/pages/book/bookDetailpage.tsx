@@ -51,7 +51,7 @@ export default async function BookDetailPage({ bookNum }: { bookNum: string }) {
         <>
             <div className={styles.wrap}>
                 <BookProvider>
-                    <Book3DViewer cover={book.cover} isbn={isbn13} />
+                    <Book3DViewer cover={book.cover} isbn={isbn13} packing={book.subInfo.packing} />
                     <AddToLibraryPopup
                         isbn={bookNum}
                         title={title}

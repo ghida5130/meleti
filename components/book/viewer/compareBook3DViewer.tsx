@@ -18,12 +18,10 @@ import sideEmptyImage from "@/public/bookImage/sideEmptyImage.jpg";
 // hooks & utils
 import { generateBookCoverUrl } from "@/utils/book/generateBookCoverUrl";
 import { calculateCompareBookSize } from "@/utils/book/calculateCompareBookSize";
-import useBookSize from "@/hooks/utils/useBookSize";
-import { useToast } from "@/hooks/redux/useToast";
+import type { AladinItemLookupType } from "@/app/api/books/aladin/lookup/route";
 
 // components
 import BookImageError from "./bookImageError";
-import BookImageSkeleton from "./bookImageSkeleton";
 
 type RotatingBookType = {
     rotationY: number;
@@ -33,7 +31,12 @@ type RotatingBookType = {
     depth: number;
 };
 
-type CompareBook3DViewerProps = { cover1: string; cover2: string; isbn1: string; isbn2: string };
+type CompareBook3DViewerProps = {
+    cover1: string;
+    cover2: string;
+    packing1: AladinItemLookupType["subInfo"]["packing"] | undefined;
+    packing2: AladinItemLookupType["subInfo"]["packing"] | undefined;
+};
 
 const RotatingBook = ({ rotationY, cover, width, height, depth }: RotatingBookType) => {
     const bookRef = useRef<Mesh>(null);
@@ -134,9 +137,8 @@ const Plane = () => (
     </mesh>
 );
 
-export default function CompareBook3DViewer({ cover1, cover2, isbn1, isbn2 }: CompareBook3DViewerProps) {
+export default function CompareBook3DViewer({ cover1, cover2, packing1, packing2 }: CompareBook3DViewerProps) {
     const [rotationY, setRotationY] = useState(3);
-    const { setToast } = useToast();
 
     const handleRotate = () => {
         switch (rotationY) {
@@ -162,22 +164,18 @@ export default function CompareBook3DViewer({ cover1, cover2, isbn1, isbn2 }: Co
     };
 
     // 두 책의 실제 사이즈
-    const { size: size1, isLoading: isLoading1, error: error1 } = useBookSize(isbn1);
-    const { size: size2, isLoading: isLoading2, error: error2 } = useBookSize(isbn2);
-    const [w1, h1, d1] = size1;
-    const [w2, h2, d2] = size2;
-
-    if (isLoading1 || isLoading2) return <BookImageSkeleton />;
+    const w1 = Number(packing1?.sizeWidth) || null;
+    const h1 = Number(packing1?.sizeHeight) || null;
+    const d1 = Number(packing1?.sizeDepth) || null;
+    const w2 = Number(packing2?.sizeWidth) || null;
+    const h2 = Number(packing2?.sizeHeight) || null;
+    const d2 = Number(packing2?.sizeDepth) || null;
 
     // 두 책의 너비, 높이중 하나라도 없다면 비교가 불가능하므로 null 반환
     if (w1 === null || w2 === null || h1 === null || h2 === null) return <BookImageError />;
 
     // 두 책의 사이즈를 비교하여 화면에 표시하기 적절한 사이즈로 조정
     const [cw1, ch1, cd1, cw2, ch2, cd2] = calculateCompareBookSize({ w1, h1, d1, w2, h2, d2 });
-
-    if (error1 || error2) {
-        setToast({ message: "책 사이즈 정보가 없어 기본 사이즈로 표시합니다.", type: "error" });
-    }
 
     return (
         <>
