@@ -1,5 +1,13 @@
 # Meleti
 
+## 로컬 환경 변수
+
+`.env.example`을 `.env.local`로 복사하고 실제 값을 입력하세요. Firebase 콘솔에서 발급한 서비스 계정 JSON의 `project_id`, `client_email`, `private_key`를 각각 `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`에 넣습니다. 개인 키의 줄바꿈은 `\n`으로 입력할 수 있습니다. `FIREBASE_STORAGE_BUCKET`은 Firebase 프로젝트의 스토리지 버킷 값으로 설정합니다.
+
+로그인 세션은 Firestore `sessions` 컬렉션에 저장됩니다. 만료된 문서 정리를 위해 Firebase 콘솔에서 `sessions` 컬렉션 그룹의 `expiresAt` 필드에 TTL 정책을 설정하세요. 서버는 TTL 삭제 여부와 관계없이 만료 시각을 직접 확인합니다.
+
+또는 세 개의 Firebase 인증 변수 대신 서비스 계정 JSON 전체를 `FIREBASE_SERVICE_ACCOUNT`에 넣을 수 있습니다. 이 경우 JSON에 `project_id`, `client_email`, `private_key`가 모두 있어야 합니다. 알라딘 도서 목록을 보려면 `ALADIN_TTB_KEY`도 설정하세요. `.env.local`은 Git에서 제외되며, 환경 변수를 수정한 뒤에는 개발 서버를 다시 시작해야 합니다.
+
 <div align="center">
 <br>
 <img width="400" alt="meleti logo" src="https://github.com/ghida5130/image-assets/blob/main/others/meleti_logo_shadow.png">

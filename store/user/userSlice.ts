@@ -1,21 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface userStateType {
-    accessToken: string | null;
+    uid: string | null;
     name: string | null;
     email: string | null;
     userImage: string | null;
-    expiresIn: number | null;
-    isInitializing: boolean;
+    isDemo: boolean;
 }
 
 const initialState: userStateType = {
-    accessToken: null,
+    uid: null,
     name: null,
     email: null,
     userImage: null,
-    expiresIn: null,
-    isInitializing: true,
+    isDemo: false,
 };
 
 const userSlice = createSlice({
@@ -23,30 +21,24 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, action) {
-            state.accessToken = action.payload.accessToken;
+            state.uid = action.payload.uid;
             state.name = action.payload.name;
             state.email = action.payload.email;
             state.userImage = action.payload.userImage;
-            state.expiresIn = action.payload.expiresIn;
-            state.isInitializing = false;
+            state.isDemo = action.payload.isDemo;
+        },
+        setUserImage(state, action) {
+            state.userImage = action.payload;
         },
         clearUser(state) {
-            state.accessToken = null;
+            state.uid = null;
             state.name = null;
             state.email = null;
             state.userImage = null;
-            state.expiresIn = null;
-            state.isInitializing = false;
-        },
-        setToken(state, action) {
-            state.accessToken = action.payload.accessToken;
-            state.isInitializing = false;
-        },
-        finishInitializingUser(state) {
-            state.isInitializing = false;
+            state.isDemo = false;
         },
     },
 });
 
-export const { setUser, clearUser, setToken, finishInitializingUser } = userSlice.actions;
+export const { setUser, setUserImage, clearUser } = userSlice.actions;
 export default userSlice.reducer;

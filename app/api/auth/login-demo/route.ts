@@ -1,53 +1,24 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { serialize } from "cookie";
+import { checkOrigin } from "@/lib/auth/checkOrigin";
+import { DEMO_SESSION, deleteSession, setSessionCookie } from "@/lib/auth/session";
 
-// Demo 사용자로 로그인
-// res: 데모 유저 기본정보, accessToken, refreshToken
-export async function POST() {
+export async function POST(req: Request) {
+    const originError = checkOrigin(req);
+    if (originError) return originError;
+
     try {
-        // 데모 유저 더미 데이터
-        const uid = "demo_user";
-        const email = "demo@example.com";
-        const name = "Demo User";
-        const role = "demo";
-
-        // access, refresh token 생성
-        const accessSecret = process.env.ACCESS_TOKEN_SECRET;
-        const refreshSecret = process.env.REFRESH_TOKEN_SECRET;
-        if (!accessSecret || !refreshSecret) throw new Error("Token secret is not set");
-
-        const accessToken = jwt.sign({ uid, email, role, isDemo: true }, accessSecret, {
-            expiresIn: "15m",
-            issuer: "meleti",
-        });
-
-        const refreshToken = jwt.sign({ uid }, refreshSecret, { expiresIn: "7d", issuer: "meleti" });
-
-        const refreshCookie = serialize("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            path: "/",
-            maxAge: 7 * 24 * 60 * 60,
-            sameSite: "strict",
-        });
-
+        await deleteSession(req);
         const response = NextResponse.json({
-            uid,
-            email,
-            name,
-            isNewUser: false,
-            role,
-            accessToken,
+            uid: "demo_user",
+            email: "demo@example.com",
+            name: "Demo User",
+            userImage: null,
+            isDemo: true,
         });
-
-        response.headers.set("Set-Cookie", refreshCookie);
-
-        console.log(`데모 로그인: ${email} ${uid}`);
-
+        setSessionCookie(response, DEMO_SESSION);
         return response;
     } catch (error) {
-        console.error("Demo login error:", error);
-        return NextResponse.json({ error: "Demo login failed" }, { status: 500 });
+        console.error("데모 로그인 실패:", error);
+        return NextResponse.json({ error: "데모 로그인에 실패했습니다" }, { status: 500 });
     }
 }
