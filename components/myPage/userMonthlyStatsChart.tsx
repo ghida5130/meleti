@@ -1,6 +1,7 @@
 "use client";
 
 import { XAxis, YAxis, ResponsiveContainer, Bar, BarChart, CartesianGrid, Cell } from "recharts";
+import styles from "./mypage.module.scss";
 
 // hooks & utils
 import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
@@ -29,13 +30,16 @@ export default function UserMonthlyStatsChart() {
 
     if (isLoading) return <ChartSkeleton />;
     if (error) return <div>에러: {error.message}</div>;
-    if (!data) return <div>데이터 없음</div>;
     const colors = ["#aab5c7", "#cac6d1", "#cfc7bd"];
 
-    const chartData = fillMissingMonths(data.data, year).map((item, index) => ({
+    const chartData = fillMissingMonths(data?.data ?? [], year).map((item, index) => ({
         ...item,
         fill: colors[index % colors.length],
     }));
+    if (!chartData.some((item) => item.count > 0)) {
+        return <p className={styles.emptyChart}>아직 독서 기록이 없습니다</p>;
+    }
+
     const maxCount = Math.max(...chartData.map((d) => d.count));
     const rawTicks = Array.from({ length: maxCount + 1 }, (_, i) => i);
     const yTicks = rawTicks.filter((v) => v !== 0);
