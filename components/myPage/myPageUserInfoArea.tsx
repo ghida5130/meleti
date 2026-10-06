@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import styles from "@/styles/mypage.module.scss";
+import styles from "./mypage.module.scss";
 
 // type
 import { CountByStatusType } from "@/app/api/users/library/count/route";

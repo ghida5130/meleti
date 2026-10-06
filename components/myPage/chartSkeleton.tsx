@@ -1,4 +1,4 @@
-import styles from "@/styles/skeleton.module.scss";
+import styles from "./chartSkeleton.module.scss";
 
 // components
 import LoadingImage from "../ui/loadingImage";

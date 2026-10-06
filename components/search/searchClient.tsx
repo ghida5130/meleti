@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import styles from "@/styles/search.module.scss";
+import styles from "./search.module.scss";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 

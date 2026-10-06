@@ -1,4 +1,4 @@
-import styles from "@/styles/bottombar.module.scss";
+import styles from "./bottomBar.module.scss";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 import Link from "next/link";

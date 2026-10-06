@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "@/styles/compareSelect.module.scss";
+import styles from "./bookCompareSelectPage.module.scss";
 import Image from "next/image";
 
 // types

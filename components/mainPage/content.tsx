@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import styles from "@/styles/page.module.scss";
+import styles from "./home.module.scss";
 
 // hooks & utils
 import { fetchAladinItems } from "@/lib/api/fetchAladinItems";
