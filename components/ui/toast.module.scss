@@ -4,7 +4,7 @@
     min-width: 320px;
     position: fixed;
     z-index: 99999;
-    bottom: 90px;
+    bottom: calc(96px + env(safe-area-inset-bottom, 0px));
     display: flex;
     justify-content: center;
     visibility: visible;
