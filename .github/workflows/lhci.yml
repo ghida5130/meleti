@@ -1,10 +1,12 @@
 name: LHCI
 
 on:
-  push:
-    branches: [main, preview]
   pull_request:
     branches: [main, preview]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   lighthouseci:
