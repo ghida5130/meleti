@@ -15,7 +15,7 @@ import defaultProfileImage from "@/public/mypage/defaultProfileImage.png";
 import Link from "next/link";
 
 export default function MyPageUserInfoArea() {
-  const { userName, userEmail, userImage } = useUserData();
+  const { userName, userImage } = useUserData();
   const { data, isLoading, error } = useSecureGetQuery<CountByStatusType>(
     "/api/users/library/count",
   );

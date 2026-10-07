@@ -3,6 +3,8 @@ import { admin } from "@/lib/firebase/firebaseAdmin";
 import { verifySession } from "@/lib/auth/session";
 import { getDemoBooks } from "@/lib/demo/books";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
     try {
         const result = await verifySession(req);
