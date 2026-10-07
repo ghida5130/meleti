@@ -11,11 +11,11 @@ import { useBook } from "@/providers/BookContext";
 
 // public
 import rotateIcon from "@/public/bookPage/rotate.svg";
-import leftSideIcon from "@/public/bookPage/leftSide.png";
-import rightSideIcon from "@/public/bookPage/rightSide.png";
-import bookPageTextureImage from "@/public/bookImage/bookPageTexture.jpg";
-import backEmptyImage from "@/public/bookImage/backEmptyImage.jpg";
-import sideEmptyImage from "@/public/bookImage/sideEmptyImage.jpg";
+import leftSideIcon from "@/public/bookPage/leftSide.webp";
+import rightSideIcon from "@/public/bookPage/rightSide.webp";
+import bookPageTextureImage from "@/public/bookImage/bookPageTexture.webp";
+import backEmptyImage from "@/public/bookImage/backEmptyImage.webp";
+import sideEmptyImage from "@/public/bookImage/sideEmptyImage.webp";
 import plusButtonIcon from "@/public/bookImage/plus.svg";
 import compareButtonIcon from "@/public/bookImage/compare.webp";
 
@@ -182,14 +182,14 @@ export default function Book3DViewer({
     return (
         <>
             <div className={styles.wrap}>
-                <Canvas camera={{ position: [24, 0, 0], fov: 13 }} shadows frameloop="demand">
+                <Canvas camera={{ position: [24, 0, 0], fov: 13 }} dpr={[1, 1.5]} shadows frameloop="demand">
                     <ambientLight intensity={0.5} />
                     <spotLight
                         position={[20, 3, 3]}
                         angle={0.2}
                         castShadow
-                        shadow-mapSize-width={512}
-                        shadow-mapSize-height={512}
+                        shadow-mapSize-width={256}
+                        shadow-mapSize-height={256}
                         shadow-radius={50}
                     />
                     <RotatingBook
