@@ -11,7 +11,7 @@ import { useUserData } from "@/hooks/redux/useUserData";
 import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
 
 // public
-import defaultProfileImage from "@/public/mypage/defaultProfileImage.png";
+import defaultProfileImage from "@/public/mypage/defaultProfileImage.webp";
 import Link from "next/link";
 
 export default function MyPageUserInfoArea() {

@@ -9,11 +9,11 @@ import styles from "./bookImage.module.scss";
 
 // public
 import rotateIcon from "@/public/bookPage/rotate.svg";
-import leftSideIcon from "@/public/bookPage/leftSide.png";
-import rightSideIcon from "@/public/bookPage/rightSide.png";
-import bookPageTextureImage from "@/public/bookImage/bookPageTexture.jpg";
-import backEmptyImage from "@/public/bookImage/backEmptyImage.jpg";
-import sideEmptyImage from "@/public/bookImage/sideEmptyImage.jpg";
+import leftSideIcon from "@/public/bookPage/leftSide.webp";
+import rightSideIcon from "@/public/bookPage/rightSide.webp";
+import bookPageTextureImage from "@/public/bookImage/bookPageTexture.webp";
+import backEmptyImage from "@/public/bookImage/backEmptyImage.webp";
+import sideEmptyImage from "@/public/bookImage/sideEmptyImage.webp";
 
 // hooks & utils
 import { generateBookCoverUrl } from "@/utils/book/generateBookCoverUrl";

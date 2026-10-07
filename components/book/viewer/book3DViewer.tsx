@@ -11,11 +11,11 @@ import { useBook } from "@/providers/BookContext";
 
 // public
 import rotateIcon from "@/public/bookPage/rotate.svg";
-import leftSideIcon from "@/public/bookPage/leftSide.png";
-import rightSideIcon from "@/public/bookPage/rightSide.png";
-import bookPageTextureImage from "@/public/bookImage/bookPageTexture.jpg";
-import backEmptyImage from "@/public/bookImage/backEmptyImage.jpg";
-import sideEmptyImage from "@/public/bookImage/sideEmptyImage.jpg";
+import leftSideIcon from "@/public/bookPage/leftSide.webp";
+import rightSideIcon from "@/public/bookPage/rightSide.webp";
+import bookPageTextureImage from "@/public/bookImage/bookPageTexture.webp";
+import backEmptyImage from "@/public/bookImage/backEmptyImage.webp";
+import sideEmptyImage from "@/public/bookImage/sideEmptyImage.webp";
 import plusButtonIcon from "@/public/bookImage/plus.svg";
 import compareButtonIcon from "@/public/bookImage/compare.webp";
 
