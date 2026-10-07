@@ -182,14 +182,14 @@ export default function Book3DViewer({
     return (
         <>
             <div className={styles.wrap}>
-                <Canvas camera={{ position: [24, 0, 0], fov: 13 }} shadows frameloop="demand">
+                <Canvas camera={{ position: [24, 0, 0], fov: 13 }} dpr={[1, 1.5]} shadows frameloop="demand">
                     <ambientLight intensity={0.5} />
                     <spotLight
                         position={[20, 3, 3]}
                         angle={0.2}
                         castShadow
-                        shadow-mapSize-width={512}
-                        shadow-mapSize-height={512}
+                        shadow-mapSize-width={256}
+                        shadow-mapSize-height={256}
                         shadow-radius={50}
                     />
                     <RotatingBook
