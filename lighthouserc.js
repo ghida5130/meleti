@@ -6,9 +6,14 @@ module.exports = {
             startServerReadyPattern: "Ready",
             numberOfRuns: 3,
             settings: {
-                // - Lighthouse 기본 모바일 환경 및 시뮬레이션 방식으로 측정
+                // - 모바일 환경에서 약 5Mbps, 지연 100ms, CPU 4배 감속으로 시뮬레이션 측정
                 formFactor: "mobile",
                 throttlingMethod: "simulate",
+                throttling: {
+                    rttMs: 100,
+                    throughputKbps: 5 * 1024,
+                    cpuSlowdownMultiplier: 4,
+                },
             },
         },
         upload: {
