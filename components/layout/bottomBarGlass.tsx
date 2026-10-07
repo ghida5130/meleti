@@ -11,7 +11,7 @@ export default function BottomBarGlass({ className = "", bezel = 4 }: { classNam
     useEffect(() => {
         const glass = glassRef.current;
         // SVG 배경 굴절을 지원하는 Chromium에서만 렌즈 활성화
-        if (!glass || !/Chrome|Chromium|Edg/.test(navigator.userAgent)) return;
+        if (!glass || !/(Chrome|Chromium|Edg)\//.test(navigator.userAgent)) return;
 
         const observer = new ResizeObserver(([entry]) => {
             const width = Math.round(entry.contentRect.width);
