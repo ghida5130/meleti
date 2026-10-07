@@ -1,4 +1,4 @@
-import styles from "@/styles/login.module.scss";
+import styles from "@/components/login/login.module.scss";
 
 // components
 import LoginButtonGroup from "@/components/login/loginButtonGroup";

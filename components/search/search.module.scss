@@ -1,0 +1,108 @@
+.searchPageWrap {
+    padding: 0 20px;
+}
+
+.searchArea {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.searchFormArea {
+    display: flex;
+    height: 100%;
+    width: 90%;
+    padding: 0 20px;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid grey;
+    border-radius: 100px;
+    overflow: hidden;
+    background: white;
+}
+
+.searchInputArea {
+    height: 100%;
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 17px;
+}
+
+.recentSearchArea {
+    padding: 20px 0;
+}
+
+.recommendBooksArea {
+    padding: 20px 0;
+}
+
+.sectionTitle {
+    margin-bottom: 14px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.emptySearch {
+    color: #77716c;
+    font-size: 14px;
+}
+
+.recentSearchList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    a {
+        display: block;
+        max-width: 100%;
+        padding: 8px 14px;
+        border-radius: 20px;
+        background: #f3f1ee;
+        color: #514b45;
+        font-size: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    li {
+        max-width: 100%;
+    }
+}
+
+.recommendedBooks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+
+    a {
+        display: block;
+    }
+}
+
+.recommendedCover {
+    position: relative;
+    aspect-ratio: 2 / 3;
+
+    img {
+        object-fit: contain;
+        object-position: center bottom;
+        filter: drop-shadow(0 4px 5px rgb(40 32 25 / 15%));
+    }
+}
+
+.bookTitle {
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    word-break: keep-all;
+}
+
+.bookAuthor {
+    margin-top: 4px;
+    color: #77716c;
+    font-size: 13px;
+}

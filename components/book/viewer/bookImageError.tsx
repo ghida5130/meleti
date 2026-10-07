@@ -1,4 +1,4 @@
-import styles from "@/styles/error.module.scss";
+import styles from "./bookImageError.module.scss";
 
 export default function BookImageError() {
     return (

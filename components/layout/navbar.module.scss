@@ -1,0 +1,19 @@
+.navbarWrap {
+    height: 70px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 9999;
+}
+
+.searchBtn {
+    display: flex;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    align-items: center;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { StaticImageData } from "next/image";
-import styles from "@/styles/myshelf.module.scss";
+import styles from "./myshelf.module.scss";
 
 // public
 import totalReadIcon from "@/public/myshelf/totalRead.svg";

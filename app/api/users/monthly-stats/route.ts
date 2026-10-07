@@ -3,6 +3,8 @@ import { admin } from "@/lib/firebase/firebaseAdmin";
 import { verifySession } from "@/lib/auth/session";
 import { getDemoBooks } from "@/lib/demo/books";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
     try {
         const result = await verifySession(req);
@@ -30,7 +32,7 @@ export async function GET(req: NextRequest) {
             const bookYear = parts.find((part) => part.type === "year")?.value;
             const month = parts.find((part) => part.type === "month")?.value;
             if (bookYear !== year || !month) continue;
-            const key = `${year.slice(2)}.${month}`;
+            const key = `${year.slice(2)}.${month.padStart(2, "0")}`;
             counts.set(key, (counts.get(key) ?? 0) + 1);
         }
         const data = Array.from(counts).map(([month, count]) => ({ month, count }))

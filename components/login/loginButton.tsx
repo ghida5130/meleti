@@ -1,4 +1,4 @@
-import styles from "@/styles/login.module.scss";
+import styles from "./login.module.scss";
 
 // hooks & utils
 import { useUserData } from "@/hooks/redux/useUserData";

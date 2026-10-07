@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import styles from "@/styles/mypage.module.scss";
+import styles from "./mypage.module.scss";
 
 // type
 import { CountByStatusType } from "@/app/api/users/library/count/route";
@@ -15,50 +15,52 @@ import defaultProfileImage from "@/public/mypage/defaultProfileImage.png";
 import Link from "next/link";
 
 export default function MyPageUserInfoArea() {
-    const { userName, userEmail, userImage } = useUserData();
-    const { data, isLoading, error } = useSecureGetQuery<CountByStatusType>("/api/users/library/count");
+  const { userName, userImage } = useUserData();
+  const { data, isLoading, error } = useSecureGetQuery<CountByStatusType>(
+    "/api/users/library/count",
+  );
 
-    return (
-        <>
-            <div className={styles.header}>
-                <p>
-                    반갑습니다, <span>{userName}</span>님.
-                </p>
-                <Link href="/user/profile/image/edit">프로필 이미지 수정</Link>
+  return (
+    <>
+      <div className={styles.header}>
+        <p>
+          반갑습니다, <span>{userName}</span>님.
+        </p>
+      </div>
+      <div className={styles.profileArea}>
+        <div className={styles.profileImage}>
+          <Image
+            src={userImage ?? defaultProfileImage}
+            alt="profile image"
+            fill
+            priority
+            placeholder="empty"
+          />
+        </div>
+        <Link href="/user/profile/image/edit">프로필 이미지 수정</Link>
+        {/* <p>{userName}</p> */}
+        {/* <p>{userEmail}</p> */}
+      </div>
+      <div className={styles.readingStatusArea}>
+        {isLoading ? (
+          <p>서재 개수 불러오는중...</p>
+        ) : (
+          <>
+            <div className={styles.readingInfo}>
+              <p>{error ? "-" : (data?.wish ?? 0)}</p>
+              <p>읽고 싶은 책</p>
             </div>
-            <div className={styles.profileArea}>
-                <div className={styles.profileImage}>
-                    <Image
-                        src={userImage ?? defaultProfileImage}
-                        alt="profile image"
-                        fill
-                        priority
-                        placeholder="empty"
-                    />
-                </div>
-                <p>{userName}</p>
-                <p>{userEmail}</p>
+            <div className={styles.readingInfo}>
+              <p>{error ? "-" : (data?.reading ?? 0)}</p>
+              <p>읽고 있는 책</p>
             </div>
-            <div className={styles.readingStatusArea}>
-                {isLoading ? (
-                    <p>서재 개수 불러오는중...</p>
-                ) : (
-                    <>
-                        <div className={styles.readingInfo}>
-                            <p>{error ? "-" : data?.wish ?? 0}</p>
-                            <p>읽고 싶은 책</p>
-                        </div>
-                        <div className={styles.readingInfo}>
-                            <p>{error ? "-" : data?.reading ?? 0}</p>
-                            <p>읽고 있는 책</p>
-                        </div>
-                        <div className={styles.readingInfo}>
-                            <p>{error ? "-" : data?.finished ?? 0}</p>
-                            <p>다 읽은 책</p>
-                        </div>
-                    </>
-                )}
+            <div className={styles.readingInfo}>
+              <p>{error ? "-" : (data?.finished ?? 0)}</p>
+              <p>다 읽은 책</p>
             </div>
-        </>
-    );
+          </>
+        )}
+      </div>
+    </>
+  );
 }

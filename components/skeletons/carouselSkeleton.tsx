@@ -1,4 +1,4 @@
-import styles from "@/styles/carouselSkeleton.module.scss";
+import styles from "./carouselSkeleton.module.scss";
 
 export default function CarouselSkeleton() {
     return (

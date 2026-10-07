@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import styles from "@/styles/carousel.module.scss";
+import styles from "./carousel.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -81,32 +81,13 @@ export default function Carousel({ data }: CarouselData) {
                                             src={coverImageUrl}
                                             alt={val.title}
                                             fill
-                                            sizes="240px"
-                                            style={{ objectFit: "cover", objectPosition: "top" }}
+                                            sizes="140px"
                                             priority={idx < 3}
                                         />
                                     </div>
                                     <div className={styles.bestSellerTitleArea}>
-                                        <p
-                                            style={{
-                                                whiteSpace: "nowrap",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                            }}
-                                        >
-                                            {title}
-                                        </p>
-                                        <p
-                                            style={{
-                                                whiteSpace: "nowrap",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                fontSize: "14px",
-                                                color: "grey",
-                                            }}
-                                        >
-                                            {author}
-                                        </p>
+                                        <p className={styles.bookTitle}>{title}</p>
+                                        <p className={styles.bookAuthor}>{author}</p>
                                     </div>
                                 </div>
                             </Link>

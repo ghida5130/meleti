@@ -1,7 +1,7 @@
 import { UsersBookInfo } from "@/app/api/users/library/route";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "@/styles/myshelf.module.scss";
+import styles from "./myshelf.module.scss";
 import quotesIcon from "@/public/myshelf/quotes.svg";
 
 export default function BookCard({ val }: { val: UsersBookInfo }) {

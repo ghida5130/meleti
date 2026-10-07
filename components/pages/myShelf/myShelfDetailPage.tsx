@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import styles from "@/styles/myshelfDetail.module.scss";
+import styles from "./myShelfDetailPage.module.scss";
 import { UsersBookInfo } from "@/app/api/users/library/route";
 import { useSecureGetQuery } from "@/hooks/queries/useSecureGetQuery";
 import DivideLine from "@/components/ui/divideLine";

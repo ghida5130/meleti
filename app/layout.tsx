@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import "./tailwind.css";
 import "./globals.scss";
-import styles from "@/styles/layout.module.scss";
+import styles from "./layout.module.scss";
 import { suit } from "@/lib/fonts";
 
 // providers

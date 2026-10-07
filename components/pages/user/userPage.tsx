@@ -1,4 +1,4 @@
-import styles from "@/styles/mypage.module.scss";
+import styles from "@/components/myPage/mypage.module.scss";
 import Link from "next/link";
 
 // components

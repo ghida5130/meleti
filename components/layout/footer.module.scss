@@ -1,0 +1,3 @@
+.footerWrap {
+    height: calc(100px + env(safe-area-inset-bottom, 0px));
+}
